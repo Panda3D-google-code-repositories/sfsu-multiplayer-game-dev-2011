@@ -1,0 +1,117 @@
+#navAbout {
+	font-size: 100%; 
+	width: 230px;
+	margin-top: 40px;
+        margin-left: auto;
+	margin-right: auto;
+}
+
+#navAbout ul {
+	margin: 0px; 
+	padding: 0px;
+}
+
+#navAbout li {
+	list-style: none;
+}
+
+ul.top-level {
+	background: #374e1a;
+}
+
+ul.top-level li {
+ 	border-bottom: #fff solid;
+ 	border-top: #fff solid;
+ 	border-width: 1px;
+}
+
+#navAbout a {
+ 	color: #fff;
+ 	display:block;
+ 	line-height: 30px;
+ 	text-indent: 20px;                   
+ 	text-decoration:none;
+ 	width:100%;
+}
+
+#navAbout a:hover{
+ 	text-decoration:underline;
+}
+
+#navAbout li:hover {
+ 	background: #f90;
+ 	position: relative;
+}
+
+a.overviewMenu {
+	background: url(../images/overview.png) no-repeat top left;
+	margin-top: 30px;	
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.overviewMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.overviewMenu_1 {
+	background: url(../images/overview_1.png) no-repeat;
+	margin-top: 30px;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.gameFeaturesMenu {
+	background: url(../images/gameFeatures.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.gameFeaturesMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.gameFeaturesMenu_1 {
+	background: url(../images/gameFeatures_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.creditsMenu {
+	background: url(../images/credits.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.creditsMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.creditsMenu_1 {
+	background: url(../images/credits_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+#nAbout ul {
+	margin: 0px; 
+	padding: 0px;
+}
+
+#nAbout li {
+	margin-top: 4px;
+	margin-left: 30px;
+	list-style: none;
+}

@@ -1,0 +1,15 @@
+#summary Currency is used to purchase various goods
+#labels Phase-Design
+
+= Introduction =
+
+Currency is used to purchase various goods in an [Environment].
+
+= Details =
+
+  * Currency, or Gold, is accumulated the same way Experience is accumulated. (See [Level])
+    * Difference between Currency and Experience: Currency can be spent (and therefore decrease) while Experience only increases over time
+  * Currency can be used to buy the following:
+    * [Species] to be placed in an [Environment]
+    * [Research]
+    * Vaccines

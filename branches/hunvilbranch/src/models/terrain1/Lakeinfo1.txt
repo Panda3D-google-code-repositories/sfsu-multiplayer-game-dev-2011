@@ -1,0 +1,5 @@
+Depth Max = 41
+Depth Min = .8
+Size of Lake = 60x60 units
+
+Center of Lake = 172.6, 67.0

@@ -1,0 +1,243 @@
+#summary Documentation
+
+= Protocols =
+
+== Client Request Protocols ==
+
+[https://docs.google.com/document/d/1LAriaMa4bHAGbj0fCGOCf_cK--WAa0uaFK9jp3OjJvc/edit?hl=en_US Alternate: Link to Google Docs]
+
+=== Lobby ===
+  # [EcoNet#Login_Request Login Request]
+  # [EcoNet#Send_Password_For_Private_World_Request Send Password For Private World Request]
+  # [EcoNet#Register_Request Register Request]
+  # [EcoNet#Start_Game_Request Start Game Request]
+  # [EcoNet#Create_New_World_Request Create New World Request]
+
+  * === PVP ===
+  # [EcoNet#Join_PVP_World_Request Join PVP World Request]
+
+  * === PVE ===
+  # [EcoNet#Join_PVE_World_Request Join PVE World Request]
+
+=== Chat ===
+  # [EcoNet#Chat_Request Chat Request]
+
+=== World ===
+  # [EcoNet#Kick_Player_PVP_Lobby_Request Kick Player PVP Lobby Request]
+  # [EcoNet#Move_Animal_Request Move Animal Request]
+  # [EcoNet#Buy_Animal_Request Buy Animal Request]
+  # [EcoNet#Buy_Plant_Request Buy Plant Request]
+  # [EcoNet#Research_Diseases_Request Research Diseases Request]
+  # [EcoNet#Exit_Game_Request Exit Game Request]
+
+==== Login Request ===
+
+{{{
+Class: RequestLogin(ServerRequest)
+Desc.: Verify user 
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_AUTH,
+  userName (string),
+  password (string)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Register Request ===
+
+{{{
+Class: RequestRegister(ServerRequest)
+Desc.: Register process for first time user
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_REGISTER,
+  firstName (string),
+  lastName (string),
+  userName (string),
+  password (string),
+  email (string),
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Search Private World Request ===
+
+{{{
+Class: RequestSearchPrivateWorld(ServerRequest)
+Desc.: Request the server to provide an available private game
+  information
+  Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_SEARCH_PRIVATE_WORLD,
+  gameName (string),
+  password (string)
+Process: send it to the server using ConnectionWriter objectTop
+}}}
+
+==== Send Password For Private World Request ===
+
+{{{
+Class: RequestSendPasswordForPrivateWorld(ServerRequest)
+Desc.: Verify a player’s password for a private game search
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_PASSWORD_PRIVATE_WORLD,
+  password (string)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Exit Game Request ===
+
+{{{
+Class: RequestExitGame(ServerRequest)
+Desc.: Request to save, exit the current game, and disconnect server connection
+Method: send(self)
+  arg = PyDatagram that contains:
+  CMSG_SAVE_EXIT_GAME
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Chat Request ===
+
+{{{
+Class: RequestChat(ServerResponse)
+Desc.: Chat to all players in the game
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_UNIVERSAL_CHAT,
+  msg (string)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Join PVP World Request ===
+
+{{{
+Class: RequestJoinPVPWorld(ServerRequest)
+Desc.: Request to join an available game.
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_JOIN_PVP_GAME,
+  gameName (string),
+  typeOfAvatar (string),
+  team (‘A’ or ‘B”)->(char),
+  locationInWorld (int)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Join PVE World Request ===
+
+{{{
+Class: RequestJoinPVEWorld(ServerRequest)
+Desc.: Request to join an available game.
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_JOIN_PVE_GAME,
+  gameName (string),
+  typeOfAvatar (string),
+  locationInWorld (int)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Kick Player PVP Lobby Request ===
+
+{{{
+Class: RequestKickPlayerPVPLobby(ServerRequest)
+Desc.: The creator of a game/world can kick out other players from his 
+world.
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_KICK_PLAYER_OUT,
+  userName (string)---> USERNAME TO BE KICKED OUT
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Start Game Request ===
+
+{{{
+Class: RequestStartGame(ServerRequest)
+Desc.: Start the PvE or PvP game (uses by the creator of the game) -> 
+  WORLD LOBBY. No argument needed.
+  Method: send(self)
+  arg = PyDatagram that contains:
+  CMSG_START_GAME,
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Move Animal Request ===
+
+{{{
+Class: RequestMoveAnimal(ServerRequest)
+Desc.: Move an animal to a other location.
+Method: send(self, arg)
+arg = PyDatagram that contains:
+  CMSG_MOVE_ANIMAL,
+  animalID (int),
+  x (int),
+  y (int),
+  z (int)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Research Diseases Request ===
+
+{{{
+Class: RequestResearchDiseases(ServerRequest)
+Desc.: Research (diseases, weather, ecosystem forecast)
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_RESEARCH,
+  researchType (string)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Create New World Request ===
+
+{{{
+Class: RequestCreateNewWorld(ServerRequest)
+Desc.: Create a new ‘public’ PVP game
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_CREATE_NEW_PUBLIC_PVP_GAME,
+  gameName (string),
+  maxPlayersInGame (int),
+  worldEcoSystem (string),
+  typeOfAvatar (string)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Buy Animal Request ===
+
+{{{
+Class: RequestBuyAnimal(ServerRequest)
+Desc.: Add (an) animal(s) to the item list
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_ADD_ANIMAL,
+  animalType (string),
+  zoneNumber (int),
+  x (int),
+  y (int),
+  z (int)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+==== Buy Plant Request ===
+
+{{{
+Class: RequestBuyPlant(ServerRequest)
+Desc.: Add (a) plant(s) to the item list
+Method: send(self, arg)
+  arg = PyDatagram that contains:
+  CMSG_ADD_PLANT,
+  PlantType (string),
+  zoneNumber (int)
+  x (int),
+  y (int),
+  z (int)
+Process: send it to the server using ConnectionWriter object
+}}}
+
+== Client Response Protocols ==
+
+== Server Request Protocols ==
+
+== Server Response Protocols ==

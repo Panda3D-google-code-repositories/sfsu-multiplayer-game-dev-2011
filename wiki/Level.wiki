@@ -1,0 +1,43 @@
+#summary Documentation
+
+= Level =
+
+Levels are a representation of how much experience an [Avatar Avatar] has acquired over time. Higher levels grant access to purchase better [Species Species] from the [Shop Shop].
+
+== Details ==
+  * Formula for amount of experience needed to level up:
+    * L(n) = 1000 `*` [1.25 ^ (n - 1)]
+    * i.e. Lv 1 to Lv 2 requires 1000 experience
+  * Leveling up:
+    * Grants access to more [Species] to diversify a player's [Environment]
+    * Unlocks [Research] at level 5.
+    * Adds ability points (See [Avatar]) to the [Avatar].
+
+== Experience ==
+
+Experience can be acquired by fulfilling different conditions throughout the game. Reaching a certain number of experience triggers a level up. The conditions are as follows:
+
+  * Reaching a specific Environment Score
+  * Purchasing Species from the Shop
+  * Playing for a certain amount of time
+  * Change in months
+
+== Server Implementation ==
+
+`>> GameServer.java | Method: updateExperience()`
+
+Whenever a player receives experience, the server calls the `updateExperience()` method to process the amount of experience they should be receiving.
+
+Using the total amount of experience the player has accumulated, it checks with the ExpTable using the `getLevel()` method to determine if the player has reached enough experience to level up.
+
+If the player does level up, it follows with another check to determine what species the player can buy from the Shop.
+
+Whenever the player levels up, a ResponseUpdateLevel will be sent to the client, to level up. All experience gained through this method will also be sent to the client through ResponseUpdateXP.
+
+=== References ===
+
+  * Server Class References
+    * `core/GameServer.java`
+    * `networking/response/ResponseUpdateLevel.java`
+    * `networking/response/ResponseUpdateXP.java`
+    * `utility/ExpTable.java`

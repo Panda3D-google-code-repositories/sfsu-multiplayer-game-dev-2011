@@ -1,0 +1,293 @@
+#summary Documentation
+
+= World =
+
+A World serves as a container that encapsulates a variety of things such as [Player Players], [Environment Environments] and [Species Species]. Each World utilizes a [GameEngine GameEngine] to handle different operations that the World and its components need.
+
+There can be many Worlds which all act completely independent from each other. Worlds, itself, do not communicate directly with each other in any way. Some Worlds are hostile ([PvP]), some are friendly ([PvE]).
+
+The current version only supports the PvE World type.
+
+== Details ==
+
+  * A World contains only one [Environment].
+  * Players can create one or more Worlds using [WorldSelection World Selection]
+
+== Client Implementation ==
+
+The client receives information about a World from the server to determine how it will be constructed and the things that belong in one. The information is used to load whatever is necessary into the 3D space to give a visual representation to the player.
+
+== Server Implementation ==
+
+The server determines what makes up a given World and it sends that information to the client. Unlike the client, there is no visual representation of a World. Any changes to a World will then be relayed to the client through network responses.
+
+----
+
+== Creating a World ==
+
+=== Conditions ===
+
+_This section will describe the conditions required to perform this task._
+
+1. Players can create as many worlds as they wish.
+
+_`*` For future versions, there will be a max limit of 3 worlds per player._
+
+2. Players can only create a world through [WorldSelection World Selection].
+
+=== Execution Flow ===
+
+_This section will briefly describe how the process works._
+
+1. *Client*: Sends a request to the server to create a new world.
+
+2. *Server*: Creates an instance of the new world and records it into the database.
+
+3. *Server*: Create an additional component called a [WorldMap World Map] to map the position of future environments. And send all information about the world to the client.
+
+4. *Client*: Receives information about the newly created world.
+
+=== Implementation ===
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Client-side*:
+
+`>> WorldSelection.py | Method: submit()`
+
+The RequestCreateNewWorld protocol is used to trigger the creation of a new world. First on server-side, then on client-side. The client sends a few basic things such as the world type, name, environment type and a few others.
+
+2. *Server-side*:
+
+`>> RequestCreateNewWorld.java | Method: parse()`
+
+An instance of World is created to store all values that came from the client.
+
+While several values of world properties such as name, environment type, game type, etc. are received from the client, the most important one is the world name. At the moment, the world name uses a reserved keyword to tell the server to generate one.
+
+_`*` Actual name creation and renaming will be implemented in future versions._
+
+A world name will be generated using the following pattern:
+
+`[Player ID]_[Random Value]`
+
+_`* Random Value = Current Time (ms) % 100000`_
+
+`>> RequestCreateNewWorld.java | Method: doBusiness()`
+
+Every name must be unique, so the WorldDAO will check against the database to see if the name is available to use.
+
+If the name is available, it will call the `createWorld()` method from WorldDAO to create an entry of the world into the database under the `world` table and as a result, it generates a World ID for the server to use.
+
+3. *Server-side*:
+
+`>> RequestCreateNewWorld.java | Method: doBusiness()`
+
+A `WorldMap` is created as well to track positions of environments using simple coordinates.
+
+At this point, the World is only created to serve as an empty container for future use. Environments and other belongings will be used to fill up the World whenever players join it.
+
+Information about the new world will be sent to the client through ResponseCreateNewWorld.
+
+4. *Client-side*:
+
+`>> ResponseCreateNewWorld.py | Method: execute()`
+
+Receives world information such as world_id, name, etc. from the server and places these values into the [MessageQueue MessageQueue]. The Message Queue generates an event that will later get picked up by WorldSelection.
+
+=== References ===
+
+  * Client Class References
+    * `common/MessageQueue.py`
+    * `main/Login/WorldSelection.py`
+    * `net/request/RequestCreateNewWorld.py`
+    * `net/response/ResponseCreateNewWorld.py`
+
+  * Server Class References
+    * `dataAccessLayer/WorldDAO.java`
+    * `networking/request/RequestCreateNewWorld.java`
+    * `networking/response/ResponseCreateNewWorld.java`
+
+== Joining a World ==
+
+=== Conditions ===
+
+_This section will describe the conditions required to perform this task._
+
+1. Players can only join one world at any given time.
+
+2. Players must use the [WorldSelection World Selection] to join a world.
+
+=== Execution Flow ===
+
+_This section will briefly describe how the process works._
+
+1. *Client*: Sends a request to the server to join an existing world.
+
+2. *Server*: Retrieve the world from the database using the given world name.
+
+3. *Server*: Retrieve all belonging environments, if any, from the database. Create a new environment if the player doesn't own one.
+
+4. *Server*: Start the game engine and send all information about the world and its content to the client.
+
+5. *Client*: Construct the whole world using all information about the world, environment and species received from the server.
+
+=== Implementation ===
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Client-side*:
+
+`>> WorldSelection.py | Method: submit()`
+
+The RequestJoinPVEWorld protocol is used to allow players to join an existing world that they've already created. The client will be required to send the name of a world of their choosing to the server.
+
+2. *Server-side*:
+
+`>> RequestJoinPVEWorld.java | Method: doBusiness()`
+
+The protocol expects a world name from the client, so once that's retrieved from the buffer, the first thing it will do is check if the world is already created and active. If not, it will create a new instance of the world using the information retrieved from the database using the `getWorldByName()` method through WorldDAO.
+
+3. *Server-side*:
+
+`>> RequestJoinPVEWorld.java | Method: doBusiness()`
+
+Any [Environment Environments] belonging to that world will be retrieved from the database using EnvironmentDAO and instantiated as well.
+
+If any one of those existing environments belong to the current player, it will continue by retrieving any known species for the current player and attach them to the belonging environment.
+
+If the player doesn't own at least one environment, it will create a new one for the current player. The process involves several steps:
+
+  # Create an entry of the environment into the `environment` table.
+  # Each environment is divided into 9 [Zone Zones], so those will be created as well, except that only one will be active. Again, these will need to be added into the database under the `zone` table.
+  # The initial active zone will have a [SimulationEngine SimulationEngine] attached to it, but before it can do that, it will need to create a Serengeti Food-web structure in the Web Services. The initial food-web will contain a select amount of species. As a result, the SimulationEngine will be tagged with a unique manipulation id returned from the Web Services.
+  # Species belonging to this new environment will be created on server-side as well.
+
+4. *Server-side*:
+
+`>> RequestJoinPVEWorld.java | Method: doBusiness()`
+
+Now we have an environment for the player, the next step is to start up the [GameEngine GameEngine] that exists within the World instance.
+
+So far, all these creations only exist server-side, the final step is to pass these information to the client using the responses that were created along the way. There will be a response to signal the client to switch to World mode called ResponseJoinPVEWorld, one for the environment called ResponseGetEnv and a series of responses for every organism of each species created using ResponseBirthPlant and ResponseBirthAnimal.
+
+5. *Client-side*:
+
+The order at which the responses should be coming in is as follows:
+
+  # Single ResponseJoinPVEWorld
+  # Single ResponseGetEnv
+  # Multiple ResponseBirth`[`Animal|Plant`]`
+
+`>> Login.py | Method: responseJoinPVEWorld()`
+
+As soon as Login picks up the ResponseJoinPVEWorld event, it will trigger the `responseJoinPVEWorld()` method that causes the client to switch from Login to WorldGUI using the `switchEnvironment()` method found in Main.
+
+`>> WorldGUI.py | Method: __init__()`
+
+WorldGUI contains many components that make up both the 2D and 3D space that includes from user interfaces to the actual world being render.
+
+The most important component that gets created here is the GameState, which handles almost every possible mechanisms to make the game function. This especially includes handling and redirecting incoming requests and outgoing responses.
+
+Every other component is essential as well because each component allow users to interact with the game directly through graphical interfaces.
+
+Up to this point, we essentially have an empty 3D world and a bunch of 2D interfaces onscreen.
+
+`>> GameState.py | Method: responseCreateEnvironment()`
+
+The next item on the list is the ResponseGetEnv response, which includes information on how to construct the environment. The event generated by the response triggers the `responseCreateEnvironment()` method.
+
+This method will be in charge of constructing the environment by dividing it up into multiple zones and loading the correct terrain for each to create the 3D world we see. This will also allow the client to add animals and plants for them to walk around.
+
+`>> GameState.py | Method: resBirthAnimal(), resBirthPlant()`
+
+The next step is to process the dozens and possibly hundreds of ResponseBirthPlant and ResponseBirthAnimal as the GameState picks them up from the MessageQueue.
+
+Each type of species may be processed differently, but the most important is whether it's an animal or a plant. Animals get processed in the `resBirthAnimal()` method and Plants get processed in the `resBirthPlant()` method.
+
+Both of these methods do almost similar things, which is to construct the organism using their corresponding 3D model and add some AI, if needed.
+
+And that is essentially all what happens whenever a player joins a world.
+
+=== References ===
+
+  * Client Class References
+    * `common/MessageQueue.py`
+    * `main/Login/Login.py`
+    * `main/Login/WorldSelection.py`
+    * `main/MainLobby/World/World3D/GameState.py`
+    * `main/MainLobby/World/World3D/WorldGUI.py`
+    * `net/request/RequestJoinPVEWorld.py`
+    * `net/response/ResponseBirthAnimal.py`
+    * `net/response/ResponseBirthPlant.py`
+    * `net/response/ResponseGetEnv.py`
+    * `net/response/ResponseJoinPVEWorld.py`
+
+  * Server Class References
+    * `dataAccessLayer/EnvironmentDAO.java`
+    * `dataAccessLayer/WorldDAO.java`
+    * `networking/request/RequestJoinPVEWorld.java`
+    * `networking/response/ResponseBirthAnimal.java`
+    * `networking/response/ResponseBirthPlant.java`
+    * `networking/response/ResponseGetEnv.java`
+    * `networking/response/ResponseJoinPVEWorld.java`
+    * `simulationEngine/SimulationEngine.java`
+    * `worldManager/gameEngine/GameEngine.java`
+
+== Deleting a World ==
+
+=== Conditions ===
+
+_This section will describe the conditions required to perform this task._
+
+1. Players can delete any worlds that he/she currently owns.
+
+2. Players can only delete a world through [WorldSelection World Selection].
+
+=== Execution Flow ===
+
+_This section will briefly describe how the process works._
+
+1. *Client*: Sends a request to the server to delete an existing world.
+
+2. *Server*: Remove the world and environments belonging to it from the database. Acknowledge the deletion by sending a response to the client.
+
+3. *Client*: Remove the deleted world from the listing.
+
+=== Implementation ===
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Client-side*:
+
+`>> WorldSelection.py | Method: submit()`
+
+The RequestDeleteWorld protocol is used to delete an existing world that the player has already created. The world id is required for the server to perform any deletion.
+
+2. *Server-side*:
+
+`>> RequestDeleteWorld.java | Method: doBusiness()`
+
+Using the provided world id from the client, the server will perform a simple query to the database using the `removeWorld()` method from WorldDAO. The query will execute a deletion of the world from the `world` table, which will also delete other entries that are related to the world because of foreign keys.
+
+The server will respond back to the client using ResponseDeleteWorld.
+
+3. *Client-side*:
+
+`>> WorldSelection.py | Method: responseDeleteWorld()`
+
+Once the client receives ResponseDeleteWorld response, it will trigger an event that calls the `responseDeleteWorld()` method.
+
+WorldSelection will then perform a simple removal of the world listing from the interface.
+
+=== References ===
+
+  * Client Class References
+    * `main/Login/WorldSelection.py`
+    * `net/request/RequestDeleteWorld.py`
+    * `net/response/ResponseDeleteWorld.py`
+
+  * Server Class References
+    * `dataAccessLayer/WorldDAO.java`
+    * `networking/request/RequestDeleteWorld.java`
+    * `networking/response/ResponseDeleteWorld.java`

@@ -1,0 +1,60 @@
+#summary List all the info that needed to be display in Game World
+
+
+Concept Team's Mockup for Game World
+
+[http://dl.dropbox.com/u/24027452/inWorld.png]
+
+== Prototype ==
+I know it is not pretty, but I think it is at least not that ugly.
+
+[http://dl.dropbox.com/u/24027452/inWorld_phototype.png]
+
+== Game Shop ==
+ By clicking on the item, the detail description of the item will pop up. Details include: cost, prey, general description
+ # Animal
+ # Plant
+ # Research
+ # Vaccine
+
+== Avatars ==
+ # Own Avatar
+ # List of other Avatars
+
+ By clicking on the stat button, the detail description of own avatar will pop up. The detail includes:
+ # Total biomass of own zone
+ # Environment Score
+ # list of species with its biomass and prey %
+ # Water Source
+ # How much XP needed to level up
+
+== Game Info ==
+ # Currency
+ # XP
+ # Level
+
+== Menu ==
+ # Change Prey%
+ # Change Time Scale
+ # Settings
+
+== Time ==
+ # Hour + Minutes
+
+== Weather ==
+ ?? How many days of prediction we have? Please correct me.
+ # One day prediction (can been seen)
+ By clicking on View More button,
+ # 3 Days ( By default )
+ # 7 Days ( By Purchase )
+ # 14 Days (By Purchase )
+ # 21 Days  
+ # One Month? ( Let's go with 28 days) ( By Purchase )
+ === Implementation ===
+ Using number represent each type of weather:
+ 0-> sunny, 1-> cloudiness, 2-> rain<br>
+ Using number represent each level of weather prediction:
+ 0-> 3 days, 1-> 7 days, 2-> 14 days, 3-> 21 days, 4-> 28 days
+
+ 
+ 

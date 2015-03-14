@@ -1,0 +1,47 @@
+#summary Component of World responsible for managing all external forces that affect a species biomass.
+
+= Nature Controller =
+
+The Nature Controller is one of the component's making up a [World]. It is responsible for managing all external forces that affect a species biomass.  This includes everything NOT managed by the [SimulationEngine].
+
+= Details =
+
+  * The Nature Controller has the following properties:
+    * cloudyChance: The chance that the day is cloudy (0-1).
+    * averageCloud: How much cloudiness (0-1) comes on average when the day is cloudy.
+    * cloudRange: The amount cloudiness can deviate from the Average Cloud (0-1).
+    * lightOutput: An array holding the next 30 days of lightOutput.  To generate the output for a single day:
+        if(rand() < cloudyChance) {
+          lightOutput = 1 - averageCloud + rand() x cloudRange - cloudRange / 2;
+        } else {
+          lightOutput = 1;
+        }
+    * Rain Chance: The chance of rain for any given day.
+    * averageRain: How much rain comes on average when it rains.
+    * rainRange: The amount rain can deviate from the Average Rain.
+    * rainOutput: An array holding the next 30 days of rainOutput.  To generate the output for a single day:
+        if(rand() < rainChance) {
+          raintOutput = 1 - averageRain + rand() x rainRange - rainRange / 2;
+        } else {
+          rainOutput = 1;
+        }
+    * Evaporation Rate: What percentage of water evaporates from each Water Source (see [Zone]) every day.  This is used once every day and does not consider the water consumed by other means.  It checks the current value of the Water Source and subtracts a percentage.
+    * [Diseases]:
+      * An array of diseases that might infect a plant/animal.
+      * For each disease:
+        * infectChance: The chance that the Nature Controller picks a random plant/animal and infects it on any given day.
+        * infectSpecies: An array of species that can be infected by the disease.
+        * deathRate: What percentage of biomass to subtract from an infected plant/animal each day.  The percentage is based off that particular plant/animal's maxBiomass.
+        * healChance: The percentage chance that an infected [Species] is healed on any given day.  To calculate the probability for a specific Species instance you must multiply the diseases healChance with the Species healChance.  Example: if(rand() < disease1.healthChance x species1.healChance) then remove disease1 from species1 diseases array.
+
+= Server Implementation =
+
+The server is responsible for managing the Nature Controller.  It decides when to infect a Species with disease, if/how much rain and cloudiness there is each [GameScale] day, etc.  The server must always contain weather predictions 30 [GameScale] days ahead, which means they should be managing the lightOutput and rainOutput arrays.
+
+
+= Client Implementation =
+
+The client does not have most of the above properties for the Nature Controller.  Depending on their current [Research] state the can get 3, 7, 14, or 30 days of weather predictions.  The server checks how many days the user should receive and the client accepts a lightOutput and rainOutput array.  They must then make it available as a drop down on their World UI.
+
+= Test Team =
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/NCtrl.jpg]

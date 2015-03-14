@@ -1,0 +1,112 @@
+#summary Documentation
+
+= Login =
+
+Login begins by asking the user to enter both their User ID (E-mail) and Password in the spaces provided. Users in need of creating a new account may do so by clicking the "Register" button to bring up the form to [Register register].
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/Login.jpg]
+
+==Execution Flow==
+
+_This section will briefly describe how the process works._
+
+As soon as the user clicks on "Log In", information from the form will be sent to the server for authentication, but before that can happen, a connection between the client and the server must be made and here’s how:
+
+1. *Client*: Attempts to make a connection with the server using the [ConnectionManager Connection Manager].
+
+2. *Server*: Accepts the connection and creates a separate thread called [GameClient Game Client] to handle all incoming and outgoing data for this connection.
+
+3. *Client*: Once connected, prepare for authentication by sending the user information to the server.
+
+4. *Server*: Checks if the client is using the correct version, if so, go ahead and authenticate the user by using the information provided. If it checks out, make sure the account isn't being used and continue with the login process. And wrap it up by sending any relevant information to the client.
+
+5. *Client*: Once authenticated, maintain the connection and bring up the [WorldSelection World Selection] interface to allow players to create new worlds or join existing ones.
+
+==Implementation==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Client-side*:
+
+`>> Login.py | Method: __init__()`
+
+The Login class sets up a few things for the user interface such as the text fields used to accept user credentials, button to access the registration form, and the current client version number.
+
+Now this is important, the client does not connect to the server until the first submission is made.
+
+`>> Login.py | Method: submit()`
+
+Once a submission happens, by filling in the user id and password following with either a press of the "Enter" key or click of the "Log In" button, which will trigger the `submit()` method, the client will attempt to establish a connection with the server for the first time by calling the ConnectionManager through the `startConnection()` method located in Main class.
+
+`>> Main.py | Method: startConnection()`
+
+What the `startConnection()` method really does is simple, open a connection using both the server's IP address and the port number found in the Constants class and return whether it was successful.
+
+2. *Server-side*:
+
+`>> GameServer.java | Method: run()`
+
+As the server picks up the connection request located in the `run()` method, it will create a separate independent thread called a GameClient to be responsible in handling all incoming requests and outgoing responses for this one connection. While this happens, the server's `run()` method will loop back and await for other connections. This way, the newly created connection will not interrupt the creation of new connections with other clients.
+
+The nature of the GameClient thread is to wait for any future incoming requests from the client and for this situation, the next request that is to be expected would be the one responsible for sending in the user credentials and once that is received, the RequestLogin class will take care of that.
+
+3. *Client-side*:
+
+`>> ConnectionManager.py | Method: startConnection()`
+
+Once the connection is established, the client will now set up a routine to keep checking the connection for any incoming responses sent from the server as long as the connection is alive.
+
+`>> Login.py | Method: submit()`
+
+At this point, both the user id and password will be retrieved from the text fields, which will be passed into another method located in the Main class called `login()`. Before sending the information, the client must prepare the password in a MD5-hashed format.
+
+`>> RequestLogin.py | Method: send()`
+
+As soon as that is done, which should be immediately, it is up to the RequestLogin class to pack up both the user id and password. One more information to go along with that will be the client version number because that will be used to determine whether the client is up to date, so that it will ensure that the client will be functioning as expected with the server. All of this will now be sent to the server for authentication.
+
+4. *Server-side*:
+
+`>> GameClient.java | Method: run()`
+
+The request should now be picked up by the GameClient thread and calls its own RequestLogin that will be used to process the request.
+
+`>> RequestLogin.java | Method: doBusiness()`
+
+First thing to do is check if the user is using a suitable client by comparing the version number. As long as the version meets the minimum allowed, it can proceed to authenticate both the user id and MD5-hashed password against the database. If successful, the following will happen:
+
+  # To prevent duplicate logins, it must check if the account is in use, if so, save anything necessary for that account into the database and log off the existing user.
+  # Since the account is now free, continue by sending a list of avatars and worlds owned by the user to the client using ResponseLogin.
+
+ResponseLogin will contain whether the authentication was successful, player information and lists of currently owned avatars and existing worlds that will be sent to the client immediately.
+
+5. *Client-side*:
+
+`>> ResponseLogin.py | Method: execute()`
+
+As soon as the ConnectionManager picks up the authentication response, it will use ResponseLogin to parse the incoming data. The data will be stored into the [MessageQueue Message Queue] to be processed later in the `responseToLogin()` method in Login. Once that is done, the next step will be bringing up the [WorldSelection World Selection] interface that is used to either create a new world or join an existing one.
+
+One last thing left to do is maintain another routine that will be responsible for sending a Heartbeat every 10 milliseconds using RequestHeartbeat to do two things:
+
+  # Keep the connection alive.
+  # Tell the server to dump all pending responses to the client.
+
+This will loop as long as the connection is alive.
+
+And that is the end of the login process. The next step is to give players the ability to create or join a game described under [WorldSelection World Selection].
+
+== References ==
+  * Client Class References
+    * `common/Constants.py`
+    * `main/Main.py`
+    * `main/Login/Login.py`
+    * `main/Login/WorldSelection.py`
+    * `net/ConnectionManager.py`
+    * `net/request/RequestHeartbeat.py`
+    * `net/request/RequestLogin.py`
+    * `net/response/ResponseLogin.py`
+
+  * Server Class References
+    * `core/GameClient.java`
+    * `core/GameServer.java`
+    * `networking/request/RequestLogin.java`
+    * `networking/response/ResponseLogin.java`

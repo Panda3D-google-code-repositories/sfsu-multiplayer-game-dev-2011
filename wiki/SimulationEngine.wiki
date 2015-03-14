@@ -1,0 +1,50 @@
+#summary Considers all species biomass and predicts the future biomass values for each.
+
+= Simulation Engine =
+
+Considers all species biomass and predicts the future biomass values  for each.
+
+= Details =
+Every GameTime day (see GameScale), each [Zone] compiles all it's [Species] biomass values and gives it to that [Zone]'s Simulation Engine.  The Simulation Engine returns a prediction for each [Species] new combined biomass value by the end of the next GameTime day.
+
+The returned biomass data is dispersed to each species in the following manner:
+  * Given one type of animal/plant [Species] in one Zone:
+    1. Calculate the previous totalBiomass for all the animals/plants.
+    2. If the new totalBiomass is greater than the previous totalBiomass then:
+      * Calculate numBirths = ceil((newTotalBiomass - prevTotalBiomass) / maxBiomass) where maxBiomass is the maximum amount of biomass for that species type.
+      * Schedule numBirths # of birthings for that Species type to take place over the next GameTime day.  Each birth should be scheduled for a specific plant/animal in the proper [Zone].
+    3. If the new totalBiomass is less than the previous totalBiomass then:
+      * Calculate numDeaths = ceil((prevTotalBiomass - newTotalBiomass) / maxBiomass) where maxBiomass is the maximum amount of biomass for that species type.
+      * Schedule numDeaths # of deaths for that Species type to take place over the next GameTime day.  This number should exclude deaths occurring due to external forces.
+
+Without external forces acting on a Species, each plant/animal will always have biomass equal to their maxBiomass.  This is why numDeaths will not take into account a plant/animal's biomass level when killing them off to fit the Simulation Engine's predictions.
+
+
+Example:
+Cow Species Type has maxBiomass 25 per Cow instance.
+
+Cow1 has biomass 25
+Cow2 has biomass 5 (he has a disease!)
+
+Simulation Engine receives Cow:30
+Simulation Engine returns Cow:15
+
+numDeaths = ceil((30 - 15) / 25) = 1
+
+The Zone has the following choices to make (by choosing 1 randomly):
+Kill off Cow1, newTotalBiomass: 5 (less than the Simulation Engine)
+Kill off Cow2, newTotalBiomass: 25 (more than the Simulation Engine)
+
+It seems counter intuitive that biomass levels don't match the Simulation Engine's returned biomass result.  But remember, Cow2 only has 5 because of a disease.  If not for the disease (which wasn't accounted for in the Simulation Engine) he would have been a full 25.  
+
+Killing off Cow1 would include the affects of the disease (which is why biomass ends up being less than the Simulation Engine).
+Killing off Cow2 would cancel out the affect of the disease (making it slightly more than the Simulation Engine since the input for the Simulation Engine accounted for the biomass difference due to the disease).
+
+= Server Implementation =
+The server is responsible for running the Simulation Engine and scheduling births/deaths for each instance of every [Species] in every Zone of every [Environment] for a given [World].
+
+= Client Implementation =
+The client does not have it's own Simulation Engine.  The client receives information about which plants/animals give birth and which are suppose to die.  This scheduling is stored within the targeted instances of [Species].
+
+= Test Team =
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/2.jpg]

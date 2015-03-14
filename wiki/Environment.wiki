@@ -1,0 +1,20 @@
+#summary Represents and separates a single player's ecosystem from other players in the same World.
+
+= Environment =
+
+An Environment represents a single player's ecosystem. Environments are made up of [Zone]'s which contain the majority of game logic.
+
+= Details =
+
+  * Type/Ecosystem: savanna (etc.)
+    * The Type/Ecosystem defines the texture of the land, determines what diseases/disasters are possible in that Environment.
+  * Boundaries: The dividing lines that decide whose Environment a given area belongs to. This is dictated by the outer Zone boundaries.
+    * You can only place [Species] within your own boundaries.
+    * You can move animal [Species] onto other player Environments after placing them within your own boundary first.
+    * If another player's animal [Species] is within your Environment for more than 7 GameScale days, that animal becomes yours.
+  * Each Environment has 3x3 Zones (We may add an option to have more/less if possible).
+Example of Environment 1 next to Environment 2 with their respective [Zone]s:
+     || 1Z || 1Z || 1Z || 2Z || 2Z || 2Z ||
+     || 1Z || 1Z || 1Z || 2Z || 2Z || 2Z ||
+     || 1Z || 1Z || 1Z || 2Z || 2Z || 2Z ||
+  * The [NatureController] delegates the same information to each environment in a given World.  It is then up to the Environment to delegate that information to each of it's [Zone]s.

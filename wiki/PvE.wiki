@@ -1,0 +1,27 @@
+#summary Anything pertaining to PvE
+#labels Phase-Design
+
+= PvE =
+
+PvE, or Player versus Environment, is a specific game mode in many online games where players play together.
+
+= Details =
+
+  * PvE gameplay is opposite of [PvP], such that players work together rather than against one another
+  * There are any number of PvE [World]s in existence at a given time.
+  * Players play on one team to balance each [Environment] in a given [World]
+  * The team consists of at least one player, up to a Maximum number of players that was chosen by the person who created the given [World].
+  * The teams goal is to continuously balance and diversify the environment.
+  * The game length is indefinite and depends on how active a given [World] is.
+    * If a [World] has not been active for a month (real-time), the [World] is deleted.
+    * The world is active as long as one of the players is in the [World]
+      * When all players are offline, the world is saved in the database for later.
+      * A player can rejoin a [World] that they previously were a part of and continue where the [Environment] left off, even if there were no active players in that [World] previously.
+    * When a world is inactive, each [Environment] freezes until someone makes that [World] active by rejoining.
+    * If a player is offline their animals continue to function under the [GameEngine] but do not change Zone's or any other action that requires a human player.
+  * In game time is based on a specific [GameScale Game Scale]
+    * Every 1-10 in game days is based on 1 real day.
+      * The [GameScale Game Scale] will be voted on by players using a [GameScale Game Scale Vote].
+  * In game day time/night time is based on a specific [DayScale Day Scale]
+    * The Day/Night cycle will directly match the [GameScale Game Scale] settings.
+      * If the [GameScale Game Scale] was 1 in game day per real day, each Day would last for 12 hours and each Night would last for 12 hours.

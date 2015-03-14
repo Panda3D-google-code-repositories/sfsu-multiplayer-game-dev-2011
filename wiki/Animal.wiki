@@ -1,0 +1,106 @@
+#summary Documentation
+
+= Animal =
+
+An instance of an animal represents an organism that belongs to a certain species group. Unlike plants, animals are created with a certain degree of artificial intelligence that allows them to move around and even chase other organisms.
+
+== Details ==
+
+  * AI States
+    * Wander
+      * Random destinations are picked to create a roaming behavior.
+    * Chase, Attack, and Eat
+      * These states are used whenever an animal is ordered to consume another organism.
+      * All three states will always occur in a specific order.
+      * Chase begins and ends once the animal reaches near its target. It will transition into the Attack state, which simply initiates the Eat state. Once the Eat state is complete, the target organism is consumed.
+    * Death
+      * Occurs whenever the animal dies.
+
+== Execution Flow ==
+
+_This section will briefly describe how the process works._
+
+Animal creation is triggered by the server, which passes that information to the client to produce a visual representation of it.
+
+1. *Server*: Whenever an animal is created, it triggers a response to the client to create its own copy along with its visual representation.
+
+2. *Client*: Using information about the animal, the client stores that information and creates a visual representation.
+
+3. *Client*: Gives the animal some artificial intelligence to act on its own.  By default, animal is placed in the Wander state.
+
+4. *Client*: Depending on the scenario, the animal interchanges between different states.
+
+== Implementation ==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Server-side*:
+
+`>> GameEngine.java | Method: createOrganismByResponse()`
+
+An animal is either created automatically to meet a certain quota or by the command of the user through the [Shop Shop]. When either of those situations occur, the `createOrganismByResponse()` method will be called.
+
+The method itself is quite simple. It updates the database to keep record of this animal and creates a response called ResponseBirthAnimal to pass information about the animal to the client.
+
+2. *Client-side*:
+
+Almost all information describing an animal comes directly from the server. Upon receiving that information, the client will perform the necessary work to instantiate an instance of the given animal starting in the `responseBirthAnimal` method.
+
+`>> GameState.py | Method: responseBirthAnimal()`
+
+An instance of Animal3D will be created to store the information. The Animal3D class inherits two other classes—Animal and Actor. The Animal portion stores all of its characteristics and properties, while the Actor side is used to handle the visual side of the animal. 
+
+3. *Client-side*:
+
+The `addAnimalToAI()` method will prepare this object for use with Panda3D’s built-in AI system.
+
+`>> Zone3D.py | Method: addAnimalToAI()`
+
+Every [Zone Zone] creates its own AI World System that manages all AI-capable objects within the zone. The system basically keeps all objects in check to keep a lookout for other objects that can serve as an obstacle to one or another.
+
+This particular animal will be added into this system and sets it into the Wander state. This specific state basically generates random destinations for the animal to roam around.
+
+4. * Client-side*:
+
+Other than the Wander state, an animal can be in either of the following states—Chase, Attack, Eat, and Death.
+
+Usually, the Chase state begins whenever the animal is told to hunt another organism whether that is an Animal or Plant.
+
+`>> Animal3D.py | Method: attack()`
+
+The `attack()` method triggers a series of tasks that starts with the Chase task. The task is carried out by the `chaseTask()` method.
+
+`>> Animal3D.py | Method: chaseTask()`
+
+This task acts like any normal task that loops to perform a function. The chase is actually triggered in the `attack()` method, but this task is used to determine when that chase is complete by consistently checking the remaining distance between this animal and its target. Once it reaches the target, it will transition into the Attack state.
+
+`>> Animal3D.py | Method: attackTask()`
+
+The attack task doesn’t exactly do much other than trigger the Eat state, which consists of the eating animation. The rest is handled by another task called the `eatTask()` method.
+
+`>> Animal3D.py | Method: eatTask()`
+
+This final step relies on the completion of the eating animation. This task is responsible to check whenever the eating animation is finished. Once that is complete, it wraps up the entire attack process.
+
+The last state occurs whenever the animal gets eaten or forcibly killed off and that is the Death state.
+
+`>> Animal3D.py | Method: death()`
+
+The method initiates the death animation and creates the `deathTask()`.
+
+`>> Animal3D.py | Method: deathTask()`
+
+Similar to the eat task, this task checks until the death animation is complete. Once that is done, it triggers the rest, which removes the animal from the ecosystem.
+
+== References ==
+
+  * Client Class References
+    * `main/MainLobby/World/World3D/Animal.py`
+    * `main/MainLobby/World/World3D/Animal3D.py`
+    * `main/MainLobby/World/World3D/GameState.py`
+    * `main/MainLobby/World/World3D/Zone3D.py`
+    * `net/response/ResponseBirthAnimal.py`
+
+  * Server Class References
+    * `networking/response/ResponseBirthAnimal.java`
+    * `worldManager/gameEngine/GameEngine.java`

@@ -1,0 +1,63 @@
+#summary Test Team Milestones
+#labels Java,Python,Featured
+
+= Test Team Milestones (as of 10/11/11) =
+
+=== Milestone 0 (09/19/11-10/10/11) ===
+- Learn the Game concept thoroughly.
+
+- What is testing, types, what we need to do.
+
+- Learn how to write test cases.
+
+- Unit testing in python.
+
+- Go over the client’s architecture.
+
+- Learn and understand the working of server (use the draft Xuyuan has made).
+
+-  Dan's document on lobby is good. we shall be preparing a document for other components as well
+
+=== Milestone 1 (10/11/11-10/24/11) ===
+
+
+- Understand the pseudocode of client team.
+
+- Write test cases for testable components 
+    
+- Understand the use cases and workflows of server.
+
+- Test case for the server functions.
+
+- Test the models and actors of art team.
+
+- Test for the missing functionality by checking and keeping updates on the client and server team. This helps in proper task division and avoids confusion.
+
+- Provide Test data to Client team (3D module) when the pseudocode is ready and they list what is required.
+
+
+Note: Somewhere between M0 and M1 depending on how quickly we are able to learn the basic things of M0 we will need to define exit criteria for our game.
+
+=== Milestone 2 (10/25/11-11/08/11) ===
+
+- test for client server communication & web service communication
+
+- By now some of the modules in client must be ready for testing.
+
+- Perform blackbox testing for each module.
+
+- Whitebox module for the integrated modules.
+
+- How well models and actors perform (look and feel, performance, response time, etc) when used in the code.
+
+=== Milestone 3 (11/09/11-11/23/11) ===
+
+- Continue M2 for all of the available modules. (i.e., ready for testing)
+
+- Test the game as a whole, find bugs and send it to the developers.
+
+- Pass/Fail test for the bugs that were fixed.
+
+=== Milestone 4 (11/24/11-End of semester)===
+
+- Test the launch platform and packaging.

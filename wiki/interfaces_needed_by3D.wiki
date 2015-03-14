@@ -1,0 +1,49 @@
+=Gamestate=
+===methods needed from Gamestate===
+ * getPlayers()
+  * returns a list of players in the game (needed for getListOfSID)
+  * *probably only happens at beginning of game*
+ * getListOfSID(player)
+  * returns list of ints of SID's of animals/plants of that player
+  * *probably only happens at beginning of game*
+ * getSpeciesType(SID)
+  * returns the animal/plant type (Lion, etc) of the species with that SID 
+  * *probably only happens at beginning of game*
+ * animalSpawned(type, (int,int))
+  *  when a player spawns an animal, tell gamestate (x,y) location and type
+ * plantSpawned(type, (int,int))
+  *  same
+
+===my methods to be called by gamestate===
+ * spawnAnimal(animal, (x,y))
+  * spawn an animal at (x,y)
+ * spawnPlant(plant, (x,y))
+  * spawn a plant at (x,y)
+ * changeSeason(season)
+  * for display purposes
+ * changeTime(day/night)
+  * for display purposes
+
+=Artificial Intelligence=
+===my methods to be called by AI===
+ * changeBehavior(animal/SID, behavior)
+  * change the animals current behavior. (moving/eating/dying, animation related)
+
+if the panda AI for wandering and seeking is used, I may not have to handle moving the animal at all. I will only need to change the animation of the animal. this needs to be decided whether the animal uses the panda AI or not, because the coding will be drastically different. for example, I will need to figure out where the animal wants to go next, at the coordinates directly around it, if it doesn't use the ai wander.
+
+=2D UI=
+===my methods to be called===
+ * keyUp(up/left/down/right)
+  * *only keybindings for moving camera (default arrow keys?)*
+  * key is released, for camera movement to stop
+ * keyDown(up/left/down/right)
+  * *only keybindings for moving camera (default arrow keys?)*
+  * key is pressed, for camera to begin moving
+ * toggleSpawn(SID)
+  * once an animal or plant is being told to spawn, it should call this
+  * first, it would have to create a new animal/plant instance in the game state
+  * then pass that to me, so I can create the graphics and have it hover over the terrain
+  * if the animal is already hovering, calling this again should destroy the animal
+  * and kill the graphic
+
+any other ideas, anything i'm missing?

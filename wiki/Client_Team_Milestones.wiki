@@ -1,0 +1,77 @@
+#summary Milestones for Client Team
+#labels Featured
+
+Our expected progress in two week increments.
+
+= Introduction =
+
+The following milestones should be as adaptable as possible to each other's individual progress. If a member is falling behind, we should be able to lend help and maintain these goals, which should happen at some point; certain assigned tasks are much harder than others, and others might become too complex and need to be split up further.
+
+----
+
+= Details =
+== As a team: ==
+ Decide a few interface issues - how to render/visualize the biomass of each species?
+|| ||
+|| *Date* || *Goal* ||
+|| 10/6 || Develop interfaces and methods for our modules ||
+|| || Have writen high level pseudocode ||
+|| 10/20 || Pseudocode should be mostly implemented for generic data ||
+|| || Classes should be mostly implemented, at least class method descriptions ||
+|| 11/3 || Game specific data and behaviors is mostly integrated ||
+|| || eg. Lions, zebras, plants. ||
+|| || Begin integrating modules into one cohesive game ||
+|| 11/17 || Connect modules. ||
+|| || Game will soon be playable, but not bug free. Heavy rounds of testing and debugging ||
+
+== 3D Module == 
+|| *Date* || *Goal* ||
+|| || List of items to be implemented ||
+|| || Camera control -- zoom in & out, rotate, jump to a position, collision with objects, so camera does not go through objects||
+|| || Lighting in general and special lighting for Day/Night rendering||
+|| || Rendering the effect of different season -- dry season and wet season ||
+|| 10/6 || Pseudocode, interfacing done ||
+|| || Decide on and begin coding terrain view ||
+|| 10/20 || Terrain should display correctly with height levels ||
+|| || UI coding begins, firstly on selected terrain spots ||
+|| 11/3 || Work on displaying plants and animals ||
+|| || Control collisions among animals and plants and terrains||
+|| || make sure terrain, plants and animals are clickable ||
+|| 11/17 || Animals, plants, terrain should all display ||
+|| || Module should be ready to be integrated with 2D UI and gamestate ||
+|| || Fix any obvious graphical glitching that may occur from module differences, and gamespeed variation ||
+
+== 2D Module ==
+2D should handle displaying game status regarding the player (& other players) and the current world biomass of species and season etc.
+Please think of displaying avatar & other players and their progression.
+
+Most of hot keys are related to 2D interfaces...
+
+|| *Date* || *Goal* ||
+|| 10/6 || Finish class interface, start implement  Login, Registration, Lobby UI. Finish pseudocode ||
+|| 10/20 || Finish Menu UI, Game Shop UI, chat UI in game world. ||
+|| 11/3 || Finish the rest of game world 2D UI part. By now, Login, Registration should work properly. And Lobby should be half way to finish ||
+|| 11/17 || Finish Lobby implementation. Finish Game Shop implementation in game world. ||
+
+== Gamestate Module ==
+|| *Date* || *Goal* ||
+|| 10/6 || Game State logic interface + pseudocode, To cover all classes in the game concept document ||
+|| 10/20 ||Milestone 2 - Classes should be mostly implemented, at least class method descriptions,The Pseudocode should be now be easily transformed into code implementation classes, logic for 2d, logic for 3D ||
+|| 11/3 ||Milestone 3 - Connect modules with 2D part,integration lobby, chat, 2d related network ||
+|| 11/17 ||Milestone 4 - Game specific data and behaviors is mostly integrated, The commands received from 3D from the player are sent to server. All 3D related collision detection, showing movement of species, Any logic related to this will be implemented by us So that we want to write api for different species + 3d related network ||
+|| 12/1 ||Milestone 5 - Integrate game state logic for Ai part ,(Reasearch, NatureController) ||
+
+
+== Networking Module ==
+|| *Date* || *Goal* ||
+|| 10/6 || Work on classes (client request and respond) especially that support 2D team for log-in, registration, etc. Setup a test environment (test team can involve). ||
+|| 10/20 || Work on classes that support 2D and game logic teams. Setup a test environment (test team can 	involve). ||
+|| 11/3 || Finish all network classes, and expect to do testing and communication with the server. ||
+|| 11/17 || Fix and test for bugs. ||
+
+== AI Module ==
+|| *Date* || *Goal* ||
+|| 10/6 || Class interface, study AI, understand AI components (terrain generation, random unit movement within a given area, pathing, etc.)||
+|| 10/20 || Finish basic AI testing/implementation (terrain generation, random unit movement within a given area, pathing, etc.) ||
+|| 11/3 || Expand basic AI to complex AI, start integrating module with other modules (3D) ||
+|| 11/17 || Fix and test for bugs ||

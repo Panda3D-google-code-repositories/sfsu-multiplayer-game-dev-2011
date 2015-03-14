@@ -1,0 +1,2 @@
+Main-Class: GameServer
+Class-Path: lib/commons-dbcp-1.4.jar lib/commons-logging.jar lib/commons-pool-1.5.6.jar lib/org.springframework.beans-3.0.0.RELEASE.jar lib/org.springframework.core-3.0.0.RELEASE.jar

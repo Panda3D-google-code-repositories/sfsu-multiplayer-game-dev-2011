@@ -1,0 +1,18 @@
+#summary This page lists tasks that can be done when the game is up and running.
+
+= Introduction =
+
+Thoughts throughout the semester have come up that seemed extra or too much work. Here are some of those thoughts which may be implemented provided there is enough time.
+
+= Details =
+Seasons for each ecosystem. Ex: The savanna has a short wet season and a long dry season.
+
+Prey preference. This would be an editable property to each animal species that lets the user choose what prey the animal would prefer to eat.
+
+Disasters
+
+Weather (visual) Effects
+
+Night (visual) Effects
+
+Etc.

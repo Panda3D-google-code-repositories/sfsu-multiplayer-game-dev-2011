@@ -1,0 +1,145 @@
+#summary The various test cases based on the game concept.
+
+= Introduction =
+The various test cases based on the game concept.
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/EcoNet EcoNet] =
+
+No tests for Request classes.
+
+= PublicWorld =
+
+|| *Test* || *Expected Response* ||
+|| Create public world || One or more players can create a single world ||
+|| Join public world || Able to join public world ||
+|| || The world has 1 or more environments ||
+|| Join public PvE || Public worlds that have been previously joined will appear at the top of the Game Mode Lobby World listing ||
+|| Join public PvP || The only Worlds that will appear in the Game Mode Lobby World listing will be Public Worlds. ||
+|| Control environment || Each environment should be controlled by each individual player and not by other players ||
+
+= PrivateWorld =
+|| *Test* || *Expected Response* ||
+|| Join game mode lobby || PvP private world does not show up ||
+|| || PvE private world does show if previously accessed before || 
+|| Join previously accessed private world || The private world shows up in the Closed World section under the World listing in the Game Mode Lobby ||
+|| || The world will no longer require a password to be entered ||
+|| Enter private world name and password || Able to join a private world ||
+|| Create private world || No one else should be able to join the world unless they have the world name and password ||
+|| Enter private world that is full || Unable to join the private world ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Environment Environment] =
+
+|| *Test* || *Expected Response* ||
+|| Place your plant on another player's environment || Unable to place your plant on another player's environment ||
+|| Place your animal into another player's environment || Unable to place your animal on another player's environment ||
+|| Move your animal into another player's environment || Animal should move into another player's environment ||
+|| A player's animal stays in a different environment for more than 7 game days || The player loses ownership of their animal ||
+
+= DayScale =
+
+|| *Test* || *Expected Response* ||
+|| Check if day scale length for PvE works || The length of a day is 12 in-game hours ||
+|| || The length of a night is 12 in-game hours ||
+|| || Each in-game hour depends on the GameScale ||
+|| Check if day Scale length for PvP works || 1 day/night cycle should be 2 minutes ||
+|| || Each day and night are each 1 real time minute ||
+
+= GameScale =
+
+|| *Test* || *Expected Response* ||
+|| Check speed of game in PvE|| PvE games will be slow to simulate realism ||
+|| || ~3 in-game days to 1 real-time day ||
+|| Check speed of game in PvP || PvP games will be fast pace ||
+|| || 1 in-game day to 1 real time minute ||
+
+= EnvironmentScore =
+|| *Test* || *Expected Response* ||
+|| Check diversity count || Diversity count should equal the weighted count values of all the animals put together ||
+|| Check species count || Species count should equal the number of animal Species in a player's environment ||
+|| Check environment score || Environment score should equal the diversity count multiplied by the species count ||
+|| Check each species's weighted count || The weighted count value for each species should be correct ||
+|| Check if environment score changes || The environment score changes every in-game day ||
+|| Check initial environment score || Environment score depends on which plant a player starts with ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Zone Zone] =
+|| *Test* || *Expected Response* ||
+|| Check each zone || Has its own species ||
+|| || Has its own SimulationEngine ||
+|| An animal moves into a different zone || Animal must be removed from the previous zone's SimulationEngine ||
+|| || Animal is added to the new SimulationEngine of the new zone ||
+|| Check dimensions of zones || Each environment in every world should have the same amount of zones ||
+|| || Zones must take up two screens of tiles ||
+|| || Zone must have square dimensions ||
+|| Check if there is a water source in the zone || A zone must have either 0 or 1 water source ||
+|| Check if the water source can be used by animals || Animals are able to drink from the water source ||
+|| Check location of a water source || The water source must be on the lowest terrain of a zone ||
+|| Check number of water zones || There should only be 1 water source per zone per environment ||
+|| Check species interaction within a zone || A species can only interact with other species in the same zone ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Lobby Lobby] (Login) =
+|| *Test* || *Expected Response* ||
+|| no password entered || invalid username/pw ||
+|| wrong password || invalid username/pw ||
+|| no username entered || invalid username/pw ||
+|| wrong username || invalid username/pw ||
+|| correct credentials || login successful ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Lobby Lobby] (Registration) =
+|| *Test* || *Expected Response* ||
+|| username already in db || username taken ||
+|| character name already in db || character name taken ||
+|| email already in db || this email is already associated with another username/or allow multiple accounts per email? ||
+|| username, character, email all not taken || registration successful ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Lobby Lobby] (Main Lobby) =
+|| *Test* || *Expected Response* ||
+|| search for private world (by CORRECT name) || prompts for password ||
+|| enter CORRECT password for private world || world shows up on top of public world list ||
+|| enter INCORRECT password for private world || invalid password ||
+|| search for private world (by INCORRECT name) || world not found ||
+|| PVP game mode lobby tab || switch to PVP GAME MODE lobby ||
+|| PVE game mode lobby tab || switch to PVE GAME MODE lobby ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Lobby Lobby] (PvP Game Mode Lobby) =
+|| *Test* || *Expected Response* ||
+|| search for private world (by CORRECT name) || prompts for password ||
+|| enter CORRECT password for private world || world shows up on top of public world list(switch to world lobby if room in world) ||
+|| enter INCORRECT password for private world || invalid password ||
+|| search for private world (by INCORRECT name) || world not found ||
+|| PVE game mode lobby tab || switch to PVE GAME MODE lobby ||
+|| join game || client connects to corresponding world lobby ||
+|| create new world || switch to PVP WORLD lobby ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Lobby Lobby] (PvE World Lobby) =
+|| *Test* || *Expected Response* ||
+|| search for private world (by CORRECT name) || prompts for password ||
+|| enter CORRECT password for private world || world shows up on top of public world list ||
+|| enter INCORRECT password for private world || invalid password ||
+|| search for private world (by INCORRECT name) || world not found ||
+|| PVP game mode lobby tab || switch to PVP GAME MODE lobby ||
+|| join game || client connects to corresponding world lobby ||
+|| create new world || switch to PVE WORLD lobby ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Lobby Lobby] (Chat) =
+|| *Test* || *Expected Response* ||
+|| /w whispering to target player || ONLY target player receives message ||
+|| send message to UNIVERSAL chat || viewable by EVERYONE in any lobby ||
+|| /t or whatever command is for TEAM chat || ONLY people on the same team will see message(PVP) ||
+|| send message to WORLD chat || ONLY people in that world will see message ||
+|| send message to PVP lobby chat || ONLY people in the PVP lobbies will see message ||
+|| send message to PVE lobby chat || ONLY people in the PVE lobbies will see message ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Lobby Lobby] (PvP World Lobby) =
+|| *Test* || *Expected Response* ||
+|| press back button || returns to PVP GAME MODE lobby ||
+|| press start button(creator) || game will start ||
+|| avatar selection menu || displays correctly in lobby grid; correct avatar is assigned to player in game ||
+|| selecting position/team on grid || displays correctly in lobby grid; correct position/team is assigned to player in game ||
+
+= [https://code.google.com/p/sfsu-multiplayer-game-dev-2011/wiki/Lobby Lobby] (PvE World Lobby) =
+|| *Test* || *Expected Response* ||
+|| press back button || returns to PVE GAME MODE lobby ||
+|| press start button(creator) || game will start ||
+|| avatar selection menu || displays correctly in lobby grid; correct avatar is assigned to player in game ||
+|| selecting position/team on grid || displays correctly in lobby grid; correct position/team is assigned to player in game ||
+|| join button(if world has already started) || player enters the world ||

@@ -1,0 +1,53 @@
+#summary A detailed description of diseases
+
+= Diseases =
+
+Diseases are part of the [NatureController] and contain properties pertaining to disease spread and changes to Species properties.
+
+= Details =
+
+  * The [NatureController] contains an array of diseases that might infect a plant/animal.
+  * Each disease has these properties:
+    * name: The name of the disease.
+    * description: A text description of the disease.
+    * infectChance: The chance that the Nature Controller picks a random plant/animal and infects it on any given [GameScale] day.
+    * spreadChance: The chance that an infected Species spreads the disease to another Species in the same [Zone] on any given [GameScale] day.
+    * infectSpecies: An array of species that can be infected by the disease.
+    * deathRate: What percentage of biomass to subtract from an infected plant/animal each day.  The percentage is based off that particular plant/animal's maxBiomass.
+    * healChance: The percentage chance that an infected [Species] is healed on any given day.  To calculate the probability for a specific Species instance you must multiply the diseases healChance with the Species healChance.  Example: if(rand() < disease1.healChance x species1.healChance) then remove disease1 from species1 diseases array.
+
+A Zone of Species can be cured using a Vaccine.
+
+= Server Implementation =
+
+Every [GameScale] day the [NatureController] will calculate the following for each disease in the diseases array:
+
+if(rand() < disease.infectChance) {
+  doInfect = true;
+}
+
+If doInfect is found true for a disease, the Server chooses a random [Species] that matches the disease.infectSpecies array.
+
+The same logic is used for spreadChance, but is managed within each infected Species instance.
+
+Each day the disease subtracts some part of biomass from the animal/plant based on the maxBiomass of the animal/plant [Species]. 
+
+   species.biomass -= (disease.deathRate) `*` species.maxBiomass
+
+= Client Implementation =
+
+The client does not have access to diseases in the [NatureController] because they do not control or display the information to the user. The resulting biomass is the only visible change on the client side.  
+
+However, if [Research] reveals disease in a [Zone], the client will receive that [Zone]'s diseases array for each [Species].
+
+= Content Implementation =
+Re-calculate the biomass of different species. Apply mapping rules to effectively simulate impact of diseases.
+
+= Art Implementation =
+
+
+= Content Team =
+List of possible disease that can affect a species and other details like if its recoverable, also possible change in biomass depending on the severity of the disease will be provided.
+
+= Test Team =
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/Disease.jpg]

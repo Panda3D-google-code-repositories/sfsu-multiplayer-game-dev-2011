@@ -1,0 +1,116 @@
+#summary Tasks that should be finished by 11/19
+#labels Featured
+
+= Client team =
+
+
+== Main control ==
+  # Receive responses and update animals for their AI behaviors
+  # Receive responses and update water level and weather (green/brown shading/texture on terrain) changes
+  # Handle audio (animals and rain/wind)
+  # Collision handling (probably use dynamic object collision handling of PandaAI)
+  # Allow user create a world/zone at the very first time
+  # Allow user to choose water source at each zone
+  # Communication with 2D interfaces (request / response relay)
+
+== AI ==
+  # Animals wander (with their average or lower speed)
+  # Animals drink water (walk to water source and drink for a while and then walk away – maybe do this animation once in a while according to water drinking frequency??)
+  # Animals hunt (predator pursues prey and prey flees with max speed and predator pursues with maximum speed to catch, show attack animation if exists, eat prey for a while and then walk away)
+  # Animals eat plants
+  # Groups of animals move together to get to the destination location in natural way (when player migrates some animal to different zones) --- check with Keith if server will coordinate water and food while passing by different zones
+
+
+== 2D interface ==
+  # Registration, Login, Main Lobby, World/Game Lobby – Luis
+  # InWorld  2DInterface
+  # Shop (purchasing new species with detailed description of image, prey, predator info, price)
+  # Status (list of current species and their biomass info)
+  # Avatars of other players who are online
+  # Inventory (level, money, point)
+  # Chat
+  # Weather & time.
+  # InWorld 2&3D interaction
+    * Picking animals to move to a difference zone (highlight selected animals?)
+    * Positioning newly purchased plants (related to 2.a) – update Navigation mesh as trees are obstacles. (we can leave grasses as walk-through)
+
+
+== Environment ==
+
+  # Render terrain with trees and grasses according to the plant biomass given from Main control.
+  # Render rain
+  # Render night/day
+  # Switch low res/high res depending on the camera mode
+  # Render  drought (brownish grasses) when water is short for long period
+  # Render green grasses when water is abundant
+  # Trees with less leaves or lots of leaves according to biomass
+  # Render world that connects all the environments within the world.
+  # Production of zone terrain
+    * Use L3DT to create terrain
+    * Convert the L3DT terrain into Blender (via. COLLADA)
+    * Create a low res mesh
+    * Create navigation mesh for AI
+    * Calculate water coordinate (x, y scale and z level)
+
+
+== Camera ==
+  # Control camera from sky view
+  # Control camera for close exploration mode
+
+
+== Protocol/Network ==
+  # Complete all the protocols written in wiki
+  # Complete relaying the responses from server to Main control
+  # Moving an animal from current location to somewhere in different zone (When a player commands)
+    * What is the user interface to do this? I assume that player picks one or two animals (selected with some highlight) and then marks a destination which can be a few zones away (should be visible from sky
+view). I guess we should visualize the destination with some marker like cube. And then animals start to move.
+    * Then client program should allow these animals to pass zone boundaries. It should update server as animals pass zone, the foodweb engine should be updated with biomass change. Are these animals in need to drink water and hunt while moving? (I guess so) Then will server send commands to tell them drink water at zone that the animas pass by and eat there, too. I think it should be. Then AI becomes much simpler as AI does not need to worry about this as one big scenario.  Just Main control (of client program) has to update server and let animal pass the boundary otherwise collision detection prevents animal cross the boundary.
+
+= Server team =
+
+== Network/Main control==
+  # Support Registration, login, Main lobby, World/Game lobby, chats working
+  # DAO for user, world list, environment list, chat tables
+  # Relay data stream from client to corresponding world and then receive responses from the world [that the current player is playing] and send back to client.
+
+
+== Game Logic ==
+  # World object
+    * Game time scale [we can set default value for World and Game for now]
+    * Zone grid (we can use 3x3 as default]
+    * Nature control (we assume one Nature Controller per world, not per environment, right?)
+    * List of environments
+  # Environment object
+    * List of zones
+  # Zone object
+    * List of species & their biomass
+    * Water source (level)
+    * Current time
+      # Reference to Food Web Engine
+      # Current scenario
+      # Disease
+
+
+== Nature Controller ==
+
+== Database Access ==
+
+= DB team =
+  # Populate all necessary tables
+
+= Art team =
+  # Create all the species (95?) in Serengetti in high and low resolution
+  # Create terrain producing process
+  # Collect all sounds effect (for animals, weather)
+  # 2D Interface Design (and simple presentation layer coding)
+
+= Content team =
+  # Create API to call Population Dynamics Simulation Engine
+  # Collect images and provide information of species in Serengetti
+  # Populate Species table
+
+= Test team =
+  # Test DAO – use simple program to call API and run queries to cross check
+  # Test Client – set up scenarios of possible user activities (clicking random buttons to check the robustness, etc)
+  # Test Population Dynamics Simulation Engine API
+  # Test Game Logic

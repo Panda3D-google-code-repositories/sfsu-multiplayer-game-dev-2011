@@ -1,0 +1,50 @@
+
+.download p {
+	/*position: absolute; */
+	background:url(../images/download_button.gif) 0 0 no-repeat;
+	width:130px;
+	height:50px;
+	text-indent:-9999px;
+}
+
+.download ul {
+	width: 130px;
+	background:#374e1a;
+	border: 0;
+	padding:0;
+	list-style:none;
+	
+}
+ 
+.download ul a:link, .download ul a:visited {
+	display:block;
+	width:122px;
+	padding: 2px 2px;
+	margin: 2px;
+	text-decoration:none;
+	color:#ffffff;
+	font-weight:normal;
+}
+ 
+.download ul li a:hover, .download ul a:active {background:#70b538;}
+
+.download p, .download ul {margin:0;}
+
+.download{
+	width: 130px;
+	height: 50px;
+	overflow: hidden;
+}
+
+.download:hover {
+	overflow: visible;
+}
+
+.download{
+	position: relative;
+}
+
+.download ul {
+	position: absolute;
+	left: 0;
+}

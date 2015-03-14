@@ -1,0 +1,118 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+
+html {
+	background: url(../images/background.gif) repeat;
+	z-index: -9999;
+}
+
+body {
+	background: url(../images/tempWithImage.gif) no-repeat center top;
+	width: 100%;
+	height: 800px;
+}
+
+p {
+	color: #fff;
+}
+
+.contentWrapper {
+	position: relative;
+	width: 1024px;
+	height: 800px;
+	margin: 0 auto;	
+}
+
+.header {
+	position: relative;
+	width: 100%;
+	height: 260px;
+
+}
+
+.content {
+	position: relative;
+	height: 420px;
+	width: 100%;
+}
+
+.contentLeft {
+	position: relative ;
+	top: 0px;
+	width: 27%;
+	height: 100%;
+	margin: 20px 0 0 20px;
+	padding-left: 30px;
+	float: left;
+	border-right: 1px solid #408661;
+}
+
+.contentRight {
+	position: relative;
+	width: 60%;
+	height: 100%;
+	margin: 20px 40px 0 0;
+	float: right;	
+	padding: 10px;
+}
+
+
+.bottom {
+	position: absolute;
+	top: 715px;
+	width: 1024px;
+        
+}
+
+.bottom img {
+	position: relative;
+	left: 80%;	
+	
+}
+
+.bottom p {
+	text-align: center;
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: small;
+	color: #ffffff;
+	
+}
+
+.HomeMenu {
+	position: absolute;
+	top: 208px;
+	left: 280px;
+	z-index: 3;
+}
+
+.GuideMenu {
+	position: absolute;
+	top: 208px;
+	left: 430px;
+	z-index: 3;
+}
+
+.DownloadMenu {
+	position: absolute;
+	top: 208px;
+	left: 575px;
+	z-index: 3;
+}
+
+.AboutMenu {
+	position: absolute;
+	top: 208px;
+	left: 750px;
+	z-index: 3;
+}
+
+.SupportMenu {
+	position: absolute;
+	top: 208px;
+	left: 900px;
+	z-index: 3;
+}
+

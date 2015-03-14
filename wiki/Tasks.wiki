@@ -1,0 +1,98 @@
+#summary Documentation
+
+= Tasks =
+
+== Player Features ==
+
+=== Players List ===
+
+Estimated Time of Completion: 1-2 Day(s)
+
+Tasks:
+
+  * Expand the current function that displays the number of players connected by displaying a list of those players, specifically a drop-down menu.
+  * Players should be able to select each others' name to perform actions such as befriending and being able to initiate a 1 on 1 chat.
+  * Making friends will be incorporated once the Friends List is implemented. This will be one of two ways of adding friends. The other method will be adding using names.
+  * Similar to the friends feature, 1-on-1 chat will be incorporated to allows players to communicate directly between each other through an extended interface of the existing Chat interface.
+
+== Friends Features ==
+
+=== Friends List ===
+
+Estimated Time of Completion: 2-4 Day(s)
+
+Tasks:
+
+  * Create a suitable interface to display a list of friends and strangers.
+    * Friends are players added.
+    * Strangers are players not added, but have met through some means such as chatting.
+    * Simple scroll-enabled list showing a section for Friends and another for Strangers.
+    * Include functions such as adding, removing, chatting and gifting.
+      * Contains a sub-menu to provide these options.
+  * Adding players as friends can be done in two ways:
+    * Selecting a player's name found in the Players List or Friends List under Strangers.
+    * Using the search capability in Friends List.
+      * Consists of a text entry field.
+  * Removing friends can be done by selecting their name.
+  * Enable 1-on-1 chat by selecting a friend's or stranger's name.
+    * Will be exactly like how the Players List does it.
+  * Gifting feature will be initiated by selecting a friend.
+  * Players interacted through the General Chat feature will be added to the strangers section for players that you've met.
+    * Makes adding friends a lot easier.
+    * A list of up to 10 strangers will be remembered.
+  * Shows the online status of both friends and strangers.
+
+== Chat Features ==
+
+=== Improved Chat ===
+
+Estimated Time of Completion: 1-2 Day(s)
+
+Tasks:
+
+  * Implement 1-on-1 chatting between two players.
+    * Includes a separate interface merged with our existing General Chat interface.
+    * Initiated by 3 different ways:
+      * Sub-menu within General Chat that allows you to type a player's name to make the connection.
+      * Players List by selecting a name.
+      * Friends List by selecting a name.
+  * Implement dynamic tabs for 1-on-1 chatting.
+    * Each 1-on-1 chat will reside within a tabbed window.
+      * Allows you to swap between General and other 1-on-1 chats that exist.
+
+== "Gifting" Features ==
+
+=== Gifting Species ===
+
+Estimated Time of Completion: 3-4 Day(s)
+
+Tasks:
+
+  * Create an interface that allow players to drop species from the Shop or select species you own from a menu.
+  * Gifts can come from two locations:
+    * Directly from the Shop
+      * Instead of dropping the species into the environment, you would drop it into the new interface.
+    * From your Environment
+      * A series of drop-down menus will allow you to select species you currently have.
+  * Service Fee will be calculated and shown as well.
+    * Formula still undecided.
+  * Gifts can be sent to any players whether or not they are online.
+  * Another interface will be needed as well to handle the receiving end.
+    * Signals such as messages will pop-up whenever you have a gift to receive.
+      * If receiver is online, it occurs the moment it was sent.
+      * If not, occurs first thing when receiver logs in.
+    * Upon acceptance, players will have the ability to open it and place it as if it was purchased from the Shop.
+
+=== Species Invasion ===
+
+Estimated Time of Completion: 2-3 Day(s)
+
+Tasks:
+
+  * Expands from Gifting.
+  * The interface created here will be similar to Gifting without the drop feature.
+    * Menus will allow sender to select species from their environment.
+  * Service Fee will exist here as well.
+    * Formula still undecided.
+  * Messages will pop up on the receiving end that alerts them that species have invaded.
+  * There won't be an interface on the receiving end since these feature will be automated without receivers consent.

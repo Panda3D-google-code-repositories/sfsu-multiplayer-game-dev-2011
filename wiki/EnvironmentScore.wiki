@@ -1,0 +1,41 @@
+#summary A detailed definition and description of the Environment Score
+#labels Phase-Design
+
+= Introduction =
+
+An Environment Score is what determines how healthy a given Ecosystem is.
+
+= Details =
+
+  * Based on two things:
+    * Diversity Count: number of different types of [Species] there are in an [Environment].
+      * Takes into account a given [Species] weighted Count value.
+      * Example: If a player has a positive number of lions and a positive number of giraffes, the Diversity Count would be: `lionWeight+giraffeWeight`
+    * Species Count: number of total [Species] there are in an [Environment].
+      * Does not take into account a given [Species] weighted Count value.
+      * Example: If a player has 4 lions and 10 giraffes, the Species Count would be: `numberOfLions + numberOfGiraffes`
+    * Example of Environment Score calculation:
+      * `ES = sumOfDiversityCounts * totalNumberOfSpecies`
+      * Example Scenario: You have three trees with a Count weight of 2, two lions with a Count weight of 5, and one giraffe with a Count weight of 1. The calculation would be as follows:
+        * `ES = (2+5+1)*(3+2+1)`
+  * Each [Species] has a weighted Count value.
+    * Example: A lion (which is harder to balance), is weighted more heavily than an antelope (which is easier to balance), and therefore having 1 lion provides a higher Diversity Count than having 1 antelope.
+  * The EnvironmentScore helps determine the [Level] an [Avatar] is at, based on [Experience]
+  * The EnvironmentScore helps determine how much [Currency] an [Avatar] has
+  * A low EnvironmentScore over time denotes an unhealthy [Environment]
+  * A high EnvironmentScore over time denotes a healthy [Environment]
+  * An EnvironmentScore changes at the beginning of every in-game Day (see [GameScale]).
+  * Because players start out with [Species Plants], they also start out with an EnvironmentScore. This will depend on what Plants a users starts with.
+  * Example of why the calculation for environment score works:
+    * Eg1 :
+      * 1 tree weighted count=2
+      * 18 lion weighted count = 5
+      * 1 giraffe wc = 1
+      * (2 + 5 + 1) (1 + 18 + 1) = 160
+      * Although this Environment is clearly unbalanced, the current Environment Score would be high. However, the [SimulationEngine] will notice the unbalanced Environment and attempt to fix it by killing off the excessive amount of lions. A user will ultimately lose this Environment Score, while someone who had planned out their Environment to be better balanced would keep their Environment Score and would be better off in the long-run.
+    * Eg2 :
+      * 1 tree weighted count=2
+      * 1 lion weighted count = 5
+      * 1 giraffe wc = 1
+      * (2 + 5 + 1) (1 + 1 + 1) = 24
+      * This Environment is more balanced than that in Eg1, therefore will have a more stable and consistent Environment Score and will work out better than the scenario found in Eg1.

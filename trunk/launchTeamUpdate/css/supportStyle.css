@@ -1,0 +1,137 @@
+#navSupport {
+	font-size: 100%; 
+	width: 230px;
+	margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+}
+
+#navSupport ul {
+	margin: 0px; 
+	padding: 0px;
+}
+
+#navSupport li {
+	list-style: none;
+}
+
+ul.top-level {
+	background: #374e1a;
+}
+
+ul.top-level li {
+ 	border-bottom: #fff solid;
+ 	border-top: #fff solid;
+ 	border-width: 1px;
+}
+
+#navSupport a {
+ 	color: #fff;
+ 	display:block;
+ 	line-height: 30px;
+ 	text-indent: 20px;                   
+ 	text-decoration:none;
+ 	width:100%;
+}
+
+#navSupport a:hover{
+ 	text-decoration:underline;
+}
+
+#navSupport li:hover {
+ 	background: #f90;
+ 	position: relative;
+}
+
+a.userDashboardMenu {
+	background: url(../images/userDashboard.png) no-repeat top left;
+	margin-top: 30px;	
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.userDashboardMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.userDashboardMenu_1 {
+	background: url(../images/userDashboard_1.png) no-repeat top left;
+	margin-top: 30px;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.registerMenu {
+	background: url(../images/register.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.registerMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.registerMenu_1 {
+	background: url(../images/register_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.contactUsMenu {
+	background: url(../images/contactUs.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.contactUsMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.contactUsMenu_1 {
+	background: url(../images/contactUs_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.faqMenu {
+	background: url(../images/faq.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.faqMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.faqMenu_1 {
+	background: url(../images/faq_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+#nSupport ul {
+	margin: 0px; 
+	padding: 0px;
+}
+
+#nSupport li {
+	margin-top: 4px;
+	margin-left: 30px;
+	list-style: none;
+}

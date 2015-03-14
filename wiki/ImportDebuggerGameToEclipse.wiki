@@ -1,0 +1,34 @@
+#summary How to import the Debugger game into Eclipse
+#labels Eclipse,Java,Python,Panda3D,MySQL,Featured
+
+*WORK IN PROGRESS*
+
+= Introduction =
+
+This document will show you how to import the Debugger game. This wiki is for how to configure Eclipse 3.6.0. Please let me (JP) know if you run into any issues.
+
+= Game Client and Bug Server =
+
+0. Go to the *Help -> Install New Software*.
+
+1. Click the *Add* button and this should open up a new window called _Add Repository_. For _Name_ put *Python* and for _Location_ put http://pydev.org/updates.
+
+2. After the _Add Repository_ window closes, choose *PyDev* by clicking the checklist button. Click *Next >*.
+
+3. Click *Next >* again.
+
+4. Read the licenses if you want. Otherwise, click the *I accept the terms of the license agreements* checklist button. Click *Finish*.
+
+5. A new window should pop up while you're installing the plugin. Check the *Apntana PyDev* certificate and click the *OK* button.
+
+6. Restart Eclipse when the prompt comes up.
+
+= Game Server = 
+
+0. Download *GameServer-src.zip* from ilearn. Extract the *GameServer-src.zip* archive into a temporary folder.
+
+1. Create a new Java project. Choose a name and click *Next >*.
+
+2. In the new _Java Settings_ window, select the _Libraries_ tab. Click *Add External JARs*. 
+
+3. Add the *core*, *db*, *npc*, *request*, *response*, and *sql* folders that you extracted into the project by dragging and dropping in to the _src_ sub directory under your project. Also, drag and drop the *game_server_config.txt* file into the _src_ folder.

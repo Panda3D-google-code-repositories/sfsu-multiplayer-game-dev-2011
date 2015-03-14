@@ -1,0 +1,180 @@
+
+
+#navDownload {
+	font-size: 100%; 
+	width: 230px;
+	margin-top: 40px;
+        margin-left: auto;
+	margin-right: auto;
+}
+
+#navDownload ul {
+	margin: 0px; 
+	padding: 0px;
+}
+
+#navDownload li {
+	list-style: none;
+}
+
+ul.top-level {
+	background: #374e1a;
+}
+
+ul.top-level li {
+ 	border-bottom: #fff solid;
+ 	border-top: #fff solid;
+ 	border-width: 1px;
+}
+
+#navDownload a {
+ 	color: #fff;
+ 	display:block;
+ 	line-height: 30px;
+ 	text-indent: 20px;                   
+ 	text-decoration:none;
+ 	width:100%;
+}
+
+#navDownload a:hover{
+ 	text-decoration:underline;
+}
+
+#navDownload li:hover {
+ 	background: #f90;
+ 	position: relative;
+}
+
+a.gameClientMenu {
+	background: url(../images/gameClient.png) no-repeat top left;
+	margin-top: 30px;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.gameClientMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.gameClientMenu_1 {
+	background: url(../images/gameClient_1.png) no-repeat top left;
+	margin-top: 30px;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.screenshotsMenu {
+	background: url(../images/screenshots.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.screenshotsMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.screenshotsMenu_1 {
+	background: url(../images/screenshots_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.conceptArtMenu {
+	background: url(../images/conceptArt.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.conceptArtMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.conceptArtMenu_1 {
+	background: url(../images/conceptArt_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.videoMenu {
+	background: url(../images/video.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.videoMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.videoMenu_1 {
+	background: url(../images/video_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.docMenu {
+	background: url(../images/doc.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.docMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.docMenu_1 {
+	background: url(../images/doc_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.reqsMenu {
+	background: url(../images/reqs.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.reqsMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.reqsMenu_1 {
+	background: url(../images/reqs_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+#nDownload ul {
+	margin: 0px; 
+	padding: 0px;
+}
+
+#nDownload li {
+	margin-top: 4px;
+	margin-left: 30px;
+	list-style: none;
+}
+

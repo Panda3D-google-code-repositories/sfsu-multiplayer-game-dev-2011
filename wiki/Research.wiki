@@ -1,0 +1,16 @@
+#summary What you can research while inside a World
+
+= Research =
+
+A list of items you can research to improve your ecosystem.
+
+= Details =
+
+ * Examine any Environment for a disease: This allows you to examine a specific [Zone], in any Environment, to look for a disease.  If any disease is found you will be notified, and if the examination occurred on someone else's Environment, they would be notified as well, so long as they are on your team.
+   * Stage 1: Do a single examination. (60c)
+   * Stage 2: Schedule examinations for the next 7 [GameScale] days. (100c)
+   * Stage 3: Schedule examinations for the next 35 [GameScale] days. (300c)
+ * Improve weather predictions: Unlock more days of weather predictions. These are not permanent.  For example: buying Stage 1 will unlock 7 days.  But when 3 days pass you will only have 4 days of weather predictions.  The user always gets at least 3 days of predictions.
+   * Stage 1: Predict 7 days ahead (100c).
+   * Stage 2: Predict 2 weeks ahead (300c).
+   * Stage 3: Predict 30 days ahead (600c).

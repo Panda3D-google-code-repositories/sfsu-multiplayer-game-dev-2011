@@ -1,0 +1,101 @@
+#summary Documentation
+
+= Register =
+
+Registration is required for all users that do not already have an account. An account is needed to allow access to the game as well as storing information about the player's progress. In order to create an account, users must have access the registration screen using the Register button located in the Login screen as shown below:
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/Login.jpg]
+
+Upon doing so, you'll get the following:
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/Register.jpg]
+
+You will be asked to enter a few details about your account and once your account has been successfully created, you'll be able to use it right away by inputting it within the Login screen.
+
+_`*` Due note that as of this moment, the "Character Name" serves no purpose, but is still required as part of the registration process._
+
+==Execution Flow==
+
+_This section will briefly describe how the process works._
+
+The registration process begins by the click of the "Register" button from the Login screen that transitions to the Register screen. Once it has switched to the Register screen, it will load up a form for the user to fill out and then the exchange from client to server starts with the click of the "Submit" button.
+
+1. *Client*: Loads the Register screen by transitioning from the Login screen.
+
+2. *Client*: Once the "Submit" button is clicked, it will ensure that the form is filled out correctly by checking every field to make sure that it meets the conditions.
+
+3. *Client*: Sends the information to the server and wait for confirmation.
+
+4. *Server*: Create the account using the information that was received from the client and confirm it with the client.
+
+5. *Client*: Receives confirmation and complete the registration by confirming it with the user.
+
+==Implementation==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Client-side*:
+
+`>> Login.py | Method: register()`
+
+The transition from Login to Register takes place by the click of the "Register" button that invokes this particular method called `register()`. This method will trigger the `switchEnvironment()` method that unloads the Login screen to proceed with the Register screen.
+
+`>> Register.py | Method: __init__()`
+
+It will now setup the Register screen by first loading the background, following with the labels, text fields, and buttons to generate the registration form.
+
+2. *Client-side*:
+
+`>> Register.py | Method: submitText()`
+
+Once the user fills out the form and clicks on the "Submit" button, the form will be parsed and processed, but before sending it off, to make sure that it meets the conditions to be considered a completed form.
+
+This method, `submitText()`, contains a series of checks to make the each field isn't empty. For each unique field itself, there will be a specialized check that includes making sure the email follows the format of an actual email, both passwords are indeed the same, etc. The actual checking of whether the username is available for use doesn't take place until all this information is sent to the server.
+
+3. *Client-side*:
+
+`>> Register.py | Method: submitText()`
+
+Once the form checks out, the client will attempt to establish a connection with the server by calling the `startConnection()` method from `Main`. Upon success, the client will proceed by sending all the information to the server using the request called RequestRegister. The information include is simply the entire form that consists of the username, password, email, and character name.
+
+4. *Server-side*:
+
+`>> RequestRegist.java | Method: doBusiness()`
+
+As per protocol, the information that consists of the username, password, email, and character name will be pulled from the network stream from the `parse()` method to be processed here in the `doBusiness()` method.
+
+Here it will perform a similar check done by the client which is to make sure that all the strings are indeed not empty as well as double-checking the email to see if it is following the format. Once it all checks out, it will perform a database look-up using the username provided.
+
+If the username is already taken and not for use, the server will send back a response telling the client that the username is not available.
+
+If the username is available for use, it will call the `createAccount()` method from PlayerDAO using all the information provided to create the account under the `user` table.
+
+One last step before sending the confirmation response is to create a default [Avatar Avatar] for the user to use once they log in for the first time. The `createAvatar()` method from AvatarDAO will be called to handle this process.
+
+Now that it's done, it will send off the confirmation using the ResponseRegist protocol and it will simply let the client know if everything passes.
+
+5. *Client-side*:
+
+`>> ResponseRegister.py | Method: execute()`
+
+Once the client picks up the confirmation, it will reach out to this class to process the data. Here, you'll see that only a success flag is sent from the server. It will then place it into the MessageQueue to trigger another method found in Register to process the confirmation.
+
+`>> Register.py | Method: responseRegister()`
+
+If it turns out the registration was a success, it will call the `login()` method to return the user back to the Login screen. If not, it will alert the user the issue about the form, so that the user can make changes and send it again.
+
+That is the end of the registration process and it is now up to the user to use this account to log in. In case, you skipped the Login section, you can go there by clicking [Login here].
+
+== References ==
+  * Client Class References
+    * `main/Main.py`
+    * `main/Login/Login.py`
+    * `main/Register/Register.py`
+    * `net/request/RequestRegister.py`
+    * `net/response/ResponseRegister.py`
+
+  * Server Class References
+    * `dataAccessLayer/AvatarDAO.java`
+    * `dataAccessLayer/PlayerDAO.java`
+    * `networking/request/RequestRegist.java`
+    * `networking/response/ResponseRegist.java`

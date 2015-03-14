@@ -1,0 +1,157 @@
+#navGuide {
+	font-size: 100%; 
+	width: 230px;
+	margin-top: 40px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#navGuide ul {
+	margin: 0px; 
+	padding: 0px;
+}
+
+#navGuide li {
+	list-style: none;
+}
+
+ul.top-level {
+	background: #374e1a;
+}
+
+ul.top-level li {
+ 	border-bottom: #fff solid;
+ 	border-top: #fff solid;
+ 	border-width: 1px;
+}
+
+#navGuide a {
+ 	color: #fff;
+ 	display:block;
+ 	line-height: 30px;
+ 	text-indent: 20px;                   
+ 	text-decoration:none;
+ 	width:100%;
+}
+
+#navGuide a:hover{
+ 	text-decoration:underline;
+}
+
+#navGuide li:hover {
+ 	background: #f90;
+ 	position: relative;
+}
+
+a.gettingMenu {
+	background: url(../images/gettingStarted.png) no-repeat top left;
+	margin-top: 30px;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.gettingMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.gettingMenu_1 {
+	background: url(../images/gettingStarted_1.png) no-repeat top left;
+	margin-top: 30px;
+	width: 200px;
+	height: 40px;
+	display: block;	
+	text-indent: -9999px;
+}
+
+a.uiMenu {
+	background: url(../images/ui.png) no-repeat;	
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.uiMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.uiMenu_1 {
+	background: url(../images/ui_1.png) no-repeat;	
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.learnMoreMenu {
+	background: url(../images/learnMore.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.learnMoreMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.learnMoreMenu_1 {
+	background: url(../images/learnMore_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.controlsMenu {
+	background: url(../images/controls.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.controlsMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.controlsMenu_1 {
+	background: url(../images/controls_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.skillsMenu {
+	background: url(../images/skills.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+a.skillsMenu:hover {
+	background-position: 0 -40px;
+}
+
+a.skillsMenu_1 {
+	background: url(../images/skills_1.png) no-repeat;
+	width: 200px;
+	height: 40px;
+	display: block;
+	text-indent: -9999px;
+}
+
+#nGuide ul {
+	margin: 0px; 
+	padding: 0px;
+}
+
+#nGuide li {
+	margin-top: 4px;
+	margin-left: 30px;
+	list-style: none;
+}

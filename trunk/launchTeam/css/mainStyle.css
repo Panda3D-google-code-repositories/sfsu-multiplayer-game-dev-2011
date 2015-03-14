@@ -1,0 +1,31 @@
+.released {
+	position: absolute;
+	top: 40px;
+	left: 40px;
+}
+
+.textContent {
+	margin: 10px 20px;
+	line-height: 1.5;
+}
+
+
+.textContent p {
+	font-family: Verdana, Verdana, Geneva, sans-serif;
+	font-size: 12px;
+}
+
+.subContent {
+	margin: 20px 40px;
+}
+
+.back {
+	top: 10px;
+	left: 900px;
+}
+
+.continue {
+	top: 500px;
+	left: 900px;
+	
+}

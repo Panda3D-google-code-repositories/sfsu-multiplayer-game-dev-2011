@@ -1,0 +1,190 @@
+#summary Documentation
+
+= World Selection =
+
+World Selection is an interface, which appears right after the [Login Login], that allow players to manage their worlds all in one area. You can create many different worlds and even delete ones that you may no longer need. Information about each [World World] will be displayed, which includes the world time, [EnvironmentScore Environment Score], and the amount of hours played.
+
+It also includes some information about your [Avatar Avatar] such as the name, level and the last time it was used.
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/WorldSelection.jpg]
+
+Players should be able to select different avatars in the future, but for now, only one avatar per player.
+
+==Execution Flow==
+
+_This section will briefly describe how the process works._
+
+The World Selection is the next step of the [Login Login] process. As soon as the user is authenticated, the following occurs:
+
+1. *Server*: As part of the [Login Login] response, information about the user's avatars and worlds are sent to the client.
+
+2. *Client*: Receives information about the avatars and worlds from the [MessageQueue Message Queue] and display it on the interface.
+
+=== Create New World ===
+
+Upon clicking the "Create" button, the following occurs:
+
+1. *Client*: Sends a request to the server to create a new world.
+
+2. *Server*: Creates a new world in the database and inform the client with information about the new world.
+
+3. *Client*: Receives information about the new world and update the interface.
+
+=== Join Existing World ===
+
+Upon clicking the "Join" button, the following occurs:
+
+1. *Client*: Sends a request to the server to join the selected world.
+
+2. *Server*: Performs a check and do one of the following things:
+
+  * If the player is new to the world, create a new [Environment Environment].
+  * If not new to the world, retrieve player's [Environment Environment].
+
+3. *Server*: Initializes the [World World] along with the [Environment Environment] and run the [GameEngine Game Engine]. And sends all relevant information to the client.
+
+4. *Client*: Initializes the [World World] and its contents using all the data from the server and switches the player from World Selection to the [World World].
+
+=== Delete Existing World ===
+
+Upon clicking the "Delete" button, the following occurs:
+
+1. *Client*: Sends a request to the server to delete the selected world.
+
+2. *Server*: Deletes the corresponding world from the database and inform the client.
+
+3. *Client*: Receives the deletion and removes the world from the interface.
+
+==Implementation==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Server-side*:
+
+`>> RequestLogin.java | Method: doBusiness()`
+
+In addition to the user authentication information prepared for ResponseLogin in the `doBusiness()` method, a list of avatars and worlds are also included to be sent together.
+
+2. *Client-side*:
+
+`>> ResponseLogin.py | Method: execute()`
+
+As the [ConnectionManager ConnectionManager] picks up the data, ResponseLogin will parse the avatars and worlds and place them into the [MessageQueue MessageQueue] as a pending to-be-triggered event.
+
+`>> MessageQueue.py | Method: execute()`
+
+The `execute()` method in the [MessageQueue Message Queue] triggers the event containing the avatars and worlds.
+
+`>> Login.py | Method: responseToLogin()`
+
+Login picks up the event and calls the `responseToLogin()` method and prepares the list of avatars and worlds information in World Selection using `setAvatarList()` and `setWorldList()`, respectively. World Selection interface immediately gets displayed as the Login interface gets hidden away.
+
+=== Create New World ===
+
+_For a more detailed description, check out [World#Creating_a_World Creating a World]._
+
+1. *Client-side*:
+
+`>> WorldSelection.py | Method: submit()`
+
+Upon clicking the "Create" button, the callback method, `submit()`, will be called to request the [ConnectionManager ConnectionManager] to use RequestCreateNewWorld to ask the server to create a new [World World].
+
+2. *Server-side*:
+
+`>> RequestCreateNewWorld.java | Method: doBusiness()`
+
+RequestCreateNewWorld processes the request with its `doBusiness()` method and simply creates a new entry of a [World World] into the database. An [Environment Environment] will be created whenever the player joins the world. The server passes the information such as world_id, name, etc. to the client through ResponseCreateNewWorld.
+
+3. *Client-side*:
+
+`>> ResponseCreateNewWorld.py | Method: execute()`
+
+Receives world information such as world_id, name, etc. from the server and places these values into the [MessageQueue MessageQueue]. The Message Queue generates an event that gets picked up by WorldSelection.
+
+`>> WorldSelection.py | Method: responseCreateWorld()`
+
+WorldSelection picks up the event and calls the `responseCreateWorld()` method to process the world information and refreshes the interface by adding it into the drop-down list.
+
+=== Join Existing World ===
+
+_For a more detailed description, check out [World#Joining_a_World Joining a World]._
+
+1. *Client-side*:
+
+`>> WorldSelection.py | Method: submit()`
+
+Upon clicking the "Join" button, the callback method, `submit()`, will be called to request the [ConnectionManager ConnectionManager] to use RequestJoinPVEWorld to ask the server to join an existing [World World] from the drop-down list by sending the world name.
+
+2. *Server-side*:
+
+`>> RequestJoinPVEWorld.java | Method: doBusiness()`
+
+It will check against the database to see if such world name exists, if so, it will get information about the world and two things can happen:
+
+  # If the player doesn't own an [Environment Environment] in this world, create one for the player.
+  # If does, retrieve the [Environment Environment] from the database.
+
+3. *Server-side*:
+
+`>> RequestJoinPVEWorld.java | Method: doBusiness()`
+
+Initialize the [World World], [Environment Environment], and including the [GameEngine GameEngine]. Information about these instances will be sent to the client.
+
+4. *Client-side*:
+
+`>> ResponseJoinPVEWorld.py | Method: execute()`
+
+If successful, client will switch from the WorldSelection to the WorldGUI, which will set up the interfaces and such for the game.
+
+The World, Environment, and other things will be created in the process as well.
+
+=== Delete Existing World ===
+
+_For a more detailed description, check out [World#Deleting_a_World Deleting a World]._
+
+1. *Client-side*:
+
+`>> WorldSelection.py | Method: submit()`
+
+Upon clicking the "Delete" button, the callback method, `submit()`, will be called to request the [ConnectionManager ConnectionManager] to use RequestDeleteWorld to ask the server to delete an existing [World World] from the drop-down list by sending the world id.
+
+2. *Server-side*:
+
+`>> RequestDeleteWorld.java | Method: doBusiness()`
+
+Once the server receives the request, it will simply remove the World using the world id and including anything related to it such as the Environment and Species from the database. When it's done, the server will use ResponseDeleteWorld to let the client know that it's completed.
+
+3. *Client-side*:
+
+`>> ResponseDeleteWorld.py | Method: execute()`
+
+The client receives the deletion status and calls the `responseDeleteWorld()` method in WorldSelection.
+
+`>> WorldSelection.py | Method: responseDeleteWorld()`
+
+Removes the entry about the World in the drop-down list and inform the player that it's done.
+
+== References ==
+
+  * Client Class References
+    * `common/MessageQueue.py`
+    * `main/Login/Login.py`
+    * `main/Login/WorldSelection.py`
+    * `net/request/RequestCreateNewWorld.py`
+    * `net/request/RequestDeleteWorld.py`
+    * `net/request/RequestJoinPVEWorld.py`
+    * `net/request/RequestLogin.py`
+    * `net/response/ResponseCreateNewWorld.py`
+    * `net/response/ResponseDeleteWorld.py`
+    * `net/response/ResponseJoinPVEWorld.py`
+    * `net/response/ResponseLogin.py`
+
+  * Server Class References
+    * `networking/request/RequestCreateNewWorld.java`
+    * `networking/request/RequestDeleteWorld.java`
+    * `networking/request/RequestJoinPVEWorld.java`
+    * `networking/request/RequestLogin.java`
+    * `networking/response/ResponseCreateNewWorld.java`
+    * `networking/response/ResponseDeleteWorld.java`
+    * `networking/response/ResponseJoinPVEWorld.java`
+    * `networking/response/ResponseLogin.java`

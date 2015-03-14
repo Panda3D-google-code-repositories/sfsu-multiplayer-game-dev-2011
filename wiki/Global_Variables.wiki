@@ -1,0 +1,48 @@
+#summary Documentation
+
+= Global Variables =
+
+== Client-side ==
+
+=== Python Built-in Globals ===
+
+  * `main`
+    * Class Location: Main
+    * Uses: Reference to Main instance
+  * `game`
+    * Class Location: GameState
+    * Uses: Reference to GameState instance
+
+=== Class Variables ===
+
+  * Constants
+    * Client Version Number
+    * Server IP Address
+    * Server Port Number
+    * Font Types
+    * Collision Mask Values
+    * Network Event Codes
+    * Others
+
+=== References ===
+
+  * Client Class References
+    * `common/Constants.py`
+    * `main/Main.py`
+    * `main/MainLobby/World/World3D/GameState.py`
+
+== Server-side ==
+
+=== Class Variables ===
+
+  * Constants
+    * Client Version Number
+    * Network Event Codes
+    * Biomass Scale
+    * Multipliers
+    * Others
+
+=== References ===
+
+  * Server Class References
+    * `metadata/Constants.java`

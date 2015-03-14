@@ -1,0 +1,80 @@
+#summary A page dedicated to anything involving a Lobby
+#labels Phase-Design
+
+= Introduction =
+
+A Lobby is a room in which players can chat and interact with the game.
+
+= Details =
+There are three Lobbies that will be found in the game.
+  * Main Lobby
+  * Game Mode Lobby
+  * World Lobby
+
+= Main Lobby = 
+  * Main Lobby Mockup:
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/MainLobbyr2.png]
+
+  * [Chat] room
+    * Players can use a [Chat Universal Chat]
+  * If you search for a Private World game it will ask for a password. If you enter the right password, the Private World game will enter the top of the appropriate list for that Game Mode and you will join that World's Lobby, provided there is room available.
+  * Join Game Mode tabs
+
+= PvP Game Mode Lobby =
+  * PvP Game Mode Lobby Mockup:
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/PvPLobbyr2.png]
+  * [Chat] room
+    * Players can use a [Chat Game Mode Chat]
+  * Has a list of games. A game becomes a single [World] once game is started.
+    * List contains [PublicWorld Public World] games. If you search for a [PrivateWorld Private World] game it will ask for a password. If you enter the right password, the [PrivateWorld Private World] game will enter the top of the public game list and you will join that World's Lobby, provided there is room available.
+  * Join game buttons
+  * A Create Game button
+
+= PvE Game Mode Lobby =
+  * PvE Game Mode Lobby Mockup:
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/PvELobbyr1.png]
+  * [Chat] room
+    * Players can use a [Chat Game Mode Chat]
+  * Has two lists of [World Worlds], private and public. These Worlds are persistent and may already be active with other players.
+  * If you search for a [PrivateWorld Private World] game it will ask for a password. If you enter the right password, the [PrivateWorld Private World] game will enter the top of the private (Closed) world list and you will join that World's Lobby, provided there is room available.
+  * The [PrivateWorld Private Worlds] are listed first and consist of those previously searched for using the Private Game Search as well as those previously created by the user.  These Worlds can get larger as more people join (dynamically adding a new Environment into the [World]). The creator of the [PrivateWorld Private World] can kick anyone out of their World (dynamically shrinking the [World]).
+    * The [PublicWorld Public World] list contains Worlds that anyone can join given there is enough room.
+  * Join game buttons
+  * A Create World button
+
+= PvP World Lobby =
+  * PvP World Lobby Mockup:
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/PvPWorldLobbyr2.png]
+  * [Chat] room
+    * Players can use a World Chat, Game Mode Chat, and Universal Chat.
+  * Grid layout representing [Environment]s
+    * Two rows, one for Team 1 (red), one for Team 2 (blue).
+    * A player can click on a grid location to choose that [Environment] location within the [World].
+      * A player chooses which team to be on in this manner.
+    * A player's username is located on the grid location that they chose.
+      * That player's [Avatar] type is displayed beneath their name.
+  * [Avatar] selection menu
+  * Back button (used to leave the lobby)
+  * Start button (used by the creator of the Lobby to begin the game)
+
+= PvE World Lobby =
+  * PvE World Lobby Mockup:
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/PvEWorldLobbyr2.png]
+  * [Chat] room
+    * Players can use a World Chat, Game Mode Chat, and Universal Chat.
+  * Grid layout representing [Environment]s
+    * As square-like as possible so that a minimum distance between any given [Environment] is acquired.
+    * A player can click on a grid location to choose that [Environment] location within the [World].
+    * A player's username is located on the grid location that they chose.
+      * That player's [Avatar] type is displayed beneath their name.
+  * Back button (used to leave the lobby)
+  * Start button (used by the creator of the Lobby to begin the game)
+    * If the [World] has already started, a Join button is placed here instead, indicating that a player can join the [World] that exists.
+
+= Client = 
+   Retrieve info, eg. game name, num of player, and eco system, from server. Pass new game info to server to store to DB. Furturemore, we will consistantly check if there is new message that may need to update.
+
+= Test Team = 
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/lobbytest1.png]
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/lobbytest2.1.png]
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/lobbytest3.png] 

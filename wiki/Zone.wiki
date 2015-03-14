@@ -1,0 +1,40 @@
+#summary Documentation
+
+= Zone =
+
+A Zone contains it's own [SimulationEngine] and is responsible for managing all species within it's boundaries.  Although species ultimately belong to 1 [Environment], each Zone is treated as a separate ecosystem.
+
+== Details ==
+
+  * Each Zone has its own [Species].
+  * Each Zone has its own [SimulationEngine].
+  * Each Zone has 0 or 1 [Water_Source Water Source] which provides water for [Species] in that Zone.
+  * [Species] can only interact with other [Species] within the same Zone. This interaction includes:
+    * Eating a Species
+    * Spreading disease to a [Species] (Disease can only spread outside of a Zone if an infected animal [Species] moves to another Zone).
+    * Species must get water from a Water Source in the same Zone.
+
+== Species Cleanup ==
+
+On client-side, all organisms ordered to die must go through a death phase that consists of an animation, if any. A cleanup process occurs every so often to take care of all these dead organisms.
+
+Every Zone consists of a task dedicated to free these dead organisms from memory.
+
+=== Client Implementation ===
+
+`>> Zone3D.py | Method: updateRoutine()`
+
+This task called `updateRoutine` sole purpose is to scan this Zone for organisms that have completed their death phase. There are two loops where one scans for animals and another for plants.
+
+The process is quite simple. Organisms have something called a life status, so whenever one dies, it is marked dead. Both loops will look for organisms that are marked dead and if any is found, the methods `removeAnimal` or `removePlant` is called to remove it internally.
+
+But before it does so, it will generates events using the `setTotalAnimalList` and `setTotalPlantList` methods to update the [Stats Stats] interface with the right population count.
+
+`>> Zone3D.py | Method: removeAnimal(), removePlant()`
+
+These methods will remove any record of those organisms as well as calling the proper Panda3D methods to remove them from the scene.
+
+== References ==
+
+  * Client Class References
+    * `main/MainLobby/World/World3D/Zone3D.py`

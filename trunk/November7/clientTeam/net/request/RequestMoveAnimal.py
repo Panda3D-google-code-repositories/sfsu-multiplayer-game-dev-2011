@@ -1,0 +1,30 @@
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+
+__author__="kelvin"
+
+
+from traceback import print_exc
+
+from direct.distributed.PyDatagram import PyDatagram
+from common.Constants import Constants
+from net.request.ServerRequest import ServerRequest
+
+class RequestMoveAnimal(ServerRequest):
+
+    def send(self, args):
+
+        try:
+            pkg = PyDatagram()
+            pkg.addUint16(Constants.CMSG_MOVE_ANIMAL)
+            pkg.addUint32(args['animalID'])
+            pkg.addUnit16(args['x'])
+            pkg.addUnit16(args['y'])
+            pkg.andUnit16(args['z'])
+
+            self.cWriter.send(pkg, self.connection)
+
+            self.log('Sent [' + str(Constants.CMSG_RESEARCH) + '] Move Animal Request')
+        except:
+            self.log('Bad [' + str(Constants.CMSG_RESEARCH) + '] Move Animal Request')
+            print_exc()

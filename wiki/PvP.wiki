@@ -1,0 +1,33 @@
+#summary Anything pertaining to PvP
+#labels Phase-Design
+
+= PvP =
+
+PvP, or Player versus Player, is a specific game mode in many online games where players compete against one another.
+
+
+= Details =
+  * PvP gameplay is opposite of [PvE], such that players on teams work together to destroy the other team's [Environment]s.
+  * PvP is opposite of [PvE]
+  * There are any number of PvP [World]s in existence at a given time.
+  * Players play on teams to compete within a given [World]
+    * There are two teams
+    * Teams consist of equal number of players
+      * The maximum number of players was chosen by the player who created the [World].
+    * Team 1's goal is to hurt Team 2, while helping Team 1
+    * Team 2's goal is to hurt Team 1, while helping Team 2
+      * Unbalancing the opposing team's environments hurts them
+      * Balancing your team's environments helps them
+  * The game length is determinate
+    * Can range from 20 minutes to 1 hour on average
+    * A game ends when all players on one team have [EnvironmentScore Environment Scores] of 0.
+      * Once a player reaches an [EnvironmentScore Environment Score] of 0, the player can no longer interact with the [World] but can view the world and still communicate.
+      * When all players on one team cannot interact with the [World], the game is over.
+    * If a player leaves the [World], their animals become Neutral, which means that anyone on their team can control them.
+  * In game time is based on a specific [GameScale Game Scale].
+    * Every 1-3 in game days is based on 2 real minutes
+      * The [GameScale Game Scale] will be voted on by players using a [GameScale Game Scale Vote].
+  * In game day time/night time is based on a specific [DayScale Day Scale]
+    * Every 2 real minutes will be a Day/Night cycle
+      * Day takes one minute
+      * Night takes one minute

@@ -1,0 +1,53 @@
+#summary Client/Server Communication format list
+
+= Client/Server Communication Format =
+
+
+= Server Responses =
+ * Birth Animal: animalID, animalTypeID, avatarID, zoneID, biomass, xCoor, yCoor
+ * Reveal Animal Disease: animalID, diseaseID
+ * Cure Animal Disease: animalID, diseaseID
+ * Update Animal Target: animalID, zoneID, xTarg, yTarg
+ * Update Animal Biomass: animalID, biomass, targetBiomass, targetTime
+ * Update Animal noWaterCount: animalID, noWaterCount
+ * Update Animal Zone: animalID, newZoneID
+ * Update Animal Owner: animalID, newAvatarID
+ * Kill Animal: animalID, (optional)preyAnimalID
+
+ * Birth Plant: plantID, plantTypeID, avatarID, zoneID, biomass, xCoor, yCoor
+ * Reveal Plant Disease: plantID, diseaseID
+ * Cure Plant Disease: animalID, diseaseID
+ * Update Plant Biomass: plantID, biomass, targetBiomass, targetTime
+ * Update Plant noWaterCount: plantID, noWaterCount
+ * Update Plant noLightCount: plantID, noLightCount
+ * Kill Plant: plantID, (optional)preyAnimalID
+
+ * Update WaterSource waterAmount: waterSourceID, zoneID, waterAmount, targetWaterAmount, targetTime
+
+ * Update GameScale Time: gameScaleTime(1 == 1 game second, floor(gst/86400) days & floor((gst%86400)/3600) hours)
+ * Update Current Day: currentDay
+ * Weather Prediction: day, lightOutput, rainOutput
+
+ * Update Avg GameScale Vote: avgVote(1-10)
+ * Update Avatar xp: xp
+ * Update Avatar cash: cash
+ * Update Environment Score: avatarID, envScore
+ * Set User Primary Avatar: true/false
+     
+
+= Client Requests =
+ Update Animal Target: animalID, zoneID, xTarg, yTarg
+  return: success/fail
+ Update Animal Coors: animalID, zoneID, xCoor, yCoor
+  return: success/fail
+
+ Buy Plant: avatarID, useAbilityPoint, plantTypeID, zoneID, xCoor, yCoor
+  return: success/fail - leads to [Birth Plant]
+ Buy Animal: avatarID, useAbilityPoint, animalTypeID, zoneID, xCoor, yCoor
+  return: success/fail - leads to [Birth Animal]
+ Buy Research: avatarID, useAbilityPoint, researchID, (if zone specific)zoneID
+  return: success/fail - leads to [Reveal Plant Disease], [Reveal Animal Disease]
+ Buy Vaccine: avatarID, useAbilityPoint, vaccineID, zoneID
+  return: success/fail - leads to [Cure Plant Disease], [Cure Animal Disease]
+
+ Update GameScale Vote: avatarID, vote(1-10)

@@ -1,0 +1,15 @@
+.released {
+	position: absolute;
+	top: 40px;
+	left: 40px;
+}
+
+body p {
+	font-family: 'Comic Sans MS', cursive;
+}
+
+.subContent {
+	font-family: 'Comic Sans MS', cursive;
+	font-size: small;
+	margin-left: 60px;
+}

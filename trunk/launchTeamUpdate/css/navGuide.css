@@ -1,0 +1,66 @@
+
+.guide p {
+	/*position: absolute; 
+	background:url(../images/guide_button.gif) 0 0 no-repeat; */
+	width:106px;
+	height:50px;
+	text-indent:-9999px;
+}
+
+.guide ul {
+	width: 106px;
+/*	background:#374e1a; */
+	background: #000;
+	border: 0;
+	padding:0;
+	list-style:none;
+	
+}
+ 
+.guide ul a:link, .guide ul a:visited {
+	display:block;
+	width:98px;
+	padding: 2px 2px;
+	margin: 2px;
+	text-decoration:none;
+	color:#ffffff;
+	font-weight:normal;
+}
+ 
+.guide ul li {
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+}
+
+
+.guide ul li a:hover, .guide ul a:active {background:#70b538;}
+
+.guide p, .guide ul {
+	margin:0;
+	font-family: Arial;
+	font-size: 12px;	
+}
+
+.guide {
+	width: 106px;
+	height: 50px;
+	overflow: hidden;
+}
+
+.guide:hover {
+	overflow: visible;
+}
+
+.guide {
+	position: relative;
+}
+
+.guide ul {
+	position: absolute;
+	left: 0;
+}
+
+#here {
+	font-weight: bold;
+	background: #70b538;
+}

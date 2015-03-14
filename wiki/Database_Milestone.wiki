@@ -1,0 +1,35 @@
+
+= Introduction =
+
+Database Milestones (as of 09/25/11)
+
+
+= Details =
+
+Milestone 1 (09/25/11-10/04/11)
+
+Come up with database structure in details.
+
+Finalize all the variable names, data type and database design.
+
+Decide what data should be store in database and what data should store in memory.
+
+Plan a secure way to separate the important information data for easy access.
+
+-------------------------------------------------
+
+Milestone 2 (10/04/11-11/06/11)
+
+Create all the tables,foreign keys, procedure and views.
+
+Set up communication between different tables and write queries.
+
+Work with the server team to set up communication between server and database.
+
+Test the database and communication between server and database.
+
+--------------------------------------------------
+
+Milestone 3 (11/07/11-11/30/11)
+
+Keep the database updated, work on problems/issues if neccesary.

@@ -1,0 +1,26 @@
+#summary A detailed description of the Day Scale and what it involves
+#labels Phase-Design
+
+= Introduction =
+
+The Day Scale is the representation of the day/night cycle compared to the real time day/night cycle. 
+<wiki:comment>
+In the day time the light resource will grow in number according the ecosystem.
+(What does this even mean? -NG)
+</wiki:comment>
+
+= DayScale in PvE =
+  * In [PvE] the Day/Night cycle (DayScale) is equal to the [GameScale].
+    * The length of a day is 12 in-game hours
+    * The length of a night is 12 in-game hours
+
+= DayScale in PvP =
+  * In [PvP] the Day/Night cycle (DayScale) is constant, regardless what the [GameScale] is.
+    * This means that it is possible for a [GameScale] day to pass before an actual day/night cycle may occur.
+  * The DayScale is 1 day/night cycle per 2 real minutes.
+    * The length of a day is 1 real minute.
+    * The length of a night is 1 real minute.
+
+<wiki:comment>
+The animations of day/night changing will appears each 5 real minutes but the grow of the light resource will do normally (So in the game will look like night but the resource light will still growing in the day in-game time).
+</wiki:comment>

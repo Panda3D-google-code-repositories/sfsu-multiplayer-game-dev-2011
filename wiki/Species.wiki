@@ -1,0 +1,123 @@
+#summary Properties pertaining to plants and animals.
+
+= Species =
+
+Species include both plants and animals.  Most traits are shared by both while some traits are specific to either plants or animals.
+
+= Generic Properties of All Species =
+  * sid: The Species id for an instance of a Species.
+  * type: The type of Species (i.e. Cow).
+  * cost: How much the Species costs for a player.
+  * description: A text description of the Species.
+  * hostileSpecies: An array of animal Species that will eat the current plant/animal Species.
+  * biomass: The amount of biomass a specific instance of the Species contains.
+  * targX, targY, targZ: The x/y/z target location for an instance of Species.
+  * maxBiomass: The max amount of biomass a specific instance of the Species can contain.
+  * healthPercent: A percentage calculated using (biomass / maxBiomass) that represents how healthy a specific instance of the Species is currently.
+  * waterNeedFrequency: How much water is needed per [GameScale] day.  This subtracts from an available Water Source once a day for every instance of the Species.
+  * noWaterCount: How many days have passed where the Species instance did not get enough water.  Every day the Species does get water, this is decremented by 1, reaching no less than 0.  Every day the Species doesn't get enough water, this is incremented by 1.
+  * waterBiomassLoss: How much biomass is subtracted from an instance of the Species for every day they aren't able to get water from a Water Source.  If a Water Source does not contain at least the waterNeedFrequence then the full waterBiomassLoss is subtracted from the Spcies biomass.
+  * deathIsScheduled: Whether or not the Species instance has been scheduled to die.  If this is true, the parent [Zone] looks for a hostileSpecies to eat it.  If no hostileSpecies is found in the same [Zone], the Species dies of hunger/thirst.  If noWaterCount is greater than 3 the Species dies of dehydration.  Otherwise, it dies of hunger (if an animal) or lack of sunlight (if a plant).
+  * diseases: An array of currently active diseases on a specific Species instance.
+  * healChance: The percentage chance that the infected Species is healed on any given day.  To calculate the probability for a specific Species you must multiply the diseases healChance with the specific Species instance healChance Example: if(rand() < disease1.healChance x species1.healChance) then remove disease1 from species1 diseases array.
+  * birthIsScheduled: There is no reproduction in the truest sense.  When this is true, the Species is set to create another instance of it's species
+  * avatarID: The id for the avatar who owns the instance of Species.
+
+= Plant Specific Properties =
+  * growRadius: Each plant has a grow radius that combines with the Water Source’s waterRadius to determine if the plant can receive water for growing.
+  * waterNeedFrequency: This works as described above. However, if the Species is a plant and it rains on a specific day, the water needs are automatically taken care of without taking water from a Water Source.
+  * lightNeedFrequency: How much light is needed per [GameScale] day (0-1).  This references the [NatureController]'s lightOutput for each [GameScale] day for each instance of the plant Species.  For a given day, you calculate the affect on a specific instance's biomass as follows:
+  * noLightCount: How many days have passed where the Species instance did not get enough light. Every day the Species does get enough light, this is decremented by 1, reaching no less than 0. Every day the Species doesn't get enough light, this is incremented by 1. 
+
+lightLoss = (lightNeedFrequency - lightOutput);
+
+if(lightLoss > 0) {
+  biomass -= lightLoss x maxBiomass;
+}
+
+= Animal Specific Properties =
+
+  * consumeType: Is the animal a herbivore, carnivore, or omnivore.
+  * prey: An array of plant/animal Species the animal can eat.
+  * targetSID: If this is greater than 0, the animal Species instance is going to eat the plant/animal Species with the sid equal to targetSID.  This overwrites targX/targY/targZ.
+  * loyalty: The number of [GameScale] days an animal remains in a players control while located in a [Zone] belonging to someone elses [Environment].
+
+  * Animals DO NOT have a foodNeedFrequency.  This is because the plant/animal Species they consume are based on the biomass output of the [SimulationEngine].  To learn more about how animals choose their plant/animal prey read the [SimulationEngine].
+  * Animals do not leave a specific [Zone] unless the player that owns the animal tells them to change [Zone]'s.
+
+= Species Classes =
+
+  * This applies to all teams dealing with code!
+  * There should be 2 basic classes for Species.  The first should represent different Species types and contain all information that is static throughout all instances of that Species type, while the other should represent instances of Species with reference to the Species type class.
+  * There should be extended plant and animal classes for both classes described above.
+
+= Server Implementation =
+  * The server has all the properties above.
+  * It is responsible for calculating all the biomass changes and scheduling births/deaths for each Species each [GameScale] day.
+  * It is responsible for verifying the location data sent from each client to make sure animal movements are realistic and to manage animals crossing from one [Zone] to the next.  It must check the targetSID values and verify the targeted Species instance is in the same Zone.
+  * The server decides when to switch ownership of an animal Species to a different user.
+  * The server does the calculations to check if a diseased Species instance should be healed on a given [GameScale] day.
+
+= Client Implementation =
+  * The client has all the properties above but has these diffferences:
+    * diseases: This is not sent to the client unless the client has [Research] that reveals a specific [Zone]'s plants/animals.  In that case only will diseases array be given to the client.
+
+  * Client is responsible for assigning the targetSID (selecting which animals eat which) and targX/targY/targZ coordinates FOR THAT PLAYERS ANIMALS ONLY.  It then sends the information back to the server for verification and distribution.
+  * The client must listen for packets changing ownership of an animal Species in/out of their control.
+
+= Art Implementation =
+  * By convention, all animations shall be in-place animations.
+  * All models and actors shall be textured by means of UV mapping. All texture files shall be relatively located in the same folder as the .egg file, e.g. "./texFile.jpg"
+  * All animal species shall have three basic animations: walk, eat, and die. Some animal species may have additional animations, such as fly for bird species, attack for carnivores/omnivores, etc.
+  * Plant species shall be static models. Growth may be signified by use of setScale(x,y,z) function
+
+= Test Team =
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/1.jpg]
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/3.jpg]
+
+This will be further refined/detailed as the game development progress.
+= Content Team =
+
+For each plant following attributes will be provided:
+
+Predators
+
+Climate
+
+Adaptation to savanna
+
+Size
+
+Features
+
+Uses
+
+Scientific name
+
+do we need reproduction for plants as well??
+
+For each animal following attributes will be provided:
+
+Scientific name
+
+diet
+
+size
+
+feature
+
+Predators
+
+Lifespan
+
+Reproduction
+
+Other interesting and fun facts : we may or may not use them, class decision.
+
+For all of the species, images will be provided to help the art team
+
+Are there other attributes that I need to consider?? I could only think of these. I will upload the document containing data collected so far.
+
+link to document: [http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/savanna.docx.doc]

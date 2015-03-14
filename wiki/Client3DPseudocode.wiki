@@ -1,0 +1,64 @@
+#summary 3D pseudocode
+
+=Globals=
+*animMap* _dictionary_
+  * Key: animal type
+  * Value: model, anim dictionary  
+=Classes=
+==Ecoactor (Actor)==
+*variables:*
+  * SID - associated SID
+  * type - associated species type
+  * isAnimal - boolean
+  * _inherited:_ path to model
+  * _inherited:_ dictionary of animations (stand, walk, eat, die) 
+  * seq - list of active animation sequences
+  * pos - current position (gamestate pos)
+  * targ - current target (not related to game state target. pos interval animation only)
+  * sphere - collision sphere
+  * player - owner of species
+  * selected - boolean, selected or not
+*methods:*
+  * init: 
+    * *GAMESTATE: ask for type from SID*
+    * look up animations
+    * get pos
+    * set up
+  * update: 
+    * *AI: ask for current activity (moving, sleeping, eating, etc)*
+    * *AI: ask for current position*
+    * *AI: ask for short range destination*
+    * check if current animation interval reflects this 
+    * if not, create and run
+==Ecoterrain ( GeoMipTerrain )==
+*variables:*
+  * player - owner of terrain
+  * species - list of species on terrain
+  * _inherited:_ heightfield image
+*methods:*
+  * init: 
+    * *GAMESTATE: ask for terrain HeightField image ( will they have it? )*
+    * blocksize, etc
+    * generateTerrain
+  * drag:
+    * somehow, if terrain is clicked and dragged, move camera
+    * turn off all animals from being selected
+  * update: 
+    * call update for all _species_
+    * check if any global events on terrain
+    * weather effects? seasonal?
+==Camera==
+*variables:*
+  * isTargeting -  boolean, is camera targeting an animal?
+  * dist - distance from terrain (use mousescroll?)
+*methods:*
+  * init: 
+    * point at center of terrain
+    * mid zoom level
+    * do something to listen for mousescroll
+  * drag:
+    * move camera according to what _terrain_ says
+  * select:
+    * target animal position that is selected if _isTargeting_
+  * reset:
+    * zoom all the way out, show all terrains of all players

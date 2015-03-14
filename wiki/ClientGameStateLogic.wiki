@@ -1,0 +1,17 @@
+= Client Game State Logic =
+
+== PsuedoCode ==
+
+[https://docs.google.com/document/d/1kKVYAPPds2OwElZO2hwHAOOp7KrMq7XHOVWdqWnafiE/edit?hl=en_US&pli=1]
+
+== Interface API==
+[https://docs.google.com/spreadsheet/ccc?key=0AiERFUojLkwLdFhzb29TWkxFa3JHMTN2cHREUEN4Z0E&hl=en_US]
+
+==Mock ups of 2D ==
+[https://docs.google.com/document/d/1wLqA0ybVuWabz5jQqL-vWiwQ-HsKyHcEVqDQrj5WlHY/edit?hl=en_US]
+
+== Hotkeys of 2D == 
+[https://docs.google.com/spreadsheet/ccc?key=0AiEV0QW21Y4MdGY1dFRrY0VhRWNwWldfUVRHakthQmc&hl=en_US]
+
+== Client Response Protocol == 
+[https://docs.google.com/spreadsheet/ccc?key=0Ajz-JkYIzPsEdHN2bEh4d1JaOU1hWW9Valk1bGtGNnc#gid=0]

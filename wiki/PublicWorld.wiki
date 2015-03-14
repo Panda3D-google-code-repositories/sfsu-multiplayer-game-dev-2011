@@ -1,0 +1,14 @@
+#summary Anything pertaining to the Public World aspect of the game
+#labels Phase-Design
+
+= Introduction =
+
+A Public World is a [World] that is view-able by any player in the [Lobby Game Mode Lobby].
+
+= Details =
+
+  * Public Worlds are shown in the World listing in the [Lobby Game Mode Lobby] as Open Worlds.
+    * An Open World is a world in which anyone can see and join.
+  * Anyone can join a Public World, provided the World still has available room (which depends on the chosen maximum number of players for that [World]).
+  * In [PvE], Public Worlds that have been previously joined will appear at the top of the [Lobby Game Mode Lobby] World listing.
+  * In [PvP], the only [World Worlds] that will appear in the [Lobby Game Mode Lobby] World listing will be Public Worlds.

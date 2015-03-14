@@ -1,0 +1,6 @@
+Steps to produce a .db file from a .sql file
+
+1) Open the SQLite Database browser .exe file 
+2) Go to C:\Users\sfsu_fall2011\pythonWorkspace\clientTeam_Mar24\src\db\bin and Select FILE----> Import -----> DATABASE FROM SQL FILE
+3) Select the sql file
+4)GIve the name of the database file with .db extension

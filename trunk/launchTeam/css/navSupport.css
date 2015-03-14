@@ -1,0 +1,50 @@
+.support p {
+	/*position: absolute; */
+	background:url(../images/support_button.gif) 0 0 no-repeat;
+	width:105px;
+	height:50px;
+	text-indent:-9999px;
+}
+
+.support ul {
+	width: 105px;
+	background:#374e1a;
+	border: 0;
+	padding:0;
+	list-style:none;
+	
+}
+ 
+.support ul a:link, .support ul a:visited {
+	display:block;
+	width:97px;
+	padding: 2px 2px;
+	margin: 2px;
+	text-decoration:none;
+	color:#ffffff;
+	font-weight:normal;
+}
+ 
+.support ul li a:hover, .support ul a:active {background:#70b538;}
+
+.support p, .support ul {margin:0;}
+
+.support{
+	width: 105px;
+	height: 50px;
+	overflow: hidden;
+}
+
+.support:hover {
+	overflow: visible;
+}
+
+.support{
+	position: relative;
+}
+
+.support ul {
+	position: absolute;
+	left: 0;
+}
+

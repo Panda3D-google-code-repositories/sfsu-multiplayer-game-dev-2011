@@ -1,0 +1,80 @@
+#summary Documentation
+
+= Avatar =
+
+An avatar is a character representation that consists of a visual image and a set of special abilities. Each ability is different depending on the type of avatar chosen.
+
+== Details ==
+
+  * Avatars are chosen while in the [WorldSelection World Selection].
+
+  * Avatars have the following properties:
+    * Ability Points (AP): This is incremented by 5 every time the avatar [Level]'s up.  Each Avatar type has a special ability that costs some amount of points every time it is used.
+    * Passive Ability: This ability is active at all times.
+    * Special Ability: This type of ability must be activated by the player at the cost of some AP.
+
+  * There are three types of Avatars:
+    * Planter:
+      * Purchase [Species Plants] at a cheaper price.
+      * Plants have a 10% stronger resistance to disease.
+      * Special Ability: Replenish any Water Source for 2 AP.
+    * Breeder:
+      * Purchase [Species Animals] at a cheaper price.
+      * Animals have a 10% stronger resistance to disease.
+      * Special Ability: Cure a single [Species] from diseases for 3 AP.
+    * Weather Man:
+      * Cheaper [Research] and Vaccines.
+      * Plants and Animals have a 5% stronger resistance to [Diseases].
+      * Special Ability: Forecast 7 days of weather for 5 AP.
+
+  * Avatars can [Level] up by gaining experience by fulfilling specific conditions.
+    * Reaching a specific [EnvironmentScore Environment Score]
+    * Purchasing Species from the Shop
+    * Playing for a certain amount of time
+    * Change in months
+
+== Creating Initial Avatar ==
+
+=== Execution Flow ===
+
+_This section will briefly describe how the process works._
+
+1. *Client*: Trigger creation by registering for an account.
+
+2. *Server*: Creates a default avatar and stores into database.
+
+=== Implementation ===
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Client-side*:
+
+`>> Register.py | Method: submitText()`
+
+As part of the registration process, RequestRegister will be sent to register for an account and in doing so, the server will automatically create an avatar for the new player.
+
+2. *Server-side*:
+
+`>> RequestRegist.java | Method: doBusiness()`
+
+For new accounts, the server will create a default avatar by creating an entry into the database using the `createAvatar()` method from AvatarDAO. Each avatar will start with an initial amount of gold.
+
+The next time the player logs in, the avatar will be selected by default before joining a world.
+
+=== References ===
+
+  * Client Class References
+    * `main/Register/Register.py`
+    * `net/request/RequestRegister.py`
+
+  * Server Class References
+    * `dataAccessLayer/AvatarDAO.java`
+    * `networking/request/RequestRegist.java`
+
+== Creating New Avatar ==
+
+_Not yet implemented._
+
+== Test Team ==
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/csc631avatartests.jpg]

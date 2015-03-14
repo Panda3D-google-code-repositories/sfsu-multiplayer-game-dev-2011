@@ -1,0 +1,107 @@
+#summary Documentation
+
+= Client Startup =
+
+The Panda3D engine can do a lot of sophisticated things, but it needs us to tell it what to do. There are several key things we need to do to set up our "canvas" for us to be able to put the game in motion.
+
+== Execution Flow ==
+
+_This section will briefly describe how the process works._
+
+As soon you run the game, the following order of things will occur:
+
+1. Initialize a series of game variables and constants to be used throughout the entire game.
+
+2. Adjust several window properties such as resolution, title, etc.
+
+3. Set up the mouse for 2D interface interactions such as dragging.
+
+4. Create the [MessageQueue Message Queue] to handle incoming network events.
+
+5. Create the [ConnectionManager Connection Manager] to allow connection with the server to send and receive data.
+
+6. Finish by preparing the [Login Login] screen for use and start up the game engine.
+
+== Implementation ==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. _Initialize a series of game variables and constants to be used throughout the entire game._
+
+`>> Launcher.py`
+
+The Launcher is used as the main driver to initiate the game. Upon doing so, the Constants class will be imported for the first time.
+
+`>> Constants.py`
+
+During this step, it will initialize a comprehensive list of variables as constants that includes:
+
+  * Client Version Number
+  * Server IP Address
+  * Server Port Number
+  * Font Types
+  * Collision Mask Values
+  * Network Event Codes
+  * Others
+
+`>> Launcher.py`
+
+An instance of the Main class will be created to provide many basic, but useful functionality that includes setting up the [MousePicker Mouse Picker], [MessageQueue Message Queue], [ConnectionManager Connection Manager] and especially the ability to switch between different screens.
+
+`>> Main.py | Method: __init__()`
+
+As soon as this instance is being constructed, it will create a global variable called `main` to allow quick access to its methods from outside of the class.
+
+2. _Adjust several window properties such as resolution, title, etc._
+
+`>> Main.py | Method: __init__()`
+
+Other necessary settings include the window resolution, which is essentially the amount of space to work with when it comes to displaying both 2D and 3D objects. The window title will need to be set to distinguish the name of the application.
+
+3. _Set up the mouse for 2D interface interactions such as dragging._
+
+`>> Main.py | Method: __init__()`
+
+The 2D [MousePicker MousePicker] will act as an extension to the already provided basic mouse commands by Panda3D. Dragging support, which Panda3D lacks, is added to allow us to create interfaces that can be dragged across the screen using the mouse. Even support for smaller objects are included as well.
+
+4. _Create the Message Queue to handle incoming network events._
+
+`>> Main.py | Method: __init__()`
+
+The [MessageQueue MessageQueue] is created and contained here as well, which is most commonly used for queuing up network events generated from the server to be picked up by whatever responsible for processing it. The [GameState GameState] will be using this extensively to process network events.
+
+5. _Create the Connection Manager to allow connection with the server to both send and receive data._
+
+`>> Main.py | Method: __init__()`
+
+The [ConnectionManager ConnectionManager] also resides here in the Main, which is responsible for providing us access to send data to the server as well as receiving them. The connection will be created as soon as the user tries to log in.
+
+The network event codes that were mentioned earlier, stored in the Constants class, will be mapped to their corresponding requests and responses by the `init()` methods located in ServerRequestTable and ServerResponseTable.
+
+`>> Server[Request|Response]Table.py | Method: init()`
+
+The `init()` methods in each of these classes simply maps the network event codes with the string of its corresponding request or response class name into a Python dictionary. Using reflection, we could easily grab the class name by the network event code to create an instance of that class.
+
+6. _Finish by preparing the Login screen for use and start up the game engine._
+
+`>> Main.py | Method: __init__()`
+
+As we reach to the end of initializing the Main and before telling the game engine to run, we need to do one last thing, which is to prepare the [Login Login] screen. To do that, it calls the `switchEnvironment()` method that will help us instantiate the [Login Login]. For more information about the [Login Login] process, check out that section.
+
+`>> Launcher.py`
+
+And then we finally call Panda3D's `run()` method to run the game engine, which will bring up the game window with the [Login Login] as the initial screen.
+
+== References ==
+
+  * Client Class References
+    * `Launcher.py`
+    * `common/Constants.py`
+    * `common/MessageQueue.py`
+    * `common/MousePicker2D.py`
+    * `main/Main.py`
+    * `main/Login/Login.py`
+    * `main/MainLobby/World/World3D/GameState.py`
+    * `net/ConnectionManager.py`
+    * `net/ServerRequestTable.py`
+    * `net/ServerResponseTable.py`

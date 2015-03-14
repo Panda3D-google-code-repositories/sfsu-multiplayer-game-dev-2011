@@ -1,0 +1,77 @@
+#summary Documentation
+
+= Chart System =
+
+There are 3 different charts available—Organisms, Biomass, and Environment Score. Line graphs are used to measure the change of each set of data across 10 months.
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/Charts.jpg]
+
+Different charts are selectable using the drop-down menu located on the upper-right corner. Each set of data is color-coded and are listed on the right side.
+
+== Details ==
+
+  * Line graphs are constructed from CSV-formatted data.
+  * Data is displayed across 10 months.
+  * Types of Charts
+    * Number of Organisms
+      * Displays the number of organisms belonging to each species group.
+    * Biomass
+      * Displays the amount of biomass representing each species group.
+    * Environment Score
+      * Displays the total score recorded at the end of each month.
+
+== Execution Flow ==
+
+_This section will briefly describe how the process works._
+
+1. *Server*: Chart data is generated in CSV format, which is stored directly into the database.
+
+2. *Server*: CSV-formatted data is passed onto the client the moment it is created.
+
+3. *Client*: Using this data, it is broken down into a form to generate line graphs. Only the last 10 months of data will be displayed. 
+
+== Implementation ==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Server-side*:
+
+The server will need to track 3 different sets of data and generate a CSV each to store into the database. Two of the CSVs for Organisms and Biomass are created whenever there’s a new [Prediction Prediction].
+
+`>> GameEngine.java | Method: updatePrediction()`
+
+This method processes the results of a new Prediction. Using the results, the `createCSVs` method located in the PredictionRunnable class is called to convert the data into CSVs.
+
+2. *Server-side*:
+
+`>> PredictionRunnable.java | Method: createCSVs()`
+
+Two CSVs are generated, one for the organisms and another for biomass. The CSVs are stored into the database for future retrievals. Once they’re stored, the server will create a `ResponseChart` response to pass the CSVs to the client.
+
+As for the Environment Score CSV, it is generated whenever a [Simulation Simulation] occurs. The `runZoneSimulation()` method located in the GameEngine class, which calls the `updateScore()` method to produce the CSV.
+
+3. *Client-side*:
+
+`>> GameState.py | Method: responseChart()`
+
+CSVs received by the client are stored as a string initially, but is converted into a multi-dimensional array for easy access to the datasets using the `parse()` method from the `Chart` class.
+
+After parsing, the data is stored in the `Chart` instance using the `setInitialChartData` method from the `Chart` class.
+
+Any time a set of data is received from the server, the charts has to be redrawn by the `refresh()` method.
+
+`>> Chart.py | Method: refresh()`
+
+The `refresh` method takes the data, which simply plots the data as points on the grid and generates a series of lines that connects the dots.
+
+== References ==
+
+  * Client Class References
+    * `common/Chart.py`
+    * `main/MainLobby/World/World3D/GameState.py`
+    * `net/response/ResponseChart.py`
+
+  * Server Class References
+    * `networking/response/ResponseChart.java`
+    * `simulationEngine/PredictionRunnable.java`
+    * `worldManager/gameEngine/GameEngine.java`

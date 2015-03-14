@@ -1,0 +1,44 @@
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
+
+/**
+ *
+ * @author Xuyuan
+ */
+public class TestGameClient {
+    public static void main(String[] args)
+    {
+        Socket s = null;
+        try {
+            int serverPort = 9090;
+            s = new Socket("127.0.0.1", serverPort);
+            OutputStream out = s.getOutputStream();
+            int requestLength=12;
+            int requestCode=1;
+            int username=2;
+            int password=3;
+
+            sendDataToServer(out,requestLength);
+            sendDataToServer(out,requestCode);
+            sendDataToServer(out,username);
+            sendDataToServer(out,password);
+            
+            //Thread.sleep(200);
+            }
+        catch (Exception e) {
+            System.out.println("Error:" + e.getMessage());
+        }
+    }
+
+    public static void sendDataToServer(OutputStream out, int data) throws IOException{
+        for (int i = 0; i < 4; i++) {
+            //System.out.println("Sending: " + (data & 0xff));
+            out.write(data);
+            data >>= 8;
+        }
+        
+    }
+
+}

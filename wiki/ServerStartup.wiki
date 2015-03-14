@@ -1,0 +1,104 @@
+#summary Documentation
+
+= Server Startup =
+
+Unlike the client, the server will not be using the Panda3D engine for various reasons such as no graphics rendering needed and to keep it simple. There are several steps that must be taken before the server can accept connections from individual clients.
+
+== Execution Flow ==
+
+_This section will briefly describe how the process works._
+
+As soon you run the server, the following order of things will occur:
+
+1. Create an instance of the server.
+
+2. A configuration file containing a port number will be read.
+
+3. Several tables will be created to hold information related to networking, level experience and variety of many others such as players and worlds.
+
+4. The server will need to be populated with different types of species including predators and preys for each type.
+
+5. Server is placed in an infinite looping state, allowing clients to connect to exchange information.
+
+== Implementation ==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. _Create an instance of the server._
+
+`>> GameServer.java | Method: main()`
+
+The `main()` method will create an instance of the [GameServer GameServer]. The instance itself can be accessed wherever using the `getInstance()` method due to its static nature.
+
+2. _A configuration file containing a port number will be read._
+
+`>> GameServer.java | Method: main()`
+
+The server has a configuration file called `gameServer.conf`, but it only contains the port number used to allow clients to connect through. The file will be read using the `configure()` method. The port number will be stored for later use.
+
+3. _Several tables will be created to hold information related to networking, level experience and variety of many others such as players and worlds._
+
+`>> GameServer.java | Method: GameServer()`
+
+There are many tables used to store objects such as:
+
+  * Game Client Runnables
+  * Players
+  * Worlds
+  * World Maps
+  * Game Engines
+  * Species
+  * Others
+
+All of these will begin as empty tables that will get populated eventually as the server gets created and when certain tasks are performed. For example, the runnables table will get populated whenever a client connects.
+
+There are two more external tables that are important as well, which maintains a list of network requests and amount of experience needed per level. Each of these will be initialized by calling its `init()` method in this constructor.
+
+The class holding one of these tables is called [GameRequestTable GameRequestTable].
+
+`>> GameRequestTable.java | Method: init()`
+
+The static `init()` method that is called here will essentially map all possible networking request codes with the class name that corresponds to each. This allows the use of reflection to instantiate the requests just by using the request code.
+
+`>> GameServer.java | Method: GameServer()`
+
+The other table is called [ExpTable ExpTable], which is responsible for determining how much experience, based on a given formula, is required to advance to the next level and store each of these values, so we won't need to calculate over and over when needed. And just like [GameRequestTable GameRequestTable], the static `init()` method will be called to perform this operation.
+
+`>> ExpTable.java | Method: init()`
+
+We'll be using an array to do this, which isn't exactly a hash table, but levels will correspond with the indices. For every level, the amount of experience needed is 25% more than the previous and that is what will be stored in the array. The initial level will require 1000 experience, so it increases from there.
+
+4. _The server will need to be populated with different types of species including predators and preys for each type._
+
+`>> GameServer.java | Method: GameServer()`
+
+Before we can create instances of species to be used later on, the server will have to connect to the database to gather all information about each species and store them directly within the server, so that it doesn't have keep querying the database every time.
+
+In order to do this, the server will use the [DAO DAO (Database Access Object)] to connect to the database and retrieve every species including its predators and preys using either one of these specialized DAOs called [PlantTypeDAO PlantTypeDAO] and [AnimalTypeDAO AnimalTypeDAO].
+
+Once it has them, these species will be stored in a separate table, which will be map to its unique species id.
+
+The next step involves connecting each species with its predators and preys by storing a reference of each instance of these species within since the previous step only included just the species id.
+
+5. _Server is placed in an infinite looping state, allowing clients to connect to exchange information._
+
+`>> GameServer.java | Method: main()`
+
+Now that the [GameServer GameServer] instance is instantiated in the `main()` method. It will call the `run()` method to essentially set up an infinite loop where its sole purpose is to simply wait for incoming connection requests.
+
+`>> GameServer.java | Method: run()`
+
+Once a connection request comes through, the server will utilize a thread from the thread pool to run the [GameClient GameClient], which holds the connection to handle all network activity for the connected client. While the thread containing the [GameClient GameClient] is busy handling this one connection, the server will loop back over and wait for another connection and repeats the same process.
+
+And this is the end of describing the initialization of the server.
+
+== References ==
+
+  * Server Class References
+    * `core/GameClient.java`
+    * `core/GameServer.java`
+    * `dataAccessLayer/AnimalTypeDAO.java`
+    * `dataAccessLayer/DAO.java`
+    * `dataAccessLayer/PlantTypeDAO.java`
+    * `metadata/GameRequestTable.java`
+    * `utility/ExpTable.java`

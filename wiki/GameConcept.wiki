@@ -1,0 +1,170 @@
+#summary This page consists of CSC631/831 11FA game concept.
+#labels Featured,Phase-Design,Phase-Requirements
+
+
+=Introduction=
+Our game, Beast Reality, is an ecosystem based game with a twist. Each player has the option of playing against another (destroying opposing ecosystems through [PvP]) or with a friend (continuously building up and balancing ecosystems through [PvE]). In both modes, players experience the ecosystem process from basic plants up to complex animals.
+
+= Design =
+The basis of the game is the ecosystem, therefore each mode of the game will be built upon the same "engine" (See [GameEngine]).
+
+Each player picks a Game Mode ([PvP] or [PvE]) to play, picks an ecosystem that they want to balance, picks a specific [Avatar] (and specialties for that avatar), and then the World begins. (See [Lobby].)
+
+[World]s that consist of people fighting one another will not last forever, while [World]s that consist of people helping one another can last indefinitely.
+
+= Game Client Interface =
+What the user will see when loading up the Game Client is a Login Screen. After logged in, the user will be in the [Lobby Main Lobby]. In the [Lobby Main Lobby] interface, there will be a button to join Game Modes, PvP or PvE. Once a Game Mode is chosen by a user, the user joins a [Lobby Game Mode Lobby]. In the interface, there will be a button to join or create [World]s for the chosen Game Mode. Once a [World] is chosen by a user, the user joins a [Lobby World Lobby] and waits for the rest of the lobby to fill up of prospective players. When the [Lobby World Lobby] is adequately full and players have picked an avatar and chosen (voted for) a Time Scale, the user who created this lobby may begin the game.
+
+== Login Screen ==
+The login screen is where a user can enter his/her credentials (username/password) to join the Game Client. The user can also register for an account via a "Register" button.
+Requisites for registration at minimum are: username (login purposes only), password, character name (seen by everyone else), and email.
+
+== Main Lobby ==
+The [Lobby Main Lobby] is a section of the UI that the players will all enter into when the game client is started. From this lobby, users will be able to join [Lobby Game Mode Lobbies] from a menu that contains Game Modes ([PvE] or [PvP]), and [Chat] with other players.
+
+== Game Mode Lobby ==
+When a user joins a [Lobby Game Mode Lobby], they will see a list of [World]s available (or saved from the past) from the chosen Game Mode, as well as a [Chat] box. The list of [World]s will contain the World's name, the current number of players (out of the "maximum" number of players allowed), well as the World's Ecosystem. The user will be able to join one of these Worlds, or will be able to create a new World of the current Game Mode in which an Ecosystem can be chosen. Once a World is joined, the user enters the [Lobby World Lobby].
+
+If a World is shown that has already begun (for PvE only), you can join immediately as an attached [Environment] in the [World].
+
+If you have a [World] that is ongoing (previously played), you will be able to see it at the top of the list of available Worlds to join, so long as the World has not ended (in the case of [PvP]) or has been deleted (in the case of long-term inactive [PvE] Worlds).
+
+== World Lobby ==
+When a user chooses a [World] from the [Lobby Game Mode Lobby], they enter the chosen World's [Lobby World Lobby]. In this lobby users will see the current users who also want to play this specific [World] and will be able to communicate with them via [Chat]. If it is a [PvP] Game Mode, users will also be able to choose which team to be on via a GUI (See [World] for grid layout). In this lobby, users will also be able to pick their [Avatar] (which is only shown to their team). When a [Lobby World Lobby] fills up with enough players, the user who made the [World] can start the game. Note that [PvP] matches must have an even number of players in order to start the World, since there will be two teams.
+
+= World Interface =
+When the [World] begins, players will be welcomed to their [Environment] with their [Avatar] being in the center of it. The user interface of the World will have a menu bar at the bottom of the screen with various tabs (Plants, Animals, Research, Vaccines).
+
+The camera can zoom out from the walking [Avatar] so you can click anywhere and have the avatar teleport there.  This way you can transport through the world quickly. (This gets rid of the need for a mini-map.)
+
+The top of the screen will tell your current [EnvironmentScore], the current weather, and whether it is day or night.  The [EnvironmentScore] is based on number of [Species] and diversity of [Species].
+
+= Leveling Up =
+An [Avatar] [Level]s up by maintaining a diverse ecosystem, and by having many species within the ecosystem. Experience is gained based on the [EnvironmentScore] at subsequent time-steps of 1 in-game day. The [EnvironmentScore] at the beginning of a new in-game day is added to the current [Avatar] Experience. A [Level] is accumulated in a linear fashion (See [Level] for details).
+
+= Currency =
+[Currency] is gained in a similar way to Experience, such that is is directly related to [EnvironmentScore] at the beginning of each new in-game day. The main difference between [Currency] and Experience is that, while Experience is constantly increasing, [Currency] may decrease because it may be spent on [Research] or [Species].
+
+=Game Modes=
+[PvP]:
+  * Two or more (even number of players) try to destroy the other team's environment in order to win
+  * [GameScale] ranges from 2-6 days every 2 real minutes (this will most likely change drastically)
+
+  * No matter how many days per 2 minutes, Day/Night cycle (See [DayScale]) will take 2 real minutes total
+  * There is no persistence of the world. Once an [EnvironmentScore] of 0 is reached, that player cannot interact with the [World]. The current match ends when no team members are left in the [World], and the team with members left wins.
+  * If someone leaves the [World] their animals become Neutral, which means that anyone on their team can control them.
+
+[PvE]:
+  * One or more players work together to balance the system as best possible.
+  * Everyone in a PvE Game Mode is on the same team for a given world.
+  * [GameScale] ranges from 1-10 days every 1 real day (this will most likely change drastically).
+  * Day/Night cycle (See [DayScale] will directly match the [GameScale] settings.
+  * The [World] is active as long as one of the [Avatar]s are in the world. When all players are offline, the [World] is saved in the database for later. The only way to make the [World] continue is to have an active player in the World.
+    * A player can rejoin a [World] that they previously were in and continue where the environment left off, even if there were no active players in that World.
+    * The [Environment] continues as long as someone is in the [World].
+  * If a player is offline, their animals are treated as Neutral, which means that anyone can control them.
+
+=Game Scale=
+  * The [GameScale] is determined by averaging the [GameScale] Vote settings of the users in that World. (See [Lobby World Lobby] for [GameScale] Vote settings.)
+  * The users can always alter their [GameScale] Vote while playing (by causing a re-vote for the [World]) and before playing, but the scale will still consist of an average of all [GameScale]s in the current World.
+  * [GameScale] affects these properties:
+    * [NatureController]
+    * [SimulationEngine]
+
+=World=
+  * 1 or more players can create a single [World] (See [Lobby World Lobby]).
+  * Each player will have their own plot of land called their [Environment].
+  * The [World] consists of one or more [Environment]s.
+  * The entire [World] will have one uncontrollable [NatureController].
+
+=Nature Controller=
+  * [NatureController] is made up of:
+    * Day/Night (See [DayScale]):
+      * Based on [GameScale] directly in [PvE].
+      * Constant real-time rate in [PvP].
+    * Cloudiness:
+      * Varies the amount of light and combines the varying amount with the light given by Day/Night state.
+      * Each [Environment] type has 3 properties pertaining to rain:
+        * Cloudy Chance: The chance that the day is cloudy.
+        * Average Cloud: How much cloudiness comes on average when the day is cloudy.
+        * Cloud Range:  The amount cloudiness can deviate from the Average Cloud.
+    * Rain:
+      * Each [Environment] type has 3 properties pertaining to rain:
+        * Rain Chance: The chance of rain for any given day.
+        * Average Amount: How much rain comes on average when it rains.
+        * Amount Range: The amount of rain that can deviate from the Average Amount.
+    * Water Evaporation:
+      * Each [Environment] type has 1 property pertaining to water evaporation:
+        * Evaporation Rate: What percentage of rain evaporates every day.
+
+    * [Diseases Disease]:
+      * Each [Environment] type has a percent chance of dealing each disease type on a random animal.
+    * Rain and Cloudiness should be predicable up to 30 days (default is 1 day).
+
+=Environment:=
+  * All properties:
+    * Type/Ecosystem: savanna (etc.)
+    * Boundaries: The dividing lines that decide whose Environment a given area belongs to.
+    * Each [Environment] has its own [Species] (which are placed by the player, pending a certain [Currency Cost])
+    * Each [Environment] is made up of smaller [Zone]s
+=Zone:=
+  * A [Zone] contains it's own [SimulationEngine] and is responsible for managing all [Species] within it's boundaries. Although species ultimately belong to 1 Environment, each Zone is treated as a separate ecosystem
+  * Each [Zone] has Water Sources that provide water to [Species]
+    * Water Sources:
+      * Water Sources are generated simultaneously with the terrain generation by finding the lowest areas in the randomly generated terrain
+      * All Water Sources have the following properties:
+        * water: The current amount of water contained in the Water Source.
+        * waterRadius: The radial area where plants can receive water from the water source.  Plants have a growRadius that can further extend this distance.
+
+=Player:=
+  * Each player has an [Avatar] that has special abilities.
+  * Each player can purchase [Research]:
+    * Examine your [Environment] for a disease:
+      * Stage 1: Do a single examination. (60c)
+      * Stage 2: Schedule examinations for the next 7 [GameScale] days. (100c)
+      * Stage 3: Schedule examinations for the next 35 [GameScale] days. (300c)
+    * Improve weather predictions:
+      * Stage 1: Predict 7 days ahead (100c).
+      * Stage 2: Predict 2 weeks ahead (300c).
+      * Stage 3: Predict 30 days ahead (600c).
+
+  * Purchasables (See [Currency]):
+    * [Species Plants]
+      * Plants can only be placed in the players own Environment.
+    * [Species Animals]
+      * Animals can only be placed in the players own Environment.
+      * Players can only move their (or Neutral) animals but can move them onto anyone's [Environment].
+
+<wiki:comment>
+    * Vaccines
+</wiki:comment>
+
+=Plants:=
+  * Have the following properties:
+    * name: The name of the plant
+    * cost: How much the plant costs to grow.
+    * description: A text description of the plant.
+    * growRadius: Each plant has a grow radius that combines with the Water Source’s waterRadius to determine if the plant can receive water for growing.
+    * waterNeedFrequency: How much water is needed per in-game day.
+    * lightNeedFrequency: How much light is needed per in-game day
+
+
+=Animals:=
+  * Animals come in various forms: herbivores, carnivores, omnivores 
+  * Animals DO NOT have a foodNeedFrequency. This is because the plant/animal [Species] they consume are based on the biomass output of the [SimulationEngine]. To learn more about how animals choose their [Species] prey read the [SimulationEngine].
+  * Animals do not leave a specific [Zone] unless the player that owns the animal tells them to change [Zone]s.
+
+
+=Progression:=
+  * By default the user starts out with the following:
+    * Some random plants.
+    * Some cash ([Currency]).
+    * An [Avatar] that runs around, and the ability to purchase anything they can afford.
+  * An Avatar can [Level] up based on that player's [EnvironmentScore]
+
+
+
+<wiki:comment>
+= Desired =
+
+</wiki:comment>

@@ -1,0 +1,93 @@
+#summary Documentation
+
+= Game Engine =
+
+A Game Engine is created and assigned to every [World] that is currently active. Its main purpose is to maintain a consistent loop cycle that controls the in-game time as well as performing certain actions at specific time intervals.
+
+== Details ==
+
+  * Controls the in-game time based on client activity, specifically by the [Heartbeat].
+  * Manages all [Prediction Predictions] for a single [World].
+    * Only one Prediction occurs at any given time decided by a queue.
+      * Check out the [Prediction] section for more information.
+    * Automated Predictions occur every 30 days.
+    * Manual Predictions occur whenever the user makes a species-related change in ecosystem such as Shop Purchases.
+  * Species population that was determined to change by a Prediction, which produces a target value of increase (Birth) or decrease (Death) for each species, is interpolated throughout an entire month, which is exactly 30 days.
+    * Every 2nd day, there’s a 2.5% chance of adjusting 5% towards each species target.
+    * Every 5th day, there’s a 10% chance of adjusting 5% towards each species target. 
+    * End of the month, all targets will be forcibly reached.
+
+== Execution Flow ==
+
+_This section will briefly describe how the process works._
+
+A Game Engine is created whenever a [World] becomes active and that happens whenever the first user of that world joins. Once that happens and in combination with activity from the client, the loop begins and continues until the world ends. And here’s the step-by-step process:
+
+1. When a user joins a World, an instance of a Game Engine is created as part of the joining process.
+
+2. The Game Engine is now idling, which runs by the command of the client, using the [Heartbeat].
+
+3. Whenever the engine runs, the accumulated seconds will be translated into days and months. At the end of every 30 days, the Game Engine will perform the [Prediction] process, which determines what will happen to the ecosystem for the next 30 days. As each day passes, the change in species population will be interpolated.
+
+4. The engine stops whenever the [World] becomes inactive, which usually occurs whenever the user leaves the world.
+
+== Implementation ==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. _ When a user joins a World, an instance of a Game Engine is created as part of the joining process._
+
+`>> RequestJoinWorld.java | Method: doBusiness()`
+
+Part of the World loading process involves creating and assigning it a new Game Engine to get the world running. To achieve this, the `createGameEngine()` method from the GameServer class is called to instantiate a Game Engine and sets up all the necessary variables in place to run. If the World no longer exists, the engine will be removed from memory. 
+
+2. _ The Game Engine is now idling, which runs by the command of the client, using the [Heartbeat]._
+
+`>> GameEngine.java | Method: run()`
+
+The moment the Game Engine is created, it will start in its idle state since it is driven by the `run()` method. The `run()` method is essential because it keeps track of the in-game time for each world. Several actions especially interpolation relies on this constant moving time.
+
+`>> RequestHeartbeat.java | Method: doBusiness()`
+
+The `run()` method gets called for every [Heartbeat] that comes from the client using the RequestHeartbeat protocol. This allows the engine to run only when the client is being responsive.
+
+3. _Whenever the engine runs, the accumulated seconds will be translated into days and months. At the end of every 30 days, the Game Engine will perform the [Prediction] process, which determines what will happen to the ecosystem for the next 30 days. As each day passes, the change in species population will be interpolated._
+
+`>> GameEngine.java | Method: run()`
+
+Whenever the `run()` method gets called, the difference in time since the last moment it was called gets converted into in-game time, which is adjusted by a modifier called the [GameScale Game Scale]. By default, in-game time moves incredibly faster than real-time where ~5 minutes of real time is equivalent to 1 month of in-game time. In-game time is then stored as days and months.
+
+Since the World contains [Environment Environments], which are broken up into many [Zone Zones], each zone gets processed individually at every cycle.
+
+Whenever 30 days are up, a [Prediction] is made using the current state of the ecosystem with the `runZoneSimulation()` method.
+
+The [Prediction] generates results that tells us what should happen in the next 30 days such as how many species have grown and how many has died. These target values are interpolated throughout the next 30 days. At specific time intervals, the engine randomly determines how much of the population of those species change for every few days. Some days there’s a greater chance to make bigger adjustments, others not so much. This process is handled by both the `checkBirthList()` and `checkDeathList()` methods.
+
+More information can be found in the [Prediction] section.
+
+`>> GameEngine.java | Method: checkBirthList()`
+
+Both the `checkBirthList()` and `checkDeathList()` methods work in a similar fashion where one looks at the target values for births in one list and the other for deaths in a another list.
+
+These methods accept two important values, Population Percentage and Chance. What it does is it rolls a dice and by chance, it will take the percentage of the target sizes of every single species and create more of them based on that amount. For example, the target size is to create 20 more and the percentage is set to 5% with a chance of 10%. There’s a chance that 1 of those species will get created with the remainder left for the next cycle.
+
+At the end of each month, the engine will simply call those methods again with a 100% chance rate and create the rest to reach the target values.
+
+All of this will then be repeated for another cycle until the Game Engine is stopped.
+
+4. _ The engine stops whenever the [World] becomes inactive, which usually occurs whenever the user leaves the world._
+
+`>> World.java | Method: removePlayer()`
+
+This method gets called whenever a player leaves the world. Once the [World] no longer contain any players, the `end()` method gets called which also calls the Game Engine’s `end()` method as well. This causes the Game Engine to stop running since it is no longer needed because there is no longer a [World].
+
+That concludes the main looping function of the Game Engine.
+
+=== References ===
+
+  * Server Class References
+    * `core/GameServer.java`
+    * `model/World.java`
+    * `networking/request/RequestHeartbeat.java`
+    * `networking/request/RequestJoinWorld.java`
+    * `worldManager/gameEngine/GameEngine.java`

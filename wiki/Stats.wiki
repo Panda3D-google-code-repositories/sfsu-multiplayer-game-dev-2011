@@ -1,0 +1,129 @@
+#summary Documentation
+
+= Stats =
+
+Stats interface is comprised of two parts.
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/Stats.jpg]
+
+The interface is divided into panels where the top panel is used to display the exact amount of organisms currently alive in the ecosystem. The bottom panel displays a history of events such as the births and deaths of different species.
+
+== Details ==
+
+  * Species Population Panel (Top)
+    * Displays population of the ecosystem
+  * Species History Panel (Bottom)
+    * Displays history of events such as births and deaths
+
+== Species Population Panel ==
+
+=== Execution Flow ===
+
+_This section will briefly describe how the process works._
+
+1. *Client*: Whenever a change in the number of organisms occurs, whether that is births or deaths, an event is created.
+
+2. *Client*: The Stats top panel interface picks up the event, which triggers a refresh of the number of organisms for that particular species.
+
+=== Implementation ===
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Client-side*:
+
+Whenever methods such as `addAnimal` and `addPlant` is used, the methods, `setTotalAnimalList` and `setTotalPlantList`, respectively, creates an event that holds the total values.
+
+`>> Zone3D.py | Method: setTotalAnimalList()`
+
+Creates an event that holds the most recent total number of an animal species.
+
+`>> Zone3D.py | Method: setTotalPlantList()`
+
+Creates an event that holds the most recent total number of a plant species.
+
+Whenever there are deaths involved, the `updateRoutine` in Zone3D performs a cleanup process that also calls these methods that holds the current value.
+
+2. *Client-side*:
+
+The events generated from the Zone3D class are picked up in the `StatsTopPanel` class that is responsible for handling the top panel for population. Depending on the event, either `setAnimalData` or `setPlantData` is called to process these events.
+
+`>> StatsTopPanel.py | Method: setAnimalData()`
+
+Creates or updates an existing value that contains the total number of a specific animal species.
+
+`>> StatsTopPanel.py | Method: setPlantData()`
+
+Creates or updates an existing value that contains the total number of a specific plant species.
+
+`>> StatsTopPanel.py | Method: refresh()`
+
+Once the values are properly updated, the refresh method is called to simply refresh the values displayed on the top panel.
+
+== Species History Panel ==
+
+=== Execution Flow ===
+
+_This section will briefly describe how the process works._
+
+1. *Server*: Whenever there is a birth or death within a species group, it is recorded into the database.
+
+2. *Client*: On a timely interval, the client asks the server to retrieve any events that occurred within the last 10 months.
+
+3. *Server*: Sends records from the last 10 months to the client.
+
+4. *Client*: The Stats bottom panel interface refreshes every time a stat retrieval is received.
+
+=== Implementation ===
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Server-side*:
+
+Records are created whenever birth, death, or purchases occur. The `createStat` method is called once these situations happen, which is used by 3 different methods.
+
+`>> GameEngine.java | Method: createOrganismByResponse()`
+
+Method is called whenever a birth of an organism occurs.
+
+`>> GameEngine.java | Method: removeOrganismByResponse()`
+
+Method is called whenever a death of an organism occurs.
+
+`>> GameEngine.java | Method: createOrganismByPurchase()`
+
+Method is called whenever a purchase of an organism occurs.
+
+2. *Client-side*:
+
+Located in the script called `StatsBottomPanel`, there is a task called `updateRoutine` that creates a stat retrieval request to the server.
+
+`>> StatsBottomPanel.py | Method: updateRoutine()`
+
+This task loops every 15 seconds that is responsible for determining the range between now and the last 10 months. A request called `RequestStats` is created to retrieve stats recorded from those last 10 months.
+
+3. *Server-side*:
+
+`>> RequestStats.java | Method: doBusiness()`
+
+Using the range given from the client, the server simply retrieves the records, if any, and sends it directly to the client using `ResponseStats`.
+
+4. *Client-side*:
+
+`>> StatsBottomPanel.py | Method: loadStats()`
+
+With the data given, which is a mix of births, deaths, and purchases, a record is created for each and displayed on the bottom panel of the stats interface.
+
+== References ==
+
+  * Client Class References
+    * `main/MainLobby/World/Stats/Stats.py`
+    * `main/MainLobby/World/Stats/StatsBottomPanel.py`
+    * `main/MainLobby/World/Stats/StatsTopPanel.py`
+    * `main/MainLobby/World/World3D/Zone3D.py`
+    * `net/request/RequestStats.py`
+    * `net/response/ResponseStats.py`
+
+  * Server Class References
+    * `networking/request/RequestStats.java`
+    * `networking/response/ResponseStats.java`
+    * `worldManager/gameEngine/GameEngine.java`

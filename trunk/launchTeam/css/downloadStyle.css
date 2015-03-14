@@ -1,0 +1,44 @@
+
+
+#navDownload {
+	font-size: 100%; 
+	width: 230px;
+	margin-top: 40px;
+}
+
+#navDownload ul {
+	margin: 0px; 
+	padding: 0px;
+}
+
+#navDownload li {
+	list-style: none;
+}
+
+ul.top-level {
+	background: #374e1a;
+}
+
+ul.top-level li {
+ 	border-bottom: #fff solid;
+ 	border-top: #fff solid;
+ 	border-width: 1px;
+}
+
+#navDownload a {
+ 	color: #fff;
+ 	display:block;
+ 	line-height: 30px;
+ 	text-indent: 20px;                   
+ 	text-decoration:none;
+ 	width:100%;
+}
+
+#navDownload a:hover{
+ 	text-decoration:underline;
+}
+
+#navDownload li:hover {
+ 	background: #f90;
+ 	position: relative;
+}

@@ -1,0 +1,171 @@
+#summary Documentation
+= Upcoming Features =
+
+== Near Future ==
+
+=== Tooltips ===
+
+*In-Game Tutorial*
+
+We'll have a system in place that will show a series of tips in a scripted manner. Designed for newcomers to guide them through the game.
+
+*Beginner and Advance Tips*
+
+Beginner tips will provide descriptions to what each feature of the user interface does, especially for features found right in the beginning of the game such as the Game Time, Charts, Chat, etc.
+
+Advance tips will include more hint-like descriptions of the game mechanics such as Bonus XPs, Unlocks, etc.
+
+=== Seasons ===
+
+*Types*
+
+There will only be two main seasons throughout the year, Wet Season and Dry Season. Each of the seasons will be described as either Long or Short.
+
+  * Wet Season (Long)
+    * March, April and May.
+  * Wet Season (Short)
+    * November and December.
+
+  * Dry Season (Long)
+    * June, July, August, September and October.
+  * Dry Season (Short)
+    * January and February.
+
+_`*` Based off of the Tanzania climate as that makes up most of the Serengeti ecosystem._
+
+*Seasonal Species*
+
+Shops will be limited to what can be purchased depending on the season. Some will last throughout the entire year, while others will be rotated throughout the different seasons.
+
+Groups of non-seasonal species, the ones that won't be rotated out, will come with a discount through the Shop.
+
+  * Discounts will go up to 20% depending on the season.
+
+Specific types of species are yet to be determined.
+
+Introduction of certain species to the environment such as Grass may occur at certain seasons.
+
+*Weather*
+
+To keep it simple, there are only going to be two types of weather, Sunny and Rainy. And variable degrees of it depending how far into each season.
+
+During Wet Season (Long), there will be more water output coming from the rain, which adds to the existing water sources, than Wet Season (Short).
+
+  * Wet Season (Long)
+    * 130%
+  * Wet Season (Short)
+    * 115%
+
+During both Dry Season, there will be no rain at all resulting in a Sunny weather. Existing water sources will decrease close to nothing.
+
+  * Dry Season (Long)
+    * 25%
+  * Dry Season (Short)
+    * 50%
+
+Further in the future, players using specific avatars will be given an ability to control the weather depending on the season.
+
+*Growth Affects*
+
+Seasons will also affect the growth and reduction of species determined by the amount of water provided from the rain, if any.
+
+The Growth Rate parameter will be adjusted automatically depending on the species categories.
+
+  * Wet Season
+    * Plants
+      * 130%
+    * Animals
+      * 110%
+    * Insects
+      * 120%
+  * Dry Season
+    * Plants
+      * 70%
+    * Animals
+      * 80%
+    * Insects
+      * 90%
+
+=== Disasters ===
+
+*Fire*
+
+Fire will only occur during Dry Season (Long). Fire will be used as an external force that causes death among the population.
+
+The likelihood of fire occurrences are determined by a "dice" roll whenever a new month kicks in. Each occurrence will last at most a week.
+
+The population will decrease by 5% each day throughout the week.
+
+During this period, players will NOT be able to add any species.
+
+=== Diseases ===
+
+*Types*
+
+Yet to be determined.
+
+*Impacts*
+
+Depending on the disease, there will be a natural occurring death among the existing species. Diseases will automatically be introduced depending on many factors such as season, weather and including the size of the entire population. Diseases will occur more often during the Wet Season (Long).
+
+How much biomass is considered too big of a population?
+
+*Prevention*
+
+Items will be purchasable to prevent specific diseases from spreading or even occur. Selection will be based on what diseases will be implemented.
+
+Further in the future, players using specific avatars will be given an ability that functions similar to these items.
+
+=== Parasite Species ===
+
+To be explained in the future...
+
+=== Giving Species ===
+
+* Gift ("Good" Gift)*
+  * Friendly
+  * Manual Accept
+
+There will be two ways to do this:
+
+  # Normally purchasing from the Shop will give you the species, but players will now be offered an alternative, which is to "package" it up and send it to a fellow player. Players can send as many times they want. Though, there will be a max to the amount of gifts one can receive.
+  # Instead of purchasing from the shop, players will be able to choose a species from their environment to send to other players. Same rules will apply.
+
+Once received, the receiver will have to manually accept it and place it into their own environment. If they don't accept it after a certain amount of time, it will be returned to the sender.
+
+* Species Invasion ("Bad" Gift)*
+  * Non-Friendly
+  * Auto Accept
+
+There will only be one way to do this:
+
+  # Players can only choose a species from their environment to be packaged and sent to another player.
+    * Players can only send up to 3 different species every hour. 
+    * Up to 10% from each of the species' population.
+    * Cost varies depending on the amount from 500 to 1500 Gold.
+
+The receiver will not be given the option to accept as it will automatically be placed into their environment.
+
+== Other Plans ===
+
+=== Extending Avatar Features ===
+
+*Abilities*
+
+Only a handful of abilities will exist and it differs by avatar. Some details have already been mentioned in [Avatar Avatar]. Actual implementation of these abilities will occur in the future.
+
+*Multiple Avatars*
+
+Since we have already decided on different types of avatars, players will be able to create up to 4 separate avatars. Players will be able to freely switch between one and another during WorldSelection.
+
+Avatars will not be tied to any worlds, so players can decide which type of avatar is the best to bring upon joining an existing world. This allows the player to play differently depending on the avatar.
+
+Avatars will be progressed independently meaning each will carry its own level, experience and any other traits that belong to it. Gold is account based meaning it will be shared regardless of your avatar choosing.
+
+=== Time Manipulation ===
+
+*Glimpse of the Future*
+
+Even though this is in the early stages of planning, we would like players to be able to control time, so to speak, as a way to see the outcome from the future. There will be a cost tied to it to limit how often one can perform this ability.
+
+This will allow players to somewhat plan ahead and decide if the species they want to add will be worth it.

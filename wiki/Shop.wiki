@@ -1,0 +1,168 @@
+#summary Documentation
+
+= Shop =
+
+The Shop give players the ability to place orders to buy items such as [Species] and have them delivered directly to them. Using the Shopping Cart, players can combine multiple items into one order.
+
+Players can access the shop using the button labeled, Shop, at the bottom of the screen. When viewing the shop, species are filtered by different categories as well as sorted alphabetically when displayed.
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/Shop.jpg]
+
+== Details ==
+
+  * For every transaction, there will be a flat order fee of 100 Gold.
+  * Any orders placed within 30 seconds of the initial order will be merged as pending.
+  * As soon as 30 seconds are up, all pending orders will be processed immediately.
+
+== Creating the Shop ==
+
+=== Execution Flow ===
+
+_This section will briefly describe how the process works._
+
+In order for the Shop to be accessible for users to perform any transactions, the client will have to construct it first as explained in the following steps:
+
+1. *Client*: As soon as the world is loaded, components of the interface will be assembled together to create the shop.
+
+2. *Client*: Items available for purchase must be retrieved from the server to continue.
+
+3. *Server*: Picks up the request for items, then retrieves all items available specifically for the player from the database and sends it to the client.
+
+4. *Client*: Receives the list of items and create the necessary visuals for the Shop.
+
+=== Implementation ===
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Client-side*:
+
+`>> WorldGUI.py | Method: __init__()`
+
+As with most graphical interfaces, the Shop is instantiated here in the WorldGUI class.
+
+`>> Shop.py | Method: __init__()`
+
+The interface consists of a few panels where each holds one of the following: items, categories and shopping cart.
+
+The main panel used to hold all items available to purchase is created using the `createMainFrame()` method.
+
+Separate classes called Cart and Checkout handles the other panels.
+
+2. *Client-side*:
+
+`>> Shop.py | Method: __init__()`
+
+Since the panels are now created, it will need a list of items to sell, so using the [ConnectionManager Connection Manager], the client will send a request called RequestShop to the server asking for items that are available specifically for this player.
+
+3. *Server-side*:
+
+`>> RequestShop.java | Method: doBusiness()`
+
+Items available for purchase are based on the player’s level. Using the ShopDAO class, it will retrieve a list of items from the database. Information about every item is store in its own object called ShopObject. The list of items will be sent to the client using ResponseShop.
+
+4. *Client-side*:
+
+`>> ResponseShop.py | Method: execute()`
+
+Client receives the list of items and gets picked up by the Shop class using the [MessageQueue Message Queue].
+
+`>> Shop.py | Method: populateShop()`
+
+Takes the list and creates the necessary visuals to be displayed in the interface. Since every single item contains information such as categories, the shop will be able to generate categories as filters.
+
+=== References ===
+
+  * Client Class References
+    * `main/MainLobby/World/Shop/Cart.py`
+    * `main/MainLobby/World/Shop/Checkout.py`
+    * `main/MainLobby/World/Shop/Shop.py`
+    * `main/MainLobby/World/World3D/WorldGUI.py`
+    * `net/request/RequestShop.py`
+    * `net/response/ResponseShop.py`
+
+  * Server Class References
+    * `dataAccessLayer/ShopDAO.java`
+    * `model/ShopObject.java`
+    * `networking/request/RequestShop.java`
+    * `networking/response/ResponseShop.java`
+
+== Using the Shop ==
+
+=== Execution Flow ===
+
+_This section will briefly describe how the process works._
+
+1. *Client*: Items added to the shopping cart are sent to the server upon the user’s request by checking out.
+
+2. *Server*: Receives the request and puts the order on hold. A 30 seconds delayed timer will be created to handle the order. Any orders coming in while this timer is active are merged together.
+
+3. *Server*: Once 30 seconds has elapsed, all orders will be processed and delivered to the client. This will also trigger a [Prediction].
+
+4. *Client*: Receives the species ordered and randomly distribute them onto the [Environment].
+
+=== Implementation ===
+
+1. *Client-side*:
+
+`>> Cart.py | Method: addToCart()`
+
+Adding items to the cart will use the `addToCart()` method found in the Cart class. All items will be stored inside a list container until a user checks out.
+
+`>> Shop.py | Method: submit()`
+
+By selecting checkout, the contents of the order will be read by the Checkout class, which will ask the user to confirm the order. By doing so, the `submit()` method found in the Checkout class will take care of the rest.
+
+[http://sfsu-multiplayer-game-dev-2011.googlecode.com/files/Checkout.jpg]
+
+`>> Checkout.py | Method: submit()`
+
+This method will prepare the contents of the order using the ResponseShopSend protocol and sends it off to the server.
+
+2. *Server-side*:
+
+`>> RequestShopSend.java | Method: parse()`
+
+An order is described by its action type and contents. Currently the only action type is just simply a basic purchase. In the future, it can be extended to allow the user to place the order for someone else instead of you.
+
+The order contents only cares about the type of item and amount. Those will be stored inside a table.
+
+`>> RequestShopSend.java | Method: doBusiness()`
+
+Once all the data is pulled from the network stream, it will be passed into another method called `createPurchase()` from the World class.
+
+`>> World.java | Method: createPurchase()`
+
+Initially, it will confirm if the player has sufficient funds to make the purchase. If so, it will initiate a delayed timer of 30 seconds. Only one timer exists at any given time. Any other orders including this one made during this shopping window will be merged together with the help of a table for keeping track of what and how many items.
+
+Purchase confirmation will be sent using the response called ResponseShopSend.
+
+3. *Server-side*:
+
+Once the delayed shopping window timer reaches its target time, the `clearPurchases()` method will get called.
+
+`>> World.java | Method: clearPurchases()`
+
+The table storing all the orders will be processed using the `createOrganismsByPurchase()` method found in the Game Engine class, which simply creates the species and inform the client to do the same.
+
+The Simulation Engine will also need to perform a [Prediction] using the `forceSimulation()` method, again, found in the Game Engine class. This will create any new species into the food web stored by the Web Services as well as updating any existing species.
+
+Finally, it will create a confirmation response using the ResponseShopSend protocol, which acknowledges the delivery of the order.
+
+4. *Client-side*:
+
+`>> ResponseShopSend.py | Method: execute()`
+
+Picks up the confirmation of delivery, which will create a visual confirmation to the user in the Shop class using the `responseShopSend()` method. 
+
+=== References ===
+  * Client Class References
+    * `main/MainLobby/World/Shop/Cart.py`
+    * `main/MainLobby/World/Shop/Checkout.py`
+    * `main/MainLobby/World/Shop/Shop.py`
+    * `net/request/RequestShopSend.py`
+    * `net/response/ResponseShopSend.py`
+
+  * Server Class References
+    * `core/GameClient.java`
+    * `networking/request/RequestShopSend.java`
+    * `networking/response/ResponseShopSend.java`

@@ -1,0 +1,19 @@
+#summary A detailed description of the Game Scale and what it involves
+#labels Phase-Design
+
+= Introduction =
+
+The GameScale is the representation of the in-game time compared to the real time. This affects the [NatureController] directly, changing the speed of the development of the ecosystems in the world. The representation of the GameScale will be "in-Game time/Real time" for example "12days/1day" means 12 in-game days for each real day. 
+
+= Details =
+  * The users in the [Lobby World Lobby] will vote on the GameScale, and the average of the votes will become the actual GameScale. The GameScale can be changed at any moment in the World.
+    * This vote is called the Game Scale Vote.
+
+= GameScale in PvE =
+
+  * Because the Games in [PvE] are supposed to be more complex and realistic, it is recommended that the GameScale will be more "slow."
+    * For example 3days/1day (3 in-game days per real day) can be a good time scale.
+
+= GameScale in PvP =
+  * The games in [PvP] are played at a faster pace than those of [PvE] in order to have shorter game lengths. 
+    * For example 1day/1minute (1 in-game day per real minute) may be a good time scale.

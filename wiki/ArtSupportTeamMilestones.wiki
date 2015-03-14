@@ -1,0 +1,18 @@
+#summary Tentative milestones for the art support team
+#labels Featured
+
+= Art Support Team Milestones (as of 9/24/11) =
+=== Milestone 1 (9/25 - 10/8) ===
+   Source 60% of required models, textured, 30% of which are animated and ready for production, available for use by client. Possibly have an environment terrain model (sample) available for use by client. Possibly have 2D art support, as required.
+
+   Members shall have working knowledge with (premade) meshes and texture them in a way that it works with Panda3D, and know how to use Chicken exporter. 
+
+=== Milestone 2 (10/9 - 10/29)===
+   Source 90% of required models, textured, 60% of which are animated and ready for production, available for use by client. Have a working environment terrain model available for use. Possibly refine previous models if needed.
+
+   Members shall have working knowledge of how to do required things with respect to armature animation (the kind of animation Chicken exporter can export to Panda3D), such as rigging (placing armature), texture painting, and posing meshes for keyframe snapshots. Members also will be able to export models with animations using Chicken.
+
+=== Milestone 3 (10/30 - 11/12) ===
+   Source 100% of required models, textured, 100% of which are animated and ready for production, available for use by client. Possibly add more animations to previous models, and more refinement. Possibly primary members can start focusing on secondary designations.
+
+   Members by this point shall be able to produce production models from beginning to end, which requires creating (rough) meshes or sourcing them elsewhere, texturing, rigging, weight painting, keyframe snapshots, then export using Chicken.

@@ -1,0 +1,16 @@
+#summary Anything pertaining to the Private World aspect of the game
+#labels Phase-Design
+
+= Introduction =
+
+A Private World is a [World] that is not view-able by any player in the [Lobby Game Mode Lobby]. The only way to access a Private World is by having the World title and password.
+
+= Details =
+
+  * Private Worlds are not shown in the World listing in the [Lobby Game Mode Lobby].
+    * Exception: In [PvE], once a Private World has previously been joined, that Private World will be listed in a Closed World section under the World listing in the [Lobby Game Mode Lobby], and will no longer require a password to be entered.
+  * A Private World is is deemed "Private" when a user creates a [World] and chooses for it to be private.
+    * That user then chooses a password for the [World], among other settings (maximum number of players, ecosystem, [World] name).
+    * A password can be shared via the [Chat] functionality.
+  * Anyone who has the World title and password may join a Private World, provided the [World] still has available room (which depends on the chosen maximum number of players for that [World]).
+  * Any number of Private Worlds may exist.

@@ -1,0 +1,49 @@
+#summary Documentation
+
+= Plant =
+
+An instance of plant represents an organism that belongs to a certain species group. Unlike animals, plants do not have any artificial intelligence. Plants are always stationary at the location it was planted.
+
+== Execution Flow ==
+
+_This section will briefly describe how the process works._
+
+Plant creation is triggered by the server, which passes that information to the client to produce a visual representation of it.
+
+1. *Server*: Whenever a plant is created, it triggers a response to the client to create its own copy along with its visual representation.
+
+2. *Client*: Using information about the plant, the client stores that information and creates a visual representation.
+
+== Implementation ==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. *Server-side*:
+
+`>> GameEngine.java | Method: createOrganismByResponse()`
+
+Just like animals, a plant is either created automatically to meet a certain quota or by the command of the user through the [Shop Shop]. When either of those situations occur, the `createOrganismByResponse()` method will be called.
+
+The method itself updates the database to keep record of this plant and creates a response called ResponseBirthPlant to pass information about the plant to the client.
+
+2. *Client-side*:
+
+The `responseBirthPlant` method uses the information from the server to instantiate its own plant.
+
+`>> GameState.py | Method: responseBirthPlant()`
+
+An instance of Plant3D will be created to store the information. The Plant3D class inherits two other classes—Plant and NodePath. The Plant portion stores all of its characteristics and properties, while the NodePath side is used to handle the visual side of the plant. Since there are no animations for any plants, we will not be using the Actor class.
+
+Since there are no artificial intelligence involved for plants, every plant will be stationary in the ecosystem.
+
+== References ==
+
+  * Client Class References
+    * `main/MainLobby/World/World3D/Plant.py`
+    * `main/MainLobby/World/World3D/Plant3D.py`
+    * `main/MainLobby/World/World3D/GameState.py`
+    * `net/response/ResponseBirthPlant.py`
+
+  * Server Class References
+    * `networking/response/ResponseBirthPlant.java`
+    * `worldManager/gameEngine/GameEngine.java`

@@ -1,0 +1,558 @@
+/* CSS Style for SFSU's CS Debugger MMO Website */
+@charset "utf-8";
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: #eda33b url("../images/background.png") repeat-x top;
+    color: #000000;
+    font-family: Verdana, Sylfaen, Tahoma, "Trebuchet MS";
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+a, a:link {
+    color: #996633;
+    text-decoration: none;
+}
+
+a:active, a:hover {
+    color: #80724d;
+    text-decoration: none;
+}
+
+img {
+    border: none;
+}
+
+#layout { /* The entire page (Header + Content + Footer) */
+    background: url("../images/headerBG.png") no-repeat top, url("../images/footerBG.png") no-repeat bottom;
+    margin: 0 auto;
+    width: 960px;
+}
+
+#wrapper { /* This area contains things that may be different from page to page (Left Navigation + Content Area + Right Navigation) */
+    background: #FAEBD7;
+    border: 1px solid #af6e00;
+    margin: 6px 0;
+    width: 958px;
+}
+
+#wrapper:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+/***** Header *****/
+
+#header {
+    height: 40px;
+    clear: right;
+    padding-top: 200px; /* Used to push the nav bar down to the bottom of the header*/
+}
+
+#navbar {
+    background: #efb03f url("../images/navbarBG.png") repeat-x;
+    border: 1px solid #af6e00;
+    height: 38px;
+    width: 958px;
+}
+
+#navdropdown{
+    height: 28px;
+    margin: 0 auto;
+    padding: 0;
+    text-transform:uppercase;
+    float: left;
+    position: relative;
+    left: 50%;
+}
+
+#navdropdown li{
+    float: left;
+    font-size: 18px;
+    list-style: none;
+    padding: 0;
+    position: relative;
+    right: 50%;
+}
+
+#navdropdown li a{
+    color: #996633;
+    display: block;
+    height: 25px;
+    padding: 8px 10px 5px;
+    text-decoration: none;
+    text-align: center;
+}
+
+#navdropdown li a:hover{
+    background: #996633;
+    color:#ffffff;
+}
+
+#navdropdown div{
+    background: #516e6a;
+    border: 1px solid #654423;
+    color: #ffffff;
+    font-size: 14px;
+    margin-top: 5px;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    visibility: hidden;
+    width: auto;
+}
+
+#navdropdown div a{
+    background: #996633;
+    color: #ffffff;
+    display: block;
+    height: 18px;
+    padding: 2px 8px;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+    width: auto;
+}
+
+#navdropdown div a:hover{
+    background: #e6e6e6;
+    color: #996633;
+}
+
+#m1 {
+    margin-left: -34px;
+}
+
+#m2 {
+    margin-left: -28px;
+}
+
+#m3 {
+    margin-left: -37px;
+}
+
+#m4 {
+    margin-left: -14px;
+}
+
+#m5 {
+    margin-left: -41px;
+}
+
+#m6 {
+    margin-left: 12px;
+}
+
+#m7 {
+    margin-left: -2px;
+}
+
+/***** Left Navigation (200) & Right Navigation (225) *****/
+
+#navleft {
+    float: left;
+    margin: 8px 4px 8px 8px;
+    width: 200px;
+}
+
+
+
+
+#navright {
+    float: left;
+    margin: 8px 8px 8px 4px;
+    width: 225px;
+}
+
+#download_button {
+    padding: 7px;
+}
+
+/***** Content Area *****/
+
+#content_small { /* The content area with a left and right navigation column */
+    float: left;
+    margin: 8px 4px;
+    width: 501px;
+}
+
+#content_medium_left { /* The content area with only a left navigation column */
+    float: left;
+    margin: 8px 8px 8px 4px;
+    width: 734px;
+}
+
+#content_medium_right { /* The content area with only a right navigation column */
+    float: left;
+    margin: 8px 4px 8px 8px;
+    width: 709px;
+}
+
+#content_large { /* The content area with no navigation columns */
+    float: left;
+    margin: 8px;
+    width: 942px;
+}
+
+/***** Footer *****/
+
+#footer {
+    background: #996633;
+    border: 1px solid #af6e00;
+    color: #ffffff;
+    height: 73px;
+    margin-bottom: 20px;
+    padding-top: 8px;
+    width: 958px;
+    text-align: center;
+    position: relative;
+}
+
+#footer p {
+    position: absolute;
+    bottom: 0;
+    width: 958px;
+}
+
+/***** Content Containers *****/
+
+.content_container {
+    width: 685px;
+    height: auto;
+    float: right;
+    background: #FDF5E6;
+    border: 3px solid #d5c8a4;
+    margin-top:     8px;
+    margin-bottom:  8px;
+    margin-left:    2px;
+    margin-right:   8px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.content_container h1, h2 {
+    text-align: center;
+}
+
+.container_green {
+    background: #dfeff0;
+    border: 3px solid #9cb6ad;
+}
+
+.container_brown {
+    background: #FAEBD7;
+    border: 3px solid #d5c8a4;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.menu_container_brown {
+    background: #FAEBD7;
+    border: 3px solid #d5c8a4;
+}
+
+.container_light_brown {
+    background: #FDF5E6;
+    border: 3px solid #d5c8a4;
+    padding: 20px;
+}
+
+.container_red {
+    background: #f1e6e6;
+    border: 3px solid #cb9f9e;
+}
+
+.container_blue {
+    background: #dae1e8;
+    border: 3px solid #8496ad;
+}
+
+.container_gray {
+    background: #ececec;
+    border: 3px solid #b1b1b1;
+}
+
+.container_green_title {
+    background: #9cb6ad;
+    color: #ffffff;
+    padding-bottom: 3px;
+    text-transform: uppercase;
+}
+
+.container_brown_title {
+    background: #d5c8a4;
+    color: #ffffff;
+    padding-bottom: 3px;
+    text-transform: uppercase;
+}
+
+.container_red_title {
+    background: #cb9f9e;
+    color: #ffffff;
+    padding-bottom: 3px;
+}
+
+.container_blue_title {
+    background: #8496ad;
+    color: #ffffff;
+    padding-bottom: 3px;
+    text-transform: uppercase;
+}
+
+.container_gray_title {
+    background: #b1b1b1;
+    color: #ffffff;
+    padding-bottom: 3px;
+}
+.float_right {
+    float: right;
+}
+/* added for the left nav of the profile pages*/
+
+#nav_table
+{
+    border-collapse: collapse;
+    border-color: #9cb6ad
+}
+td.navigation
+{
+    padding-top: 5px;
+    font-weight: 600;
+    padding-bottom: 3px;
+}
+th.navigation
+{
+    background-color:#9cb6ad;
+    font-weight: 600;
+    text-align: left;
+    padding-bottom: 3px;
+    color:white;
+}
+#image_table
+{
+    text-align: center;
+    border-collapse: collapse;
+    border-color: #9cb6ad;
+}
+td.imgDesc
+{
+    font-weight: 600;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+td.image
+{
+    text-align: center;
+    padding-top: 20px;
+
+}
+th.image
+{
+    background-color:#DEB887;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 3px;
+    color:white;
+    height:15px;
+}
+td.current_nav
+{
+    padding-top: 5px;
+    font-weight: 600;
+    padding-bottom: 3px;
+    background-color: white;
+}
+td.rate
+{
+    text-align: center;
+    padding-top: 1px;
+
+}
+/* added for the center of profile pages */
+#profile_background
+{
+    float:right;
+    width:725px;
+    height:500px;
+    border:1px solid #639684;
+    margin-top:8px;
+    margin-bottom:8px;
+    margin-left:2px;
+    margin-right:8px;
+    background-color: #FFEBCD;
+}
+
+#profile_heading
+{
+    width:725px;
+    height:20px;
+    margin-top:0px;
+    background-color:#DEB887;
+    font-family:Verdana;
+    text-align:left;
+    color: white;
+    font-size:15px;
+    font-weight: 600;
+}
+#profile_text
+{
+    margin-top:20px;
+    margin-bottom:8px;
+    margin-left:10px;
+    height:10px;
+    width: 700px;
+    border: none;
+    font-weight: 600;
+
+}
+.error_text
+{
+
+    text-align: left;
+    margin-left: 33px;
+
+    font-weight: 100;
+}
+
+/****For launcher page ****/
+td.launcherHeading
+{
+    font-weight: 800;
+    font-size: large;
+    font-style: italic;
+    color:#B80000 ;
+
+}
+td.laucherRows
+{
+    font-weight: 600;
+    padding-left: 3px;
+    text-align: left;
+}
+td.launcherIndex
+{
+    font-weight: 600;
+    padding-left: 7px;
+    text-align: left;
+}
+#launcher_dropdown
+{
+    border-width: 1px;
+    border-color: #B80000;
+
+
+}
+#launcher_dropdown_select
+{
+    width: 150px;
+    height:20px;
+    border: 1px solid #BC8F8F;
+}
+
+#launcher_labels
+{
+    font-weight: 600;
+    text-align: right;
+    width : 60px;
+    display: inline;
+
+    padding-left: 7px;
+}
+
+td.result_rows
+{
+    font-weight: 600;
+    padding-left: 3px;
+    text-align: left;
+
+}
+
+
+#launcher_buttons
+{
+    background-color:#DEB887;
+    color: white;
+    margin-left: 600px;
+}
+
+/***** Content Containers with ids instead of class *****/
+
+#container_green {
+    background: #dfeff0;
+    border: 3px solid #9cb6ad;
+}
+
+#container_brown {
+    background: #f5edd6;
+    border: 3px solid #d5c8a4;
+}
+
+#container_red {
+    background: #f1e6e6;
+    border: 3px solid #cb9f9e;
+}
+
+#container_blue {
+    background: #dae1e8;
+    border: 3px solid #8496ad;
+}
+
+#container_gray {
+    background: #ececec;
+    border: 3px solid #b1b1b1;
+}
+
+#container_green_title {
+    background: #9CB6AD;
+    color: #ffffff;
+    padding-bottom: 3px;
+}
+
+#container_brown_title {
+    background: #d5c8a4;
+    color: #ffffff;
+    padding-bottom: 3px;
+}
+
+#container_red_title {
+    background: #cb9f9e;
+    color: #ffffff;
+    padding-bottom: 3px;
+}
+
+#container_blue_title {
+    background: #8496ad;
+    color: #ffffff;
+    padding-bottom: 3px;
+}
+
+#container_gray_title {
+    background: #b1b1b1;
+    color: #ffffff;
+    padding-bottom: 3px;
+}
+
+/***** Font Styles *****/
+
+#profile_table {
+    width:          500px;
+}
+
+.profile_table_tr {
+    width:          200px;
+    text-align:     right;
+}
+
+.profile_table_td {
+    text-align:     left;
+    padding-left:   10px;
+}

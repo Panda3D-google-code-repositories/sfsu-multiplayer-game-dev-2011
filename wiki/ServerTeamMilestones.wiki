@@ -1,0 +1,23 @@
+#summary Server Team Milestones
+#labels Milestone,ServerTeam,Featured
+
+= Server Team Milestones (as of 09/24/11) =
+
+=== Milestone 1 (09/25/11-10/09/11) ===
+Study game concept
+
+Each team member Chooses tasks
+
+Come up with the server structure in details, this includes: 
+
+  Get all the request functions as our use cases
+
+  Come up with work flows of each function processing
+
+===Milestone 2 (10/09/11-10/23/11) ===
+Each member starts coding on their own tasks
+
+Self-testing
+
+=== Milestone 3 (10/23/11-11/06/11) ===
+Integrate each member's code together and test with other teams. 

@@ -1,0 +1,76 @@
+#summary How to import the Debugger game into Netbeans
+#labels Netbeans,Java,Python,Panda3D,MySQL,Featured
+
+= Introduction =
+
+This document will show you how to import the Debugger. You *must* use Netbeans 6.9 in order to use Python correctly. People around the internets have reported various problems using the Python plugin in Netbeans 7.
+
+= Game Client and Bug Server =
+
+0. Download the Python plugin in Netbeans in *Tools -> Plugins*. Choose the _Available Plugins_ tab and look for Python.
+
+1. Restart Netbeans.
+
+2. After restarting Netbeans, create a new Project.
+
+3. Under the _Categories_ panel in the _New Project_ window, choose *Python*.
+
+4. Under the _Projects_ panel in the _New Project_ windows, choose *Python project*. Click *Next >*.
+
+5. Enter in the *Project Name* and *Project Folder* of your choice.
+
+6. Unclick the _Create Main file_ check list button.
+
+7. Choose the *Python Platform*:
+
+_Windows_: Under *Python Platform* choose the *ppython.exe* executable file that came with Panda3D. If it is not available, click *Manage*. In the *Python Platform Manager* window that pops up, click the *New* button and find _ppython.exe_ in _C:\Panda3D-1.7.2\python\_ or where ever you installed Panda3D originally. Click *Finish >*.
+
+_Linux/Mac_: Under *Python Platform* choose *Python 2.6*. If it is not available, click *Manage*. In the *Python Platform Manager* window that pops up, click the *New* button and find _/usr/bin/python2_ or _/usr/bin/python2.6_ depending on your distribution.
+
+8. Download *GameClient-src.zip* and *BugServer-src.zip* from ilearn.
+
+9. Extract the *GameClient-src.zip* and *BugServer-src.zip* archives into a temporary folder.
+
+10. Add *ALL THE THINGS* that you extracted into the project by dragging and dropping in to the _Sources_ sub directory under the _Project_.
+
+11. Set *Launcher.py* as the _Main Module_. You can do this by right-clicking the project name and selecting _Properties_. Click _Run_ in the _Categories_ panel and _Browse_ to where *Launcher.py* is located.
+
+12. Done!
+
+= Game Server =
+
+0. Create a new Project.
+
+1. Under the _Categories_ panel in the _New Project_ window, choose *Java*.
+
+2. Under the _Projects_ panel in the _New Project_ windows, choose *Java application*. Click *Next >*.
+
+3. Enter in the *Project Name* and *Project Folder* of your choice.
+
+4. Unclick the _Create Main Class_ check list button. Click *Finish >*.
+
+5. Download *GameServer-src.zip* from ilearn.
+
+6. Extract the *GameServer-src.zip* archive into a temporary folder.
+
+7. Add the *core*, *db*, *npc*, *request*, *response*, and *sql folders that you extracted into the project by dragging and dropping in to the _Source Packages_ sub directory under your project. Also, drag and drop the *game_server_config.txt* and *manifest.txt* files into the _Source Packages_. Doing this should create a package called _<default package>_.
+
+8. Right-click the _Libraries_ sub directory under your project and select *Add Jar/Folder*. Navigate the directories to where you extracted the *GameServer-src.zip* archive. Go into the *lib* folder and select all the jar files. Click *Open*.
+
+9. Set *GameServer.java* as the _Main Class_. You can do this by right-clicking the GameServer project and going into *Properties*. Select *Run* in the _Categories_ sidebar. Browse and find *core.GameServer* and select that as the _Main Class_. Also, set your *Working Directory* to the root path of where your source code for GameServer is located.
+
+10. Restart Netbeans if errors still show up in the project.
+
+11. Now, we need to set up the database. For this, you will need to have MySQL installed on your computer and create an empty table inside. Once you have MySQL setup, navigate to the _Services_ tab on Netbeans's side panel.
+
+12. Right-click *Databases* and create a *New Connection*. Input all relevant information and click *Finish*.
+
+13. Once you've connected to your database, a _jdbc://_ connection should show up. Double-click that _jdbc://_ connection and right-click the database you want to use. Then, select *Set as default catalog*.
+
+14. Open up the _sql_ package and for each *.sql* file, right-click and choose *Run file*. Choose the database that you set up earlier. After doing that, your database should be ready to go.
+
+15. Open up the _<default package>_ package and edit *game_server_config.txt*. Enter the proper credentials for each setting.
+
+16. In the temporary folder where you originally extracted *BugServer-src.zip*, you need to edit the *Constants.py* file located in the _common_ folder. Specifically, you need to change the *SERVER_IP* variable to your current IP address.
+
+17. Done!

@@ -1,0 +1,34 @@
+#summary A detailed description of chat functionality
+#labels Phase-Design
+
+= Chat =
+Chat functionality is a necessity in online games. Chatting allows players to communicate with one another and adds a social aspect to the game.
+
+= Details =
+There are three different chat rooms within the game:
+  * Universal Chat
+  * Game Mode Chat
+  * World Chat
+There are also ways to communicate with other users regardless what chat room you (or they) may be in.
+  * [#Whispering Whispering]
+
+= Universal Chat =
+  * Able to chat with everyone in the game
+    * Default to: [Lobby Main Lobby]
+    * Optional to: [Lobby Game Mode Lobby], [Lobby World Lobby]
+
+= Game Mode Chat =
+  * Able to chat with everyone in the current Game Mode ([PvP] or [PvE])
+    * Default to: [Lobby Game Mode Lobby]
+    * Optional to: [Lobby World Lobby]
+
+= World Chat =
+  * Able to chat with everyone in the current [World]
+    * Default to: [Lobby World Lobby]
+  * Within World Chat in [PvP] games, there are also separate team chats.
+
+= Whispering =
+  * Able to chat with any single person, provided you use the correct syntax.
+    * Syntax: `/w [username] [message]`
+      * Example: `/w ngreco Hello Nathan!`
+    * Allowed in any chat room, including in-game (while in a [World])

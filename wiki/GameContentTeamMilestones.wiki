@@ -1,0 +1,31 @@
+#summary Game Content Team Milestones
+#labels Featured
+
+= Game Content Team Milestones (as of 09/24/2011) =
+
+==Milestone 1 (9/25 - 10/8)==
+- Identify and document common and specific/unique attributes for species to be considered for the game. Provide this information to the database team for database design.
+
+- Collect relevant information and images/videos of at least 10 different species (each of plants, herbivores and carnivores) in the Savannah ecosystem as per the decided attributes. Provide this information to the art support team and database team.
+
+- Identify natural events (like fire) occurring in the Savannah and their impact on the ecosystem.
+
+- Study about N3D web service by reading the architecture document provided. Experiment using the web service as per the example code provided in the document.
+
+- Read and understand the game concept and logic thoroughly, and the way web service works. Identify primary mapping rules between game logic and web service.
+
+
+==Milestone 2 (10/9 - 10/22)==
+- Provide information to the server team regarding usage of the web service
+
+- Finalize the mapping rules between game logic and web service, document them and pass on this to the server team.
+
+- Provide information about at least 10 more species of each kind.
+
+
+==Milestone 3 (10/23 - 11/5)==
+- Provide information about more species (if required).
+
+- Provide relevant information about the mapping rules between game logic and web service to the test team for preparing test cases.
+
+- Resolve bugs in the mapping rules identified by the test team.

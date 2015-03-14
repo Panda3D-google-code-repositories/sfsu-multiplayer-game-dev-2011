@@ -1,0 +1,109 @@
+#summary Documentation
+
+= Prediction =
+
+A Prediction of an ecosystem is simply the change in species population from one time step to another. This creates the possibility of being able to determine which species are increasing or decreasing and allows the game to manipulate the current existing population size on both ends, server and client.
+
+Predictions utilizes the [SimulationEngine Simulation Engine], which has access to the Web Services to perform complex algorithms, to generate results based upon what the [GameEngine Game Engine] feeds it.
+
+== Details ==
+
+  * Predictions produce target values for the next 30 days.
+  * They are triggered automatically every 30 days of in-game time.
+  * A secondary way to trigger a Prediction is through Shop transactions.
+  * Utilizes the [SimulationEngine Simulation Engine].
+  * Handled using threads.
+  * Only one Prediction can occur at any given time per [Zone].
+    * Pending Predictions are in a queue.
+  * [GameEngine Game Engine] initiates a Prediction.
+    * Processes the results whenever it comes back from the [SimulationEngine Simulation Engine]
+
+== Execution Flow ==
+
+_This section will briefly describe how the process works._
+
+Predictions are triggered two different ways, once every 30 days and during Shop transactions, but both are processed the same. The process is as follows:
+
+1. Prediction requests happens both automatically at the end of every month cycle, which is 30 days, and the other occurs at the end of every shop purchase window, which, by default, is exactly 30 seconds from the initial purchase.
+
+2. The Game Engine grabs the current state of the ecosystem, the exact population size of each species, and places the request in a queue. The requests will be processed by its order on the queue.
+
+3. Using a thread pool, the Game Engine will grab the first request from the queue and toss it into a thread, which calls the Simulation Engine to process the request. The next request will be processed only when the current request is completed.
+
+4. Prediction results will come back where the change in species population will be used to adjust the current size of the ecosystem.
+
+== Implementation ==
+
+_This section will describe the execution flow in much greater detail. Each step will reference a specific file as a starting point in which it's describing._
+
+1. _ Prediction requests happens both automatically at the end of every month cycle, which is exactly 30 days, and the other occurs at the end of every shop purchase window, which, by default, is exactly 30 seconds from the initial purchase._
+
+Predictions are triggered in the one of the two starting points:
+
+`>> GameEngine.java | Method: run()`
+
+Once every 30 days, when the month ends, the `runZoneSimulation()` method gets called.
+
+`>> World.java | Method: clearPurchases()`
+
+End of every shop purchase window triggers the `forceSimulation()` method located in the Game Engine, which simply calls the `runZoneSimulation()` method. For more information about the Shop, refer to the [Shop] section.
+
+2. _The Game Engine grabs the current state of the ecosystem, the exact population size of each species, and places the request in a queue. The requests will be processed by its order on the queue._
+
+`>> GameEngine.java | Method: runZoneSimulation()`
+
+Species are normally stored in multiple tables. One keeps track of the population size of each species. Another tracks the nodes used by each of those species. Lastly, one keeps track of what species the user added in node form.
+
+The Game Engine makes a copy of this current state of the ecosystem and creates a Runnable object called PredictionRunnable to store it. And then it simply inserts it into the queue.
+
+3. _Using a thread pool, the Game Engine will grab the first request from the queue and toss it into a thread, which calls the Simulation Engine to process the request. The next requests will be processed only when the current request is completed._
+
+`>> GameEngine.java | Method: runZoneSimulation()`
+
+The next step checks the queue to see if there are any other Prediction requests pending, if exists, the engine immediately grabs a thread from the thread pool and tosses the runnable object into it to run separately from the main thread.
+
+Threading is used because we don’t want to block the main thread when waiting for the results to return, which can take a while. As soon as the results come back, it will trigger the next request, if exists.
+
+`>> PredictionRunnable.java | Method: initialize()`
+
+Before the thread triggers the Prediction call to the Simulation Engine, the `initialize()` method will flag it as ready as well as record the time of execution.
+
+`>> PredictionRunnable.java | Method: run()`
+
+Once the thread executes the `run()` method, it will go through 3 stages—Pre, Main, and Post.
+
+  * The Pre-Prediction stage adjusts the water levels and other functionality provided from the [NatureController Nature Controller]. 
+  * The Main stage calls the Simulation Engine to perform the actual Prediction and processes the results.
+  * The Post-Prediction stage checks the stability of the ecosystem as a result of the Prediction.
+
+`***` Both Pre and Post stages have not been fully implemented.
+
+The Main stage uses the Simulation Engine to call the Web Services using the current species population in node format with the `getPrediction()` method.
+
+`>> SimulationEngine.java | Method: getPrediction()`
+
+This method makes calls directly with the Web Services to handle the complex algorithms to “see” into the future. Before it can do that, it must first make a call to retrieve the latest data store remotely using the `getBiomass()` method.
+
+When that information comes back, the current ecosystem located on server-side is checked against the data from the Web Services. It sorts out what species are new or old. New species will be added into the food web located on the Web Services side. And old species will be updated with the current biomass values. The Simulation Engine will make another call to the Web Services to generate results for the next time step using the Simulation Engine’s `run()` method.
+
+The results returned dictate what species the Game Engine needs to increase and decrease. And that happens in the `updatePrediction()` method.
+
+4. _Prediction results will come back where the change in species population will be used to adjust the current size of the ecosystem._
+
+`>> GameEngine.java | Method: updatePrediction()`
+
+At the beginning of this method, it will check the Prediction requests queue again. If there is at least one pending, it will simply skip to till end and grab the most recent one. The most recent one should have the latest state since the last Prediction was made. This will reduce the number of requests necessary.
+
+While the next Prediction is being processed, if any, the Game Engine will process the results that just came back and determine the difference in population for each species. These differences will be stored in a separate table called the Species Difference table. But because it is in node form, it has to figure out which nodes belong to which species. Some species, specifically Trees, are made up of multiple nodes instead of simply one.
+
+While iterating through the existing species table, it will decide how many nodes it will need to reach the target. That amount will be deducted from the Species Difference table. Species with multiple nodes will have to check against multiple records in the Species Difference table and deduct from all of them.
+
+The amount of species to be created or cut back is pushed into either the birth list table or death list table using `createOrganismsByBirth()` or `removeOrganismsByDeath()` methods. This data will be interpolated as time passes by in the Game Engine cycle as described in the [GameEngine Game Engine] section.
+
+=== References ===
+
+  * Server Class References
+    * `model/World.java`
+    * `simulationEngine/PredictionRunnable.java`
+    * `simulationEngine/SimulationEngine.java`
+    * `worldManager/gameEngine/GameEngine.java`
